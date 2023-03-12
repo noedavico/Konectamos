@@ -3,6 +3,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), unique=False, nullable=False)
@@ -13,15 +14,18 @@ class User(db.Model):
     telefono = db.Column(db.String(120), unique=False, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
     es_profesional = db.Column(db.Boolean(), unique=False, nullable=False)
-    #user_profesional = db.relationship( 'professional' , backref = 'user' , lazy = True )
-    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    #Professional = db.relationship( 'professional' , backref = 'user' , lazy = True )
+    professional_user = db.relationship(
+        'Professional', backref='user', uselist=False)
+    is_active = db.Column(db.Boolean(), default=True,
+                          unique=False, nullable=False)
+
     def __repr__(self):
         return f'<User {self.email}>'
-    
+
     def serialize(self):
         result = {
             "id": self.id,
@@ -32,14 +36,16 @@ class User(db.Model):
             "codigo_postal": self.codigo_postal,
             "telefono": self.telefono,
             "email": self.email,
-            
-            
-            }
+
+        }
+
         if self.es_profesional:
-            result["profesional"]= "profesional"
-            
+            # TODO extraer datos de professional
+            result["profesional"] = "profesional"
+
         return result
-    
+
+
 class Professional(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descripcion = db.Column(db.String(120), unique=False, nullable=False)
@@ -49,15 +55,16 @@ class Professional(db.Model):
     cantidad_votos = db.Column(db.Integer, unique=False, nullable=False)
     foto_perfil = db.Column(db.String(120), unique=False, nullable=False)
     redes_sociales = db.Column(db.String(120), unique=False, nullable=False)
-    #id_usuarios = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
-    #categoria_id = db.Column(db.Integer, unique=False, nullable=False)
-    #user = db . relationship ( 'User' , backref = 'Professional' , lazy = True )
-    
+    professional_user = db.Column(
+        db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+    categoria_professional = db.relationship(
+        'Categorias', backref='professional', lazy=True)
+
     def __repr__(self):
         return f'<Professional {self.id}>'
-    
+
     def serialize(self):
-        return  {
+        return {
             "id": self.id,
             "descripcion": self.descripcion,
             "experiencia": self.experiencia,
@@ -69,17 +76,20 @@ class Professional(db.Model):
             "categoria_id": self.categoria_id,
         }
 
+
 class Categorias(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), unique=False, nullable=False)
     descripcion = db.Column(db.String(120), unique=False, nullable=False)
-    
+    professionals = db.Column(db.Integer, db.ForeignKey(
+        'professional.id'), nullable=False)
+
     def __repr__(self):
         return f'<Categorias {self.nombre}>'
-    
+
     def serialize(self):
-        return  {
+        return {
             "id": self.id,
             "nombre": self.nombre,
             "descripcion": self.descripcion,
-            }
+        }
