@@ -8,12 +8,13 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), unique=False, nullable=False)
     apellido = db.Column(db.String(120), unique=False, nullable=False)
-    direccion = db.Column(db.String(120), unique=False, nullable=False)
-    ciudad = db.Column(db.String(120), unique=False, nullable=False)
-    codigo_postal = db.Column(db.Integer, unique=False, nullable=False)
-    telefono = db.Column(db.String(120), unique=False, nullable=True)
+    #direccion = db.Column(db.String(120), unique=False, nullable=False)
+    #ciudad = db.Column(db.String(120), unique=False, nullable=False)
+    #codigo_postal = db.Column(db.Integer, unique=False, nullable=False)
+    #telefono = db.Column(db.String(120), unique=False, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
+    #foto_perfil = db.Column(db.String(120), unique=False, nullable=True)
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
@@ -31,11 +32,12 @@ class User(db.Model):
             "id": self.id,
             "nombre": self.nombre,
             "apellido": self.apellido,
-            "direccion": self.direccion,
-            "ciudad": self.ciudad,
-            "codigo_postal": self.codigo_postal,
-            "telefono": self.telefono,
+            #"direccion": self.direccion,
+            #"ciudad": self.ciudad,
+            #"codigo_postal": self.codigo_postal,
+            #"telefono": self.telefono,
             "email": self.email,
+            #"foto_perfil": self.foto_perfil,
 
         }
 
@@ -53,7 +55,7 @@ class Professional(db.Model):
     precio_hora = db.Column(db.String(120), unique=False, nullable=False)
     puntuacion = db.Column(db.String(120), unique=False, nullable=False)
     cantidad_votos = db.Column(db.Integer, unique=False, nullable=False)
-    foto_perfil = db.Column(db.String(120), unique=False, nullable=False)
+    
     redes_sociales = db.Column(db.String(120), unique=False, nullable=False)
     professional_user = db.Column(
         db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
@@ -71,7 +73,7 @@ class Professional(db.Model):
             "precio_hora": self.precio_hora,
             "puntuacion": self.puntuacion,
             "cantidad_votos": self.cantidad_votos,
-            "foto_perfil": self.foto_perfil,
+            
             "redes_sociales": self.redes_sociales,
             "categoria_id": self.categoria_id,
         }
