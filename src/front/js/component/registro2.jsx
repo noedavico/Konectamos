@@ -36,9 +36,7 @@ export const Registro2  = () => {
     <div className="row justify-content-center ">
       <div className="col-md-6 ">
         <div className="card-group mb-0 shadow p-3 mb-5 bg-body-tertiary rounded">
-          <div className="card text-white "  style={{ 
-      backgroundImage: `url(${Fondo})`
-    }}> 
+          <div className="card text-white fondo">
       
 
             <div className="card-body">

@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom"
-import Logo from "../../img/Logo2.png";
+import Logo from "../../img/Log.png";
 import Fondo from "../../img/fondo7.jpg";
 
 import "../../styles/home.css";
@@ -27,7 +27,7 @@ return (
     <div className="row justify-content-center">
       <div className="col-md-8">
         <div className="card-group mb-0 shadow p-3 mb-5 bg-body-tertiary rounded">
-          <div className="card p-2">
+          <div className="card p-2 ">
       
             <img src={Logo}  className="img-fluid m-auto " style={{height: "200px"}} />
             <div className="card-body">
@@ -48,19 +48,17 @@ return (
               </div>
               <div className="row m-auto">
                 <div className="col-4">
-                  <button type="button" className="btn btn-primary px-3">Ingresar</button>
+                  <button type="button" className="btn  btn-primary px-3">Ingresar</button>
                 </div>
                 <div className="col-8 text-right">
-                  <button type="button" className="btn btn-primary px-3">Olvide mi contraseña</button>
+                  <button type="button" className="btn  btn-primary px-3">Olvide mi contraseña</button>
                 </div>
                 <p className="mt-2"><small>Al registrarte, estás de acuerdo con las condiciones de uso.</small></p>
               </div>
               
             </div>
           </div>
-          <div className="card text-white py-3 d-md-down-none"  style={{ 
-      backgroundImage: `url(${Fondo})`
-    }}> 
+          <div className="card text-white py-3 d-md-down-none fondo"  > 
             <div className="card-body text-center">
               <div>
               <div >

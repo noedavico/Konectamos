@@ -10,15 +10,13 @@ export const Registro1  = () => {
     const navigate = useNavigate();
 
 return (
-<div className="container-fluid  vh-100 " style={{ 
-      backgroundImage: `url(${Fondo})`
-    }}>
+<div className="container-fluid  vh-100 ">
     <div className="row justify-content-center">
       <div className="col-md-6">
-        <div className="card-group mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
+        <div className="card-group mt-3 shadow p-3 mb-5 bg-body-tertiary rounded ">
         
-          <div className="card p-4" >
-          <Link className=" text-decoration-none" to='/registro2'>
+          <div className="card p-4 fondo me-4" >
+          <Link className=" text-decoration-none text-white" to='/registro2'>
             <div className="card-body text-center text-decoration-none">
             <h4>FAMILIAS</h4>
                 <p>Encuéntra cuidador en tu zona rápidamente.
@@ -28,11 +26,10 @@ return (
             </div>
             </Link>
           </div>
-         
 
           
-          <div className="card p-4">
-          <Link className=" text-decoration-none" to='/registro2'>
+          <div className="card p-4 fondocoral">
+          <Link className=" text-decoration-none text-white" to='/registro2'>
             <div className="card-body text-center ">
               <div>
                 <h4>CUIDADORES</h4>

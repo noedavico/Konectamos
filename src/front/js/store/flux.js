@@ -42,7 +42,7 @@ const getState = ({
             login: async (email, password) => {
                 try {
 
-                    let response = await axios.post('https://noedavico-proyectofinal-sp2vt6fcmpu.ws-eu90.gitpod.io/api/login', {
+                    let response = await axios.post(process.env.BACKEND_URL + "/api/login", {
                         email: email,
                         password: password
                     })
@@ -62,16 +62,16 @@ const getState = ({
                 }
             },
             // funcion para crear nuevo usuario 
-            singup: async (email, password, nombre, apellido, confirmacionPasword) => {
+            singup: async (email, password, nombre, apellido) => {
 
                 try {
 
-                    let response = await axios.post('https://noedavico-proyectofinal-sp2vt6fcmpu.ws-eu90.gitpod.io/api/singup', {
+                    let response = await axios.post('/api/singup', {
                         nombre: nombre,
                         apellido: apellido,
                         email: email,
                         password: password,
-                        fecha_suscripcion
+
                     })
 
                     if (response.status === 200) {
