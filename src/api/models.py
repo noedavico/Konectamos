@@ -18,7 +18,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    es_profesional = db.Column(db.Boolean(), unique=False, nullable=False)
+    es_profesional = db.Column(db.Boolean(), unique=False)
     professional_user = db.relationship(
         'Professional', backref='user', uselist=False)
     is_active = db.Column(db.Boolean(), default=True,
@@ -39,6 +39,12 @@ class User(db.Model):
             "email": self.email,
             #"foto_perfil": self.foto_perfil,
 
+        }
+        
+    def envio_basico(self):
+        return {
+            "nombre": self.nombre,
+            "apellido": self.apellido
         }
 
         if self.es_profesional:
