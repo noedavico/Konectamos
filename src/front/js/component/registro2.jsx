@@ -32,7 +32,7 @@ export const Registro2  = () => {
    
 	 return (
 
-<div className="container mt-5 ">
+<div className="container mt-3 ">
     <div className="row justify-content-center ">
       <div className="col-md-6 ">
         <div className="card-group mb-0 shadow p-3 mb-5 bg-body-tertiary rounded">
@@ -43,7 +43,7 @@ export const Registro2  = () => {
             <h1 className= "text-center">Crea tu cuenta</h1>
             <form onSubmit={handleSingup}>
                 <div className="row">
-{/* input nombre */}                            
+                    {/* input nombre */}                            
                     <div className="input-group col-lg-6 mb-4 pt-1 ">
                         <div className="input-group-prepend pt-1">
                             <span className="input-group-text bg-white px-4 border-md border-right-0 me-2">
@@ -78,36 +78,30 @@ export const Registro2  = () => {
                         </div>
                         <input id="password" type="password" name="password" placeholder="Contraseña" className="form-control bg-white border-left-0 border-md" onChange={(e)=>setPassword(e.target.value)} value={password}/>
                     </div>
-                    {/* input confirmar password */}  
-                    <div className="input-group col-lg-6 mb-4">
-                        <div className="input-group-prepend pt-1">
-                            <span className="input-group-text bg-white px-4 border-md border-right-0 me-2">
-                                <i className="fa fa-lock text-muted"></i>
-                            </span>
-                        </div>
-                        <input id="passwordConfirmation" type="text" name="passwordConfirmation" placeholder="Confirmar contraseña" className="form-control bg-white border-left-0 border-md"  onChange={(e)=>setConfirmaPassword(e.target.value)}value={confirmaPassword}/>
-                    </div>
 
-                    <div className="col-6 mx-auto">
-		            <button type="submit" className="btn  btn-primary" >	
-		   Continuar
-		 </button>
-         </div> 
-
+                    <div class="container-fluid h-100"> 
+                    <div class="row w-100">
+                        <div class="col v-center">
+		            <button type="submit" className="btn  btn-primary d-block mx-auto" >	
+		            Continuar
+		        </button>
+            </div> 
+        </div> 
+    </div>
                     <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-2">
                         <div className="border-bottom w-100 ml-5"></div>
                         <span className="px-2 small text-muted font-weight-bold text-muted"> O </span>
                         <div className="border-bottom w-100 mr-5"></div>
                     </div>
 
-                    <div className="row m-auto">
-                <div className="col-6">
+                    <div className="row  w-100 m-auto justify-content-center align-items-center">
+                <div className="col-6 ">
                 <Link className="btn btn-primary btn-block py-2 btn-facebook mx-1 mb-2" to='/'>
-                        <i className="fa fa-facebook-f"/>                            <span className="font-weight-bold">Continua con Facebook</span>
+                        <i className="fa fa-facebook-f"/><span className="font-weight-bold">Continua con Facebook</span>
                         </Link>
                 </div>
                 <div className="col-6 right">
-                <Link className="btn btn-primary btn-block py-2 btn-gmail mx-1" to='/'>
+                <Link className="btn btn-primary btn-block py-2 btn-gmail mx-1 mb-2" to='/'>
                             <i className="fa-fa fa-google"/>
                             <span className="font-weight-bold">Continua con Gmail</span>
                         </Link>                

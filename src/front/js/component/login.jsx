@@ -47,10 +47,10 @@ return (
                 value={password} required/>
               </div>
               <div className="row m-auto">
-                <div className="col-4">
+                <div className="col-4 mb-1">
                   <button type="button" className="btn  btn-primary px-3">Ingresar</button>
                 </div>
-                <div className="col-8 text-right">
+                <div className="col-md-8 col-sm-4 text-right mb-1">
                   <button type="button" className="btn  btn-primary px-3">Olvide mi contraseña</button>
                 </div>
                 <p className="mt-2"><small>Al registrarte, estás de acuerdo con las condiciones de uso.</small></p>
