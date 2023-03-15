@@ -1,7 +1,33 @@
 /*
+border-color: #fca032;
     home.css: This website contains selectors only used in home.css
 
     All pages share the styles on index.css but you should create 
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+
+
+:root {
+    --color-rojo: #f96e5b;
+    --color-naranja: #ff7b5d;
+    --color-azul-oscuro: #133a56;
+    --color-verde-azulado: #2d7895;
+}
+
+.btn {
+    background-color: var(--color-rojo);
+    border-color: var(--color-naranja);
+}
+
+.fondo {
+    background-color: var(--color-azul-oscuro);
+}
+
+.fondoclaro {
+    background-color: var(--color-verde-azulado);
+}
+
+body {
+    color: var(--color-azul-oscuro);
+}
