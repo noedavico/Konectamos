@@ -79,9 +79,9 @@ export const Registro2  = () => {
                         <input id="password" type="password" name="password" placeholder="Contraseña" className="form-control bg-white border-left-0 border-md" onChange={(e)=>setPassword(e.target.value)} value={password}/>
                     </div>
 
-                    <div class="container-fluid h-100"> 
-                    <div class="row w-100">
-                        <div class="col v-center">
+                    <div className="container-fluid h-100"> 
+                    <div className="row w-100">
+                        <div className="col v-center">
 		            <button type="submit" className="btn  btn-primary d-block mx-auto" >	
 		            Continuar
 		        </button>
