@@ -23,7 +23,7 @@ export const Login = () => {
   return (
     <div className="container mt-2 ">
       <div className="row justify-content-center">
-        <div className="col-md-8">
+        <div className="col-xl-8 col-md-10 col-sm-12">
           <div className="card-group mb-0 shadow p-3 mb-5 bg-body-tertiary rounded">
             <div className="card p-2 ">
               <img
@@ -62,25 +62,25 @@ export const Login = () => {
                       required
                     />
                   </div>
-                  <div className="row m-auto">
-                    <div className="col-4 mb-1">
+                  <div className="d-flex flex-row">
+                    <div className="flex-column mx-2 mb-1">
                       <button type="submit" className="btn  btn-primary px-3">
                         Ingresar
                       </button>
                     </div>
 
-                    <div className="col-md-8 col-sm-4 text-right mb-1">
-                      <button type="button" className="btn  btn-primary px-3">
-                        Olvide mi contraseña
-                      </button>
+                    <div className="flex-column1 mx-2">
+                      <Link to="">
+                        <span>Olvide mi contraseña</span>
+                      </Link>
                     </div>
-                    <p className="mt-2">
-                      <small>
-                        Al registrarte, estás de acuerdo con las condiciones de
-                        uso.
-                      </small>
-                    </p>
                   </div>
+                  <p className="mt-2">
+                    <small>
+                      Al registrarte, estás de acuerdo con las condiciones de
+                      uso.
+                    </small>
+                  </p>
                 </div>
               </form>
             </div>
@@ -90,7 +90,7 @@ export const Login = () => {
                   <div>
                     <h3 className="text-center display-6 ">
                       {" "}
-                      Inscríbete ahora{" "}
+                      <strong> Inscríbete ahora</strong>
                     </h3>
                   </div>
 
@@ -111,7 +111,7 @@ export const Login = () => {
                   <Link to="/registro1">
                     <button
                       type="button"
-                      className="btn text-white active mt-3"
+                      className="btn  btn-primary text-white  mt-3"
                     >
                       Registrarse
                     </button>
