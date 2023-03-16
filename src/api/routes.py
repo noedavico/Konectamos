@@ -35,7 +35,8 @@ def login():
 @api.route('/user', methods=['POST'])
 def create_user():
     request_body = request.json
-    
+    message = "ya existe el usuario"
+    status = 400
     user_query = User.query.filter_by(email=request_body["email"]).first()
 
     if user_query is None:
@@ -49,14 +50,14 @@ def create_user():
         
         db.session.add(user)
         db.session.commit()
-        print("el usuario se a creado", user)
+        message = "el usuario se a creado con exito"
+        status = 200
 
-    else:
-        print("ya existe el usuario")
 
     response_body = {
-        "msg": "el usuario se a creado con exito",
+        "msg": message
         # "result": user_query.serialize()
     }
 
-    return jsonify(response_body), 200
+    return jsonify(response_body), status
+
