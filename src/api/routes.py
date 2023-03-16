@@ -56,8 +56,19 @@ def create_user():
 
     response_body = {
         "msg": message
-        # "result": user_query.serialize()
+        
     }
 
     return jsonify(response_body), status
+
+@api.route("/profile", methods=["GET"])
+@jwt_required()
+def get_profile():
+    # Accede a la identidad del usuario actual con get_jwt_identity
+
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(email=current_user).first()
+    
+    return jsonify({"result":user.serialize()}), 200
+
 
