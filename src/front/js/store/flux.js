@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const getState = ({
     getStore,
     getActions,
@@ -27,7 +29,7 @@ const getState = ({
             getMessage: async () => {
                 try {
                     // fetching data from the backend
-                    const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+                    const resp = await axios.get(process.env.BACKEND_URL + "/api/hello")
                     const data = await resp.json()
                     setStore({
                         message: data.message
@@ -66,7 +68,7 @@ const getState = ({
 
                 try {
 
-                    let response = await axios.post('/api/singup', {
+                    let response = await axios.post(process.env.BACKEND_URL + '/api/user', {
                         nombre: nombre,
                         apellido: apellido,
                         email: email,
@@ -97,7 +99,7 @@ const getState = ({
                 let token = localStorage.getItem("token");
                 try {
 
-                    let response = await axios.get('https://noedavico-proyectofinal-sp2vt6fcmpu.ws-eu90.gitpod.io/', {
+                    let response = await axios.get(process.env.BACKEND_URL + '/api/profile', {
                         headers: {
                             'Authorization': 'Bearer ' + token,
                         },
