@@ -31,3 +31,32 @@ def login():
         return jsonify({"msg": "User dosn´t exist"}),404
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
+
+@api.route('/user', methods=['POST'])
+def create_user():
+    request_body = request.json
+    
+    user_query = User.query.filter_by(email=request_body["email"]).first()
+
+    if user_query is None:
+        user = User(email=request_body["email"],
+                    password=request_body["password"],
+                    nombre=request_body["nombre"],
+                    apellido=request_body["apellido"],
+                    
+                    )
+        
+        
+        db.session.add(user)
+        db.session.commit()
+        print("el usuario se a creado", user)
+
+    else:
+        print("ya existe el usuario")
+
+    response_body = {
+        "msg": "el usuario se a creado con exito",
+        # "result": user_query.serialize()
+    }
+
+    return jsonify(response_body), 200
