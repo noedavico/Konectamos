@@ -56,7 +56,7 @@ def create_user():
 
     response_body = {
         "msg": message
-        # "result": user_query.serialize()
+        
     }
 
     return jsonify(response_body), status
@@ -68,7 +68,7 @@ def get_profile():
 
     current_user = get_jwt_identity()
     user = User.query.filter_by(email=current_user).first()
-    print(user)
+    
     return jsonify({"result":user.serialize()}), 200
 
 
