@@ -7,6 +7,7 @@ const getState = ({
 }) => {
     return {
         store: {
+            url: "https://3001-noedavico-proyectofinal-5cj8mpn8pod.ws-eu90.gitpod.io",
             message: null,
             demo: [{
                     title: "FIRST",
@@ -37,7 +38,7 @@ const getState = ({
                     // don't forget to return something, that is how the async resolves
                     return data;
                 } catch (error) {
-                    console.log("Error loading message from backend", error)
+                    alert(error)
                 }
             },
             changeColor: (index, color) => {
@@ -59,28 +60,48 @@ const getState = ({
             //funcion de logueo verifica el usario recibido desde el front 
             login: async (email, password) => {
                 try {
+                    const store = getStore();
+                    const urlapi = store.url;
 
-                    let response = await axios.post(process.env.BACKEND_URL + "/api/login", {
+                    let response = await axios.post(urlapi + "/api/login", {
                         email: email,
                         password: password
                     })
                     //La API valida que nombre de usuario y contraseña sean correctos y regresa un objeto token
-                    // if (response.status === 200) {
+
+
                     localStorage.setItem("token", response.data.access_token);
 
                     setStore({
                         auth: true
                     });
                     return true;
-                    // }
                 } catch (error) {
-                    console.log(error);
-                    if (error.response.status === 401)
-                        alert(error.response.data.msg)
-                    return false;
-                }
-            },
 
+                    alert(error)
+                }
+
+            },
+            // funcion para crear nuevo usuario 
+            singup: async (email, password, nombre, apellido) => {
+
+                try {
+                    const store = getStore();
+                    const urlapi = store.url;
+
+                    let response = axios.post(urlapi + "/api/user", {
+                        nombre: nombre,
+                        apellido: apellido,
+                        email: email,
+                        password: password
+                    });
+                    return true;
+                } catch (error) {
+
+                    alert(error)
+                }
+            }
+            //fin
         }
     };
 };
