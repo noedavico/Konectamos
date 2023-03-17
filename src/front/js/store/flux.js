@@ -7,7 +7,7 @@ const getState = ({
 }) => {
     return {
         store: {
-            url: "https://3001-noedavico-proyectofinal-5cj8mpn8pod.ws-eu90.gitpod.io",
+
             message: null,
             demo: [{
                     title: "FIRST",
@@ -30,9 +30,8 @@ const getState = ({
             getMessage: async () => {
                 try {
                     // fetching data from the backend
-                    const store = getStore();
-                    const urlapi = store.url;
-                    const resp = await fetch(urlapi + "/api/hello")
+
+                    const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
                     const data = await resp.json()
                     setStore({
                         message: data.message
@@ -62,10 +61,9 @@ const getState = ({
             //funcion de logueo verifica el usario recibido desde el front 
             login: async (email, password) => {
                 try {
-                    const store = getStore();
-                    const urlapi = store.url;
 
-                    let response = await axios.post(urlapi + "/api/login", {
+
+                    let response = await axios.post(process.env.BACKEND_URL + "/api/login", {
                         email: email,
                         password: password
                     })
@@ -88,10 +86,9 @@ const getState = ({
             singup: async (email, password, nombre, apellido) => {
 
                 try {
-                    const store = getStore();
-                    const urlapi = store.url;
 
-                    let response = axios.post(urlapi + "/api/user", {
+
+                    let response = axios.post(process.env.BACKEND_URL + "/api/user", {
                         nombre: nombre,
                         apellido: apellido,
                         email: email,
