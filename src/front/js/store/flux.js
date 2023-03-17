@@ -30,7 +30,9 @@ const getState = ({
             getMessage: async () => {
                 try {
                     // fetching data from the backend
-                    const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
+                    const store = getStore();
+                    const urlapi = store.url;
+                    const resp = await fetch(urlapi + "/api/hello")
                     const data = await resp.json()
                     setStore({
                         message: data.message
