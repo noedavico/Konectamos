@@ -17,7 +17,7 @@ export const Login = () => {
       //true
       setEmail("");
       setPassword("");
-      navigate("/");
+      navigate("/registrobienvenidos");
     }
   }
   return (

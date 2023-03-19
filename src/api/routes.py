@@ -47,7 +47,6 @@ def create_user():
                     
                     )
         
-        
         db.session.add(user)
         db.session.commit()
         message = "el usuario se a creado con exito"
@@ -71,4 +70,16 @@ def get_profile():
     
     return jsonify({"result":user.serialize()}), 200
 
+@api.route("/validtoken", methods=["GET"])
+@jwt_required()
+def valid_token():
+    # Access the identity of the current user with get_jwt_identity
 
+    current_user = get_jwt_identity()
+    
+    user = User.query.filter_by(email=current_user).first()
+    if user != None:
+        
+        return jsonify({"isLogged":True}), 200
+    else:
+        return jsonify({"isLogged":False}), 401
