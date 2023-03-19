@@ -99,7 +99,31 @@ const getState = ({
 
                     alert(error)
                 }
-            }
+            },
+
+            //fin
+            validToken: async () => {
+                let token = localStorage.getItem("token");
+                try {
+                    let response = await axios.get(process.env.BACKEND_URL+ "/api/validtoken", {
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                        },
+                    })
+
+                    if (response.status === 200) {
+                    setStore({
+                        auth: response.data.isLogged
+                    });
+                    return true;
+                    }
+                } catch (error) {
+                    
+                    if (error.response.status === 401)
+                        alert(error.response.data.msg)
+                    return false;
+                }
+            },
             //fin
         }
     };
