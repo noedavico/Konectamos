@@ -27,7 +27,7 @@ export const Detallados = () => {
     ];
 
     return (
-        <div className="container px-4 py-5" id="featured-1">
+        <div className="container px-4 py-5" id="detallado">
             <div className="row g-4 py-5 row-cols-1 row-cols-lg-4 justify-content-between">
                 {secciones.map((seccion, index) => (
                     <div key={index} className="feature col">
@@ -36,10 +36,6 @@ export const Detallados = () => {
                         </div>
                         <h3 className="fs-2">{seccion.titulo}</h3>
                         <p>{seccion.descripcion}</p>
-                        <Link to="#" className="btn btn-primary d-inline-flex align-items-center">
-                            Más información
-                            <i className="fa-solid fa-chevron-right" width="1em" height="1em"></i>
-                        </Link>
                     </div>
                 ))}
             </div>

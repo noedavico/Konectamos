@@ -7,18 +7,20 @@ const getState = ({
 }) => {
     return {
         store: {
-
+            categorias: [{ tipo: "Mayores", nombre: "Cuidado de Mayores" }, { tipo: "Niños", nombre: "Cuidado de Niños" }, { tipo: "Mascotas", nombre: "Cuidado de Mascotas" }],
+            ciudades: [{ nombre: "Barcelona" }, { nombre: "Madrid" }, { nombre: "Valencia" }],
+            listaCuidadores: [],
             message: null,
             demo: [{
-                    title: "FIRST",
-                    background: "white",
-                    initial: "white"
-                },
-                {
-                    title: "SECOND",
-                    background: "white",
-                    initial: "white"
-                }
+                title: "FIRST",
+                background: "white",
+                initial: "white"
+            },
+            {
+                title: "SECOND",
+                background: "white",
+                initial: "white"
+            }
             ]
         },
         actions: {
@@ -94,6 +96,7 @@ const getState = ({
                         email: email,
                         password: password
                     });
+
                     return true;
                 } catch (error) {
 
@@ -105,23 +108,61 @@ const getState = ({
             validToken: async () => {
                 let token = localStorage.getItem("token");
                 try {
-                    let response = await axios.get(process.env.BACKEND_URL+ "/api/validtoken", {
+                    const response = await axios.get(process.env.BACKEND_URL + "/api/validtoken", {
                         headers: {
                             'Authorization': 'Bearer ' + token,
                         },
                     })
 
                     if (response.status === 200) {
-                    setStore({
-                        auth: response.data.isLogged
-                    });
-                    return true;
+                        setStore({
+                            auth: response.data.isLogged
+                        });
+                        return true;
                     }
                 } catch (error) {
-                    
+
                     if (error.response.status === 401)
                         alert(error.response.data.msg)
                     return false;
+                }
+            },
+            //fin
+            buscaListaCiudades: async () => {
+                //TO-DO crear api /listaCiudades espera un array
+                try {
+                    const resp = axios.get(process.env.BACKEND_URL + "/api/listaCiudades")
+
+                    if (resp.status === 200) {
+                        setStore({
+                            listaCuidadores: resp.data.lista
+                        })
+                    }
+                } catch (err) {
+                    alert(err.response.data.msg)
+                }
+            },
+            //fin
+            buscaCategoriaCiudad: async () => {
+                //TO-DO crear api /buscaCuidador
+                const ciudad = sessionStorage.getItem("ciudad");
+                const categoria = sessionStorage.getItem("categoria");
+                try {
+                    if (categoria && ciudad) {
+                        const resp = axios.get(process.env.BACKEND_URL + "/api/buscaCuidador", {
+                            ciudad,
+                            categoria
+                        })
+
+                        if (resp.status === 200) {
+                            setStore({
+                                listaCuidadores: resp.data.lista
+                            })
+                        }
+                    }
+
+                } catch (err) {
+                    alert(err.response.data.msg || err)
                 }
             },
             //fin
