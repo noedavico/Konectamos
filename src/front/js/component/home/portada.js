@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { SearchBar } from "../SearchBar/SearchBar";
 
+import Familia from "../../../img/familia.png";
+
 export const Portada = () => {
     const { store, actions } = useContext(Context)
     const [ciudad, setCiudad] = useState("")
@@ -21,15 +23,12 @@ export const Portada = () => {
     }, [ciudad, categoria])
 
     return (
-        <div id="portada" className="mt-5 mt-md-0 container p-0 object-fit-cover position-relative d-block" >
+        <div id="portada" className="mt-5 mt-md-0 container" >
             <div className="titular">
                 <h1>Deja a los tuyos en buenas manos</h1>
                 <h2>¡cuidadores a un click y cerca de ti! </h2>
             </div>
-            <div id="buscador" className="mx-auto justify-content-between align-items-center bg-secondary bg-opacity-75 bg-opacity-md-50 position-absolute bottom-50 start-50 w-75">
-                <div className="row justify-content-around align-items-center mx-auto mb-lg-1 mt-0 p-2 pb-md-5 pt-0 g-2 g-lg-4">
-                    {store?.categorias.map((item, key) => key < 3 ? <button key={key} className="col-auto btn btn-primary py-2 px-5 px-md-1" >{item.nombre}</button> : "")}
-                </div>
+            <div id="buscador" className="mx-auto py-5 px-3 justify-content-between align-items-center bg-secondary bg-opacity-75 bg-opacity-md-50 position-absolute bottom-50 start-50 w-75">
                 <div className="row mb-5 align-items-center">
                     <div className="col-12 col-lg-6 p-auto">
                         <h4>¿Qué tipo de ayuda necesitas?</h4>
@@ -46,7 +45,9 @@ export const Portada = () => {
                 </div>
             </div>
 
-            <div className="bg-image-overlay"></div>
+            <div className="flex-reverse">
+                <img src={Familia} alt="Imagen de familia" />
+            </div>
         </div >
     );
 };
