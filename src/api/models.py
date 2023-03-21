@@ -11,15 +11,14 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     
-    created_at = db.Column(db.DateTime, nullable=False,
-                           default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
     es_profesional = db.Column(db.Boolean(), unique=False)
-    is_active = db.Column(db.Boolean(), default=True,
-                          unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(), default=True,unique=False, nullable=False)
     user_info = db.relationship('User_info',backref='user', lazy=True)
     categorias = db.relationship('Categorias',backref='user', lazy=True)
     #user_valoracion = db.relationship('Valoracion',backref='user', lazy=True)
+    
     
     
     def __repr__(self):
@@ -40,7 +39,7 @@ class User_info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     descripcion = db.Column(db.String(120), unique=False, nullable=False)
     experiencia = db.Column(db.String(120), unique=False, nullable=False)
-    tarifa = db.Column(db.Numeric(3,2), unique=False, nullable=False)
+    tarifa = db.Column(db.Integer, unique=False, nullable=False)
     plus_tarifa = db.Column(db.Integer, unique=False, nullable=False)
     puntuacion_global = db.Column(db.Integer, unique=False, nullable=False)
     cantidad_votos = db.Column(db.Integer, unique=False, nullable=False)
@@ -50,15 +49,12 @@ class User_info(db.Model):
     genero = db.Column(db.String, unique=False, nullable=False)
     educacion = db.Column(db.String, unique=False, nullable=False)
     experiencia = db.Column(db.String, unique=False, nullable=False)
-    foto_perfil = db.Column(db.String, unique=False, nullable=False)
+    #foto_perfil = db.Column(db.String, unique=False, nullable=False)
     tipo_servicios = db.Column(db.String, unique=False, nullable=False)
     redes_sociales = db.Column(db.String(120), unique=False, nullable=False)
-    user_info_user = db.Column(
-       db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
-    user_info_foto = db.relationship(
-        'Foto', backref='user_info', lazy=True)
-    user_info_direccion = db.relationship(
-         'Direccion', backref='user_info', lazy=True)
+    user_info_user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_info_foto = db.relationship('Foto', backref='user_info', lazy=True)
+    user_info_direccion = db.relationship('Direccion', backref='user_info', lazy=True)
     
     
     def __repr__(self):
@@ -207,8 +203,7 @@ class Resenas(db.Model):
     data = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
     puntuacion = db.Column(db.String(120), unique=False, nullable=False)
-    resenas_valoracion = db.Column(
-        db.Integer, db.ForeignKey('valoracion.id'), unique=True, nullable=False)
+    resenas_valoracion = db.Column(db.Integer, db.ForeignKey('valoracion.id'),nullable=False)
     
     def __repr__(self):
         return f'<Resenas {self.id}>'
@@ -224,9 +219,16 @@ class Resenas(db.Model):
         
 class Valoracion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #usuario_puntuado = db.Column(db.Integer, db.ForeignKey('user.id'))
-    #usuario_puntuador = db.Column(db.Integer, db.ForeignKey('user.id'))
-    resenas_id = db.relationship('Resenas',backref='valoracion', lazy=True)
+    user_from_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_to_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    #user = db.relationship ("User",backref='valoracion', lazy=True) 
+    user_from = db.relationship("User", foreign_keys=[user_from_id])
+    user_to = db.relationship("User", foreign_keys=[user_to_id])
+    # usuario_puntuado = db.relationship('Valoracion', backref = db.backref('user', order_by = id), 
+    # primaryjoin = "user.id == valoracion.usuario_puntuado")
+    # usuario_puntuador = db.relationship('Valoracion', 
+    # primaryjoin = "user.id == valoracion.usuario_puntuador")
+    resenas = db.relationship('Resenas',backref='valoracion', lazy=True)
     
     
     def __repr__(self):
@@ -235,7 +237,5 @@ class Valoracion(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "tipo_animal": self.tipo_animal,
-            "servicios": self.servicios,
-            #"categorias": self.categorias,
+            
             }
