@@ -7,6 +7,7 @@ const getState = ({
 }) => {
     return {
         store: {
+
             message: null,
             demo: [{
                     title: "FIRST",
@@ -29,6 +30,7 @@ const getState = ({
             getMessage: async () => {
                 try {
                     // fetching data from the backend
+
                     const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
                     const data = await resp.json()
                     setStore({
@@ -37,7 +39,7 @@ const getState = ({
                     // don't forget to return something, that is how the async resolves
                     return data;
                 } catch (error) {
-                    console.log("Error loading message from backend", error)
+                    alert(error)
                 }
             },
             changeColor: (index, color) => {
@@ -60,27 +62,69 @@ const getState = ({
             login: async (email, password) => {
                 try {
 
+
                     let response = await axios.post(process.env.BACKEND_URL + "/api/login", {
                         email: email,
                         password: password
                     })
                     //La API valida que nombre de usuario y contraseña sean correctos y regresa un objeto token
-                    // if (response.status === 200) {
+
+
                     localStorage.setItem("token", response.data.access_token);
 
                     setStore({
                         auth: true
                     });
                     return true;
-                    // }
                 } catch (error) {
-                    console.log(error);
+
+                    alert(error)
+                }
+
+            },
+            // funcion para crear nuevo usuario 
+            singup: async (email, password, nombre, apellido) => {
+
+                try {
+
+
+                    let response = axios.post(process.env.BACKEND_URL + "/api/user", {
+                        nombre: nombre,
+                        apellido: apellido,
+                        email: email,
+                        password: password
+                    });
+                    return true;
+                } catch (error) {
+
+                    alert(error)
+                }
+            },
+
+            //fin
+            validToken: async () => {
+                let token = localStorage.getItem("token");
+                try {
+                    let response = await axios.get(process.env.BACKEND_URL+ "/api/validtoken", {
+                        headers: {
+                            'Authorization': 'Bearer ' + token,
+                        },
+                    })
+
+                    if (response.status === 200) {
+                    setStore({
+                        auth: response.data.isLogged
+                    });
+                    return true;
+                    }
+                } catch (error) {
+                    
                     if (error.response.status === 401)
                         alert(error.response.data.msg)
                     return false;
                 }
             },
-
+            //fin
         }
     };
 };
