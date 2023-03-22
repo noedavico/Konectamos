@@ -108,14 +108,14 @@ def create_user_info():
                             genero=request_body["genero"],
                             educacion=request_body["educacion"],
                             redes_sociales=request_body["redes_sociales"],
-                            tipo_servicios=request_body["tipo_servicios"],
-                            user_id=request_body["user_id"])
-
-        
-        db.session.add(user_info)
+                            tipo_servicios=request_body["tipo_servicios"])
+        user.user_info.append(user_info)
+        db.session.add(user)
         db.session.commit()
 
         response_body = {
-            "msg": "ok"
+            "msg": "ok",
+            "user":user.serialize(),
+            "user_info":user_info.serialize(),
         }
         return jsonify(response_body), 200

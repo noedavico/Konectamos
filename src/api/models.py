@@ -15,7 +15,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
     es_cuidador = db.Column(db.Boolean(), unique=False)
     is_active = db.Column(db.Boolean(), default=True,unique=False, nullable=False)
-    user_info = db.relationship('User_info',backref='user', lazy=True)
+    user_info = db.relationship('User_info', backref='user', lazy=True)
     categorias = db.relationship('Categorias',backref='user', lazy=True)
     #user_valoracion = db.relationship('Valoracion',backref='user', lazy=True)
     
