@@ -23,31 +23,32 @@ export const Portada = () => {
     }, [ciudad, categoria])
 
     return (
-        <div id="portada" className="mt-5 mt-md-0 container" >
+        <div  className="conatiner mt-5 mt-md-0 container fondoclaro p-3 shadow border rounded">
+            <div className="row flex-row">
+            <div className="col-lg-6 col-sm-12">
             <div className="titular">
-                <h1>Deja a los tuyos en buenas manos</h1>
-                <h2>¡cuidadores a un click y cerca de ti! </h2>
+                <h3>Deja a los tuyos en buenas manos</h3>
+                <h4>¡cuidadores a un click y cerca de ti! </h4>
             </div>
-            <div id="buscador" className="mx-auto py-5 px-3 justify-content-between align-items-center bg-secondary bg-opacity-75 bg-opacity-md-50 position-absolute bottom-50 start-50 w-75">
-                <div className="row mb-5 align-items-center">
-                    <div className="col-12 col-lg-6 p-auto">
-                        <h4>¿Qué tipo de ayuda necesitas?</h4>
-                        <div className="m-4">
+            <div className="row conten-justify-center item-aling-center flex-row">
+                
+                    <div className="conatiner col-lg-8 col text-primary m-4">
+                        <div className="m-4 fondoclaro rounded-pill">
                             <SearchBar placeholder={`Tipo de Ayuda (${store?.categorias.length} disponibles)`} data={store?.categorias} inputId="categoria" setState={setCategoria} />
                         </div>
                     </div>
-                    <div className="col-12 col-lg-6 p-auto mt-5 mt-lg-0">
-                        <h4>Dinos tu ciudad</h4>
-                        <div className="m-4">
+                    <div className="container col-lg-8 text-primary m-4 ">
+                        <div className="m-4 rounded-pill">
                             <SearchBar placeholder={`Ciudad (${store?.ciudades.length} disponibles)`} data={store?.ciudades} type={"nombre"} inputId="ciudad" setState={setCiudad} />
                         </div>
                     </div>
-                </div>
             </div>
-
-            <div className="flex-reverse">
-                <img src={Familia} alt="Imagen de familia" />
+        </div>
+            <div className="col-lg-6 col-sm-12">
+                <img src={Familia} className="img-fluid" style={{width:"50%"}} alt="Imagen de familia"  />
             </div>
-        </div >
+        </div > 
+    </div>
+    
     );
 };
