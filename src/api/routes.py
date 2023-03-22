@@ -119,3 +119,23 @@ def create_user_info():
             "user_info":user_info.serialize(),
         }
         return jsonify(response_body), 200
+
+@api.route('/tipoUsuario', methods=['PUT'])
+@jwt_required()
+def set_es_cuidador():
+    request_body = request.json
+    current_user = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user).first()
+    if not user:
+        return jsonify({"msg":"No se ha encontrado el usuario"}), 404
+    if request_body['categoria'] == "familia":
+        user.es_cuidador = False
+    elif request_body['categoria'] == "cuidador":
+        user.es_cuidador = True
+    else:
+        return jsonify({"msg":"El body no coincide"}),400
+    
+    db.session.commit()
+
+    return jsonify({"msg": "Se ha actualizado el tipo de usuario"}), 200
