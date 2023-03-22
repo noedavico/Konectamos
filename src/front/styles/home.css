@@ -1,6 +1,7 @@
 :root {
     --color-rojo: #f96e5b;
     --color-naranja: #ff7b5d;
+    --color-naranjaclaro: #ffd3ca;
     --color-azul-oscuro: #133a56;
     --color-verde-azulado: #2d7895;
 }
@@ -20,4 +21,9 @@
 
 body {
     color: var(--color-azul-oscuro);
+}
+
+.fondonaranja {
+    background-color: var(--color-naranjaclaro);
+
 }

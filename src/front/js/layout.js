@@ -14,6 +14,7 @@ import { Registro } from "./component/registro.jsx";
 import { Registropag1 } from "./component/registropag1.jsx";
 import { Registropag2 } from "./component/registropag2.jsx";
 import { RegistroBienvenidos } from "./component/registrobienvenidos.jsx";
+import { Perfilpublico } from "./component/perfilpublico.jsx";
 
 //create your first component
 const Layout = () => {
@@ -32,6 +33,7 @@ const Layout = () => {
                         <Route path="/registrobienvenidos/" element={<RegistroBienvenidos/>} />
                         <Route path="/registropag1/" element={<Registropag1 />} />
                         <Route path="/registropag2/" element={<Registropag2 />} />
+                        <Route path="/perfilpublico/" element={<Perfilpublico />} />
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
