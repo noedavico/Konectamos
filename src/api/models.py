@@ -13,9 +13,9 @@ class User(db.Model):
     
     created_at = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    es_profesional = db.Column(db.Boolean(), unique=False)
+    es_cuidador = db.Column(db.Boolean(), unique=False)
     is_active = db.Column(db.Boolean(), default=True,unique=False, nullable=False)
-    user_info = db.relationship('User_info',backref='user', lazy=True)
+    user_info = db.relationship('User_info', backref='user', lazy=True)
     categorias = db.relationship('Categorias',backref='user', lazy=True)
     #user_valoracion = db.relationship('Valoracion',backref='user', lazy=True)
     
@@ -37,22 +37,21 @@ class User(db.Model):
         
 class User_info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    descripcion = db.Column(db.String(120), unique=False, nullable=False)
-    experiencia = db.Column(db.String(120), unique=False, nullable=False)
-    tarifa = db.Column(db.Integer, unique=False, nullable=False)
-    plus_tarifa = db.Column(db.Integer, unique=False, nullable=False)
-    puntuacion_global = db.Column(db.Integer, unique=False, nullable=False)
-    cantidad_votos = db.Column(db.Integer, unique=False, nullable=False)
-    numero_telefono = db.Column(db.Integer, unique=False, nullable=False)
-    fecha_nacimiento = db.Column(db.String(120), unique=False, nullable=False)
+    descripcion = db.Column(db.Text, unique=False, nullable=False)
+    experiencia = db.Column(db.String(120), unique=False, nullable=True)
+    tarifa = db.Column(db.Integer, unique=False, nullable=True)
+    plus_tarifa = db.Column(db.Integer, unique=False, nullable=True)
+    puntuacion_global = db.Column(db.Integer, unique=False, nullable=True)
+    cantidad_votos = db.Column(db.Integer, unique=False, nullable=True)
+    numero_telefono = db.Column(db.Integer, unique=False, nullable=True)
+    fecha_nacimiento = db.Column(db.String(120), unique=False, nullable=True)
     direccion_perfil = db.Column(db.String, unique=False, nullable=False)
-    genero = db.Column(db.String, unique=False, nullable=False)
-    educacion = db.Column(db.String, unique=False, nullable=False)
-    experiencia = db.Column(db.String, unique=False, nullable=False)
-    #foto_perfil = db.Column(db.String, unique=False, nullable=False)
-    tipo_servicios = db.Column(db.String, unique=False, nullable=False)
-    redes_sociales = db.Column(db.String(120), unique=False, nullable=False)
-    user_info_user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    genero = db.Column(db.String, unique=False, nullable=True)
+    educacion = db.Column(db.String, unique=False, nullable=True)
+    experiencia = db.Column(db.String, unique=False, nullable=True)
+    tipo_servicios = db.Column(db.String, unique=False, nullable=True)
+    redes_sociales = db.Column(db.String(120), unique=False, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user_info_foto = db.relationship('Foto', backref='user_info', lazy=True)
     user_info_direccion = db.relationship('Direccion', backref='user_info', lazy=True)
     
@@ -65,9 +64,9 @@ class User_info(db.Model):
             "id": self.id,
             "descripcion": self.descripcion,
             "experiencia": self.experiencia,
-            "tarifa": self.precio_hora,
-            "plus_tarifa": self.precio_hora,
-            "puntuacion_global": self.puntuacion,
+            "tarifa": self.tarifa,
+            "plus_tarifa": self.plus_tarifa,
+            "puntuacion_global": self.puntuacion_global,
             "cantidad_votos": self.cantidad_votos,
             "numero_telefono": self.numero_telefono,
             "fecha_nacimiento": self.fecha_nacimiento,
@@ -75,8 +74,7 @@ class User_info(db.Model):
             "genero": self.genero,
             "educacion": self.educacion,
             "experiencia": self.experiencia,
-            "foto_perfil": self.tipo_animales,
-            "tipo_servicio": self.tipo_servicio,
+            "tipo_servicios": self.tipo_servicios,
             "redes_sociales": self.redes_sociales,
             
             
@@ -84,8 +82,8 @@ class User_info(db.Model):
 
 class Foto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(120), unique=False, nullable=False)
-    foto_imagen = db.Column(db.Integer, unique=False, nullable=False)
+    nombre = db.Column(db.String(120), unique=False, nullable=True)
+    foto_imagen = db.Column(db.Integer, unique=False, nullable=True)
     foto_user_info = db.Column(
         db.Integer, db.ForeignKey('user_info.id'), unique=True, nullable=False)
     
@@ -103,8 +101,8 @@ class Foto(db.Model):
 
 class Direccion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    calle = db.Column(db.String(120), unique=False, nullable=False)
-    codigo_postal = db.Column(db.String(120), unique=False, nullable=False)
+    calle = db.Column(db.String(120), unique=False, nullable=True)
+    codigo_postal = db.Column(db.String(120), unique=False, nullable=True)
     ciudad = db.Column(db.String(120), unique=False, nullable=False)
     direccion_user_info = db.Column(
          db.Integer, db.ForeignKey('user_info.id'), unique=True, nullable=False)
@@ -126,9 +124,9 @@ class Direccion(db.Model):
         
 class Categorias(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    peques_id = db.Column(db.Integer, db.ForeignKey('peques.id'))
-    mascota_id = db.Column(db.Integer, db.ForeignKey('mascota.id'))
-    mayores_id = db.Column(db.Integer, db.ForeignKey('mayores.id'))
+    peques_id = db.Column(db.Integer, db.ForeignKey('peques.id'),nullable=False)
+    mascota_id = db.Column(db.Integer, db.ForeignKey('mascota.id'),nullable=False)
+    mayores_id = db.Column(db.Integer, db.ForeignKey('mayores.id'),nullable=False)
     categorias_user = db.Column(
          db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
     
@@ -145,9 +143,9 @@ class Categorias(db.Model):
         
 class Peques(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    servicio_adicional = db.Column(db.String(120), unique=False, nullable=False)
-    edades = db.Column(db.String(120), unique=False, nullable=False)
-    cualificacion = db.Column(db.String(120), unique=False, nullable=False)
+    servicio_adicional = db.Column(db.String(120), unique=False, nullable=True)
+    edades = db.Column(db.String(120), unique=False, nullable=True)
+    cualificacion = db.Column(db.String(120), unique=False, nullable=True)
     categorias = db.relationship('Categorias',backref='peques', lazy=True)
     
     def __repr__(self):
@@ -164,8 +162,8 @@ class Peques(db.Model):
         
 class Mayores(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    servicios = db.Column(db.String(120), unique=False, nullable=False)
-    formacion = db.Column(db.String(120), unique=False, nullable=False)
+    servicios = db.Column(db.String(120), unique=False, nullable=True)
+    formacion = db.Column(db.String(120), unique=False, nullable=True)
     categorias = db.relationship('Categorias',backref='mayores', lazy=True)
     
     def __repr__(self):
@@ -181,8 +179,8 @@ class Mayores(db.Model):
         
 class Mascota(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    tipo_animal = db.Column(db.String(120), unique=False, nullable=False)
-    servicios = db.Column(db.String(120), unique=False, nullable=False)
+    tipo_animal = db.Column(db.String(120), unique=False, nullable=True)
+    servicios = db.Column(db.String(120), unique=False, nullable=True)
     categorias = db.relationship('Categorias',backref='mascota', lazy=True)
     
     def __repr__(self):
@@ -198,11 +196,11 @@ class Mascota(db.Model):
         
 class Resenas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    opinion = db.Column(db.String(120), unique=False, nullable=False)
-    titulo = db.Column(db.String(120), unique=False, nullable=False)
-    data = db.Column(db.DateTime, nullable=False,
+    opinion = db.Column(db.String(120), unique=False, nullable=True)
+    titulo = db.Column(db.String(120), unique=False, nullable=True)
+    data = db.Column(db.DateTime, nullable=True,
                            default=datetime.utcnow)
-    puntuacion = db.Column(db.String(120), unique=False, nullable=False)
+    puntuacion = db.Column(db.String(120), unique=False, nullable=True)
     resenas_valoracion = db.Column(db.Integer, db.ForeignKey('valoracion.id'),nullable=False)
     
     def __repr__(self):
@@ -219,15 +217,10 @@ class Resenas(db.Model):
         
 class Valoracion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_from_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user_to_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    #user = db.relationship ("User",backref='valoracion', lazy=True) 
+    user_from_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+    user_to_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     user_from = db.relationship("User", foreign_keys=[user_from_id])
     user_to = db.relationship("User", foreign_keys=[user_to_id])
-    # usuario_puntuado = db.relationship('Valoracion', backref = db.backref('user', order_by = id), 
-    # primaryjoin = "user.id == valoracion.usuario_puntuado")
-    # usuario_puntuador = db.relationship('Valoracion', 
-    # primaryjoin = "user.id == valoracion.usuario_puntuador")
     resenas = db.relationship('Resenas',backref='valoracion', lazy=True)
     
     
