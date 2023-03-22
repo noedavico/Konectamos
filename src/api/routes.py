@@ -20,19 +20,49 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+
 @api.route("/login", methods=["POST"])
 def login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
 # hacemos una consulta a la tabla para saber si el user existe
     user = User.query.filter_by(email=email).first()
-#si no existe devuelvo msg
+# si no existe devuelvo msg
     if user is None:
-        return jsonify({"msg": "User dosn´t exist"}),404
+        return jsonify({"msg": "User dosn´t exist"}), 404
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
 
 
+# endpoint profile
+@api.route("/profile", methods=["GET"])
+@jwt_required()
+def get_profile():
+
+    # Accede a la identidad del usuario actual con get_jwt_identity
+
+    current_user = get_jwt_identity()
+    user = User.query.filter_by(email=current_user).first()
+
+    return jsonify({"result": user.serialize()}), 200
+
+
+@api.route("/validtoken", methods=["GET"])
+@jwt_required()
+def valid_token():
+    # Access the identity of the current user with get_jwt_identity
+
+    current_user = get_jwt_identity()
+
+    user = User.query.filter_by(email=current_user).first()
+    if user != None:
+
+        return jsonify({"isLogged": True}), 200
+    else:
+        return jsonify({"isLogged": False}), 401
+
+
+# creacion de users
 @api.route('/user', methods=['POST'])
 def create_user():
     request_body = request.json
@@ -44,84 +74,48 @@ def create_user():
         user = User(email=request_body["email"],
                     password=request_body["password"],
                     nombre=request_body["nombre"],
-                    apellido=request_body["apellido"],
-                    
-                    )
-        
+                    apellido=request_body["apellido"],)
+
         db.session.add(user)
         db.session.commit()
         message = "el usuario se a creado con exito"
         status = 200
 
-
     response_body = {
         "msg": message
-        
+
     }
 
-    return jsonify(response_body), status 
-
-#endpoint profile
-@api.route("/profile", methods=["GET"])
-@jwt_required()
-def get_profile():
-    
-    #Accede a la identidad del usuario actual con get_jwt_identity
-
-    current_user = get_jwt_identity()
-    user = User.query.filter_by(email=current_user).first()
-    
-    
-    return jsonify({"result":user.serialize()}), 200
-
-
-@api.route("/validtoken", methods=["GET"])
-@jwt_required()
-def valid_token():
-    # Access the identity of the current user with get_jwt_identity
-
-    current_user = get_jwt_identity()
-    
-    user = User.query.filter_by(email=current_user).first()
-    if user != None:
-        
-        return jsonify({"isLogged":True}), 200
-    else:
-        return jsonify({"isLogged":False}), 401
-
+    return jsonify(response_body), status
 
 @api.route('/user_info', methods=['POST'])
 @jwt_required()
 def create_user_info():
     request_body = request.json
     current_user = get_jwt_identity()
-    print(current_user)
-    
+
     user = User.query.filter_by(email=current_user).first()
-    print(user )
-    if user != None :
+    if user != None:
         user_info = User_info(descripcion=request_body["descripcion"],
-                    experiencia=request_body["experiencia"],
-                    tarifa=request_body["tarifa"],
-                    plus_tarifa=request_body["plus_tarifa"],
-                    puntuacion_global=request_body["puntuacion_global"],
-                    cantidad_votos=request_body["cantidad_votos"],
-                    numero_telefono=request_body["numero_telefono"],
-                    fecha_nacimiento=request_body["fecha_nacimiento"],
-                    direccion_perfil=request_body["direccion_perfil"],
-                    genero=request_body["genero"],
-                    educacion=request_body["educacion"],
-                    redes_sociales=request_body["redes_sociales"],
-                    tipo_servicios=request_body["tipo_servicios"],)
-        user.user_info.insert(user_info)
+                            experiencia=request_body["experiencia"],
+                            tarifa=request_body["tarifa"],
+                            plus_tarifa=request_body["plus_tarifa"],
+                            puntuacion_global=request_body["puntuacion_global"],
+                            cantidad_votos=request_body["cantidad_votos"],
+                            numero_telefono=request_body["numero_telefono"],
+                            fecha_nacimiento=request_body["fecha_nacimiento"],
+                            direccion_perfil=request_body["direccion_perfil"],
+                            genero=request_body["genero"],
+                            educacion=request_body["educacion"],
+                            redes_sociales=request_body["redes_sociales"],
+                            tipo_servicios=request_body["tipo_servicios"],
+                            user_id=request_body["user_id"])
+
+        
         db.session.add(user_info)
         db.session.commit()
-        print(user_info.serialize())
-    
+
         response_body = {
             "msg": "ok"
         }
         return jsonify(response_body), 200
-
-
-

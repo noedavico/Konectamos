@@ -13,7 +13,7 @@ class User(db.Model):
     
     created_at = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
-    es_profesional = db.Column(db.Boolean(), unique=False)
+    es_cuidador = db.Column(db.Boolean(), unique=False)
     is_active = db.Column(db.Boolean(), default=True,unique=False, nullable=False)
     user_info = db.relationship('User_info',backref='user', lazy=True)
     categorias = db.relationship('Categorias',backref='user', lazy=True)
