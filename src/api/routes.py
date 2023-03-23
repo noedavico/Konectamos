@@ -10,7 +10,6 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 
 
-
 api = Blueprint('api', __name__)
 
 
@@ -68,16 +67,16 @@ def valid_token():
 # creacion de users
 @api.route('/user', methods=['POST'])
 def create_user():
-    request_body = request.json
+    req_body = request.json
     message = "ya existe el usuario"
     status = 400
-    user_query = Users.query.filter_by(email=request_body["email"]).first()
+    user_query = Users.query.filter_by(email=req_body["email"]).first()
 
     if user_query is None:
-        user = User(email=request_body["email"],
-                    password=request_body["password"],
-                    nombre=request_body["nombre"],
-                    apellido=request_body["apellido"],)
+        user = User(email=req_body["email"],
+                    password=req_body["password"],
+                    nombre=req_body["nombre"],
+                    apellido=req_body["apellido"],)
 
         db.session.add(user)
         db.session.commit()
@@ -91,53 +90,206 @@ def create_user():
 
     return jsonify(response_body), status
 
+
 @api.route('/user_info', methods=['POST'])
 @jwt_required()
 def create_user_info():
-    request_body = request.json
+    req_body = request.json
     current_user = get_jwt_identity()
 
     user = Users.query.filter_by(email=current_user).first()
-    if user != None:
-        user_info = User_info(descripcion=request_body["descripcion"],
-                            experiencia=request_body["experiencia"],
-                            tarifa=request_body["tarifa"],
-                            plus_tarifa=request_body["plus_tarifa"],
-                            puntuacion_global=request_body["puntuacion_global"],
-                            cantidad_votos=request_body["cantidad_votos"],
-                            numero_telefono=request_body["numero_telefono"],
-                            fecha_nacimiento=request_body["fecha_nacimiento"],
-                            genero=request_body["genero"],
-                            educacion=request_body["educacion"],
-                            redes_sociales=request_body["redes_sociales"],
-                            tipo_servicios=request_body["tipo_servicios"])
-        user.user_info.append(user_info)
-        db.session.add(user)
+    if (
+        user != None and
+        user.user_info != None and
+        user.es_cuidador == True
+    ):
+        info_query = User_info.query.filter_by(user_id=user.id).first()
+
+        # tabla user_info
+        user_info = User_info(
+            descripcion=req_body.get("descripcion"),
+            experiencia=req_body.get("experiencia"),
+            tarifa=req_body.get("tarifa"),
+            plus_tarifa=req_body.get("plus_tarifa"),
+            puntuacion_global=req_body.get("puntuacion_global"),
+            cantidad_votos=req_body.get("cantidad_votos"),
+            numero_telefono=req_body.get("numero_telefono"),
+            fecha_nacimiento=req_body.get("fecha_nacimiento"),
+            genero=req_body.get("genero"),
+            educacion=req_body.get("educacion"),
+            redes_sociales=req_body.get("redes_sociales"),
+            tipo_servicios=req_body.get("tipo_servicios"),
+            user_id=user.id
+        )
+        db.session.add(user_info)
         db.session.commit()
+
+        user_info_query = User_info.query.filter_by(
+            user_id=user.id).first()
+        user_info_2 = Users.query.filter_by(id=user.id).first()
 
         response_body = {
             "msg": "ok",
-            "user":user.serialize(),
-            "user_info":user_info.serialize(),
         }
+
         return jsonify(response_body), 200
+    return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+
+@api.route('/foto', methods=['POST'])
+@jwt_required()
+def add_foto():
+    req_body = request.json
+    current_user = get_jwt_identity()
+
+    user_query = Users.query.filter_by(email=current_user).first()
+    if not user_query:
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+    user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
+    print(user_query.serialize())
+    print(user_info_query)
+    if user_info_query == None:
+        return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
+
+    foto = Foto(
+        nombre=req_body.get("foto_nombre"),
+        foto_imagen=req_body.get("foto_imagen"),
+        foto_user_info=user_info_query.id
+    )
+    db.session.add(foto)
+    db.session.commit()
+    return jsonify({"msg": "Se ha actualizado la foto de usuario"}), 200
+
+
+@api.route('/direccion', methods=['POST'])
+@jwt_required()
+def add_direccion():
+    req_body = request.json
+    current_user = get_jwt_identity()
+
+    user_query = Users.query.filter_by(email=current_user).first()
+    if not user_query:
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+    user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
+
+    if user_info_query == None:
+        return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
+
+    direccion = Direccion(
+        calle=req_body.get("calle"),
+        codigo_postal=req_body.get("codigo_postal"),
+        ciudad=req_body.get("ciudad"),
+        provincia=req_body.get("provincia"),
+        direccion_user_info=user_info_query.id
+    )
+    db.session.add(direccion)
+    db.session.commit()
+    return jsonify({"msg": "Se ha actualizado la direccion del usuario"}), 200
+
+
+@api.route('/subcategoria', methods=['POST'])
+@jwt_required()
+def add_subcategoria():
+    req_body = request.json
+    current_user = get_jwt_identity()
+
+    user_query = Users.query.filter_by(email=current_user).first()
+    categoria = None
+    if not user_query:
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+    if user_query.es_cuidador == True and user_query.is_active == True:
+        if (req_body['subCategoria'] == "mayores"):
+            mayores = Mayores(
+                servicios=req_body.get("servicios"),
+                formacion=req_body.get("formacion")
+            )
+            db.session.add(mayores)
+            db.session.commit()
+
+            # se asocia mayores con user en la tabla categorias
+            categoria = Categorias(
+                mayores_id=mayores.id,
+                categorias_user=user_query.id
+            )
+            db.session.add(categoria)
+            db.session.commit()
+
+            print(mayores)
+            print(mayores.serialize())
+            print(categoria)
+            print(categoria.serialize())
+
+        elif (req_body['subCategoria'] == "peques"):
+            peques = Peques(
+                servicios=req_body.get("servicios"),
+                edades=req_body.get("edades"),
+                cualificacion=req_body.get("cualificacion")
+            )
+            db.session.add(peques)
+            db.session.commit()
+
+            # se asocia peques con user en la tabla categorias
+            categoria = Categorias(
+                peques_id=peques.id,
+                categorias_user=user_query.id
+            )
+            db.session.add(categoria)
+            db.session.commit()
+
+            print(peques)
+            print(peques.serialize())
+            print(categoria)
+            print(categoria.serialize())
+        elif (req_body['subCategoria'] == "mascotas"):
+            mascota = Mascota(
+                servicios=req_body.get("servicios"),
+                tipo_animal=req_body.get("tipo_animal")
+            )
+            db.session.add(mascota)
+            db.session.commit()
+            # se asocia mascota con user en la tabla categorias
+            categoria = Categorias(
+                mascota_id=mascota.id,
+                categorias_user=user_query.id
+            )
+            db.session.add(categoria)
+            db.session.commit()
+
+            print(mascota)
+            print(mascota.serialize())
+            print(categoria)
+            print(categoria.serialize())
+
+        else:
+            return jsonify({"msg": "Los datos no coinciden"}), 400
+
+    # print(peques.serialize(), mayores.serialize(), mascota.serialize())
+        db.session.commit()
+
+        return jsonify({"msg": "Se ha actualizado la categoria del usuario"}), 200
+
+    return jsonify({"msg": "El usuario no es profesional o esta inactivo"}), 400
+
 
 @api.route('/tipoUsuario', methods=['PUT'])
 @jwt_required()
 def set_es_cuidador():
-    request_body = request.json
+    req_body = request.json
     current_user = get_jwt_identity()
 
     user = Users.query.filter_by(email=current_user).first()
     if not user:
-        return jsonify({"msg":"No se ha encontrado el usuario"}), 404
-    if request_body['categoria'] == "familia":
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+    if req_body['categoria'] == "familia":
         user.es_cuidador = False
-    elif request_body['categoria'] == "cuidador":
+    elif req_body['categoria'] == "cuidador":
         user.es_cuidador = True
     else:
-        return jsonify({"msg":"El body no coincide"}),400
-    
+        return jsonify({"msg": "Los datos no coinciden"}), 400
+
     db.session.commit()
 
     return jsonify({"msg": "Se ha actualizado el tipo de usuario"}), 200
