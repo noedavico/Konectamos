@@ -141,3 +141,38 @@ def set_es_cuidador():
     db.session.commit()
 
     return jsonify({"msg": "Se ha actualizado el tipo de usuario"}), 200
+
+
+@api.route('/user_info/<int:user_id>', methods=['GET'])
+def set_info_user(user_id):
+    user_query = Users.query.filter_by(id=user_id).first()
+    #user_query = Users.query.join(User_info).filter(Users.email == request_body["email"]).first()
+    print(user_query)
+    if user_query != None and user_query.is_active is True:
+        info = user_query.user_info[-1]
+        if info.user_info_direccion != []:
+            direccion = info.user_info_direccion[-1]
+        if info.user_info_foto != []:
+            foto = info.user_info_foto[-1]
+            
+        response_body = {
+            "msg": "ok",
+            "results": {"info" : info.serialize(),
+                        "datospersonales": user_query.serialize()
+                        }
+        }    
+        return jsonify(response_body), 200
+    else : 
+        return jsonify({"msg":"No se ha encontrado"}), 400
+        
+# obtiene los datos de un usuario
+@api.route('/user/<int:user_id>', methods=['GET'])
+def get_info_user(user_id):
+    user_query = Users.query.filter_by(id=user_id).first()
+    print(user_query)
+#querys o consultas
+    response_body = {
+        "msg": "ok",
+        "result": user_query.serialize()
+    }
+    return jsonify(response_body), 200    
