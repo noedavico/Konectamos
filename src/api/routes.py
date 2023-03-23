@@ -147,8 +147,6 @@ def add_foto():
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
     user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
-    print(user_query.serialize())
-    print(user_info_query)
     if user_info_query == None:
         return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
 
@@ -217,11 +215,6 @@ def add_subcategoria():
             db.session.add(categoria)
             db.session.commit()
 
-            print(mayores)
-            print(mayores.serialize())
-            print(categoria)
-            print(categoria.serialize())
-
         elif (req_body['subCategoria'] == "peques"):
             peques = Peques(
                 servicios=req_body.get("servicios"),
@@ -239,10 +232,6 @@ def add_subcategoria():
             db.session.add(categoria)
             db.session.commit()
 
-            print(peques)
-            print(peques.serialize())
-            print(categoria)
-            print(categoria.serialize())
         elif (req_body['subCategoria'] == "mascotas"):
             mascota = Mascota(
                 servicios=req_body.get("servicios"),
@@ -258,15 +247,9 @@ def add_subcategoria():
             db.session.add(categoria)
             db.session.commit()
 
-            print(mascota)
-            print(mascota.serialize())
-            print(categoria)
-            print(categoria.serialize())
-
         else:
             return jsonify({"msg": "Los datos no coinciden"}), 400
 
-    # print(peques.serialize(), mayores.serialize(), mascota.serialize())
         db.session.commit()
 
         return jsonify({"msg": "Se ha actualizado la categoria del usuario"}), 200
