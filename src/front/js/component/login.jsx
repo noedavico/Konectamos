@@ -108,7 +108,7 @@ export const Login = () => {
                     Publica tu perfil, cuentan tu experiencia y habilidades y
                     acércate un paso más a encontrar a que familia ayudar.{" "}
                   </p>
-                  <Link to="/registro1">
+                  <Link to="/registro">
                     <button
                       type="button"
                       className="btn  btn-primary text-white  mt-3"
