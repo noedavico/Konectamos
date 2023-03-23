@@ -5,27 +5,34 @@ db = SQLAlchemy()
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(120), unique=False, nullable=False)
-    apellido = db.Column(db.String(120), unique=False, nullable=False)
-    
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
+    is_active = db.Column(db.Boolean(), unique=False, nullable=False)
+
+    def __repr__(self):
+        return f'<User {self.email}>'
     
+    
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(120), unique=False, nullable=False)
+    apellido = db.Column(db.String(120), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
     es_cuidador = db.Column(db.Boolean(), unique=False)
     is_active = db.Column(db.Boolean(), default=True,unique=False, nullable=False)
-    user_info = db.relationship('User_info', backref='user', lazy=True)
-    categorias = db.relationship('Categorias',backref='user', lazy=True)
-    #user_valoracion = db.relationship('Valoracion',backref='user', lazy=True)
+    user_info = db.relationship('User_info', backref='users', lazy=True)
+    categorias = db.relationship('Categorias',backref='users', lazy=True)
     
     
     
     def __repr__(self):
-        return f'<User {self.email}>'
+        return f'<Users {self.email}>'
 
     def serialize(self):
-        result = {
+        return {
             "id": self.id,
             "nombre": self.nombre,
             "apellido": self.apellido,
@@ -45,13 +52,12 @@ class User_info(db.Model):
     cantidad_votos = db.Column(db.Integer, unique=False, nullable=True)
     numero_telefono = db.Column(db.Integer, unique=False, nullable=True)
     fecha_nacimiento = db.Column(db.String(120), unique=False, nullable=True)
-    direccion_perfil = db.Column(db.String, unique=False, nullable=False)
     genero = db.Column(db.String, unique=False, nullable=True)
     educacion = db.Column(db.String, unique=False, nullable=True)
     experiencia = db.Column(db.String, unique=False, nullable=True)
     tipo_servicios = db.Column(db.String, unique=False, nullable=True)
     redes_sociales = db.Column(db.String(120), unique=False, nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user_info_foto = db.relationship('Foto', backref='user_info', lazy=True)
     user_info_direccion = db.relationship('Direccion', backref='user_info', lazy=True)
     
@@ -70,7 +76,6 @@ class User_info(db.Model):
             "cantidad_votos": self.cantidad_votos,
             "numero_telefono": self.numero_telefono,
             "fecha_nacimiento": self.fecha_nacimiento,
-            "direccion_perfil": self.direccion_perfil,
             "genero": self.genero,
             "educacion": self.educacion,
             "experiencia": self.experiencia,
@@ -103,9 +108,9 @@ class Direccion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     calle = db.Column(db.String(120), unique=False, nullable=True)
     codigo_postal = db.Column(db.String(120), unique=False, nullable=True)
-    ciudad = db.Column(db.String(120), unique=False, nullable=False)
+    ciudad = db.Column(db.String(120), unique=False, nullable=True)
     direccion_user_info = db.Column(
-         db.Integer, db.ForeignKey('user_info.id'), unique=True, nullable=False)
+         db.Integer, db.ForeignKey('user_info.id'), unique=True, nullable=True)
     
         
     
@@ -128,7 +133,7 @@ class Categorias(db.Model):
     mascota_id = db.Column(db.Integer, db.ForeignKey('mascota.id'),nullable=False)
     mayores_id = db.Column(db.Integer, db.ForeignKey('mayores.id'),nullable=False)
     categorias_user = db.Column(
-         db.Integer, db.ForeignKey('user.id'), unique=True, nullable=False)
+        db.Integer, db.ForeignKey('users.id'), unique=True, nullable=False)
     
     def __repr__(self):
         return f'<Categorias {self.id}>'
@@ -217,10 +222,10 @@ class Resenas(db.Model):
         
 class Valoracion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_from_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    user_to_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-    user_from = db.relationship("User", foreign_keys=[user_from_id])
-    user_to = db.relationship("User", foreign_keys=[user_to_id])
+    user_from_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+    user_to_id = db.Column(db.Integer, db.ForeignKey('users.id'),nullable=False)
+    user_from = db.relationship("Users", foreign_keys=[user_from_id])
+    user_to = db.relationship("Users", foreign_keys=[user_to_id])
     resenas = db.relationship('Resenas',backref='valoracion', lazy=True)
     
     
