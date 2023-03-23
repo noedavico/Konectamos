@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a0fa38de269d
+Revision ID: d3da4af877cd
 Revises: 
-Create Date: 2023-03-22 20:16:17.231965
+Create Date: 2023-03-23 00:36:04.927726
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a0fa38de269d'
+revision = 'd3da4af877cd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -39,6 +39,14 @@ def upgrade():
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('password', sa.String(length=80), nullable=False),
+    sa.Column('is_active', sa.Boolean(), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
+    )
+    op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('nombre', sa.String(length=120), nullable=False),
     sa.Column('apellido', sa.String(length=120), nullable=False),
     sa.Column('email', sa.String(length=120), nullable=False),
@@ -56,7 +64,7 @@ def upgrade():
     sa.Column('mascota_id', sa.Integer(), nullable=False),
     sa.Column('mayores_id', sa.Integer(), nullable=False),
     sa.Column('categorias_user', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['categorias_user'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['categorias_user'], ['users.id'], ),
     sa.ForeignKeyConstraint(['mascota_id'], ['mascota.id'], ),
     sa.ForeignKeyConstraint(['mayores_id'], ['mayores.id'], ),
     sa.ForeignKeyConstraint(['peques_id'], ['peques.id'], ),
@@ -73,21 +81,20 @@ def upgrade():
     sa.Column('cantidad_votos', sa.Integer(), nullable=True),
     sa.Column('numero_telefono', sa.Integer(), nullable=True),
     sa.Column('fecha_nacimiento', sa.String(length=120), nullable=True),
-    sa.Column('direccion_perfil', sa.String(), nullable=False),
     sa.Column('genero', sa.String(), nullable=True),
     sa.Column('educacion', sa.String(), nullable=True),
     sa.Column('tipo_servicios', sa.String(), nullable=True),
     sa.Column('redes_sociales', sa.String(length=120), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('valoracion',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_from_id', sa.Integer(), nullable=False),
     sa.Column('user_to_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['user_from_id'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['user_to_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['user_from_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['user_to_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('direccion',
@@ -130,6 +137,7 @@ def downgrade():
     op.drop_table('valoracion')
     op.drop_table('user_info')
     op.drop_table('categorias')
+    op.drop_table('users')
     op.drop_table('user')
     op.drop_table('peques')
     op.drop_table('mayores')
