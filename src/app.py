@@ -12,6 +12,7 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 
 #from models import Person
 
@@ -35,6 +36,21 @@ jwt = JWTManager(app)
 
 # Allow CORS requests to this API
 CORS(app)
+
+mail_settings = {
+    "MAIL_SERVER": 'sandbox.smtp.mailtrap.io',
+    "MAIL_PORT":  2525,
+    "MAIL_USE_TLS": True,
+    "MAIL_USE_SSL": False,
+    "MAIL_USERNAME":  '48df47c3f1a268', #CORREO DE LA APP 
+    "MAIL_PASSWORD": '261ad50be15890', #PASSWORD DEL CORREO DE LA APP 
+    "MAIL_DEFAULT_SENDER": 'daniel_bon84@hotmail.com'
+}
+
+app.config.update(mail_settings)
+mail = Mail(app)
+#agregan mail a la app y se va llamar en routes.py como current_app
+app.mail= mail
 
 
 # add the admin
