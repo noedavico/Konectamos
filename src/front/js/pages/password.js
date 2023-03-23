@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
-//import "../../styles/component.css";
 import { useNavigate } from "react-router-dom";
 
 export const Password = () => {
@@ -12,47 +11,44 @@ export const Password = () => {
     setEmail(e.target.value);
   };
 
-  async function handleRecuperarPassword(e) {
+  async function handleRecuperarContraseña(e) {
     let recover = await actions.recover_password(email);
     if (recover) {
       setEmail("");
       alert(
-        "Se ha enviado un correo electrónico con las instrucciones para modificar la contraseña"
+        "Se ha enviado un correo electrónico con instrucciones para modificar su contraseña"
       );
-      navigate("/acceso");
+      navigate("/login");
     }
   }
 
   return (
-    <div className="container-lg">
-      <div className="fw-bold text-center fs-2 mt-3 mb-0">
-        RECUPERAR CONTRASEÑA
-      </div>
-      <div className="row g-3 mt-0 mb-4">
-        <div className="row g-4 my-4">
-          <div className="col">
-            <span className="input-group-text fs-5"> CORREO ELECTRÓNICO </span>
+    <div className="container col-lg-6 col-md-8 col-sm-12 shadow-lg p-3 mb-5 rounded text-white m-auto ">
+      <div className="fondo border rounded">
+        <div className=" text-center fs-3 my-2  p-3">RECUPERAR CONTRASEÑA</div>
+        <div className="row g-3 m-auto  fondo">
+          <div className="row justify-content-center">
+            <div className="col-6">
+              <input
+                type="text"
+                className="form-control text-center"
+                id="correo"
+                value={email}
+                placeholder={"Ingresa tu Correo electrónico"}
+                onChange={handleEmail}
+              />
+            </div>
           </div>
-          <div className="col">
-            <input
-              type="text"
-              className="form-control text-center"
-              id="correo"
-              value={email}
-              onChange={handleEmail}
-              placeholder={"INGRESA TU CORREO ELECTRÓNICO"}
-            />
+          <div className="d-grid gap-2 col-4 mx-auto my-3">
+            <button
+              id="boton-guardar"
+              className="btn  btn-primary text-white"
+              type="button"
+              onClick={handleRecuperarContraseña}
+            >
+              Recuperar
+            </button>
           </div>
-        </div>
-        <div className="d-grid gap-2 col-5 mx-auto my-3">
-          <button
-            id="boton-guardar"
-            className="btn btn-success  fw-bold"
-            type="button"
-            onClick={handleRecuperarPassword}
-          >
-            OBTENER ENLACE
-          </button>
         </div>
       </div>
     </div>
