@@ -103,7 +103,6 @@ def create_user_info():
     user = Users.query.filter_by(email=current_user).first()
     if (
         user != None and
-        user.user_info != None and
         user.es_cuidador == True
     ):
         info_query = User_info.query.filter_by(user_id=user.id).first()
@@ -282,67 +281,115 @@ def set_es_cuidador():
 
 
 @api.route('/informacion/<int:user_id>', methods=['GET'])
-def set_info_user(user_id):
+def get_informacion_user(user_id):
     user_query = Users.query.filter_by(id=user_id).first()
-    if user_query != None and user_query.is_active is True:
-        user_info_2 = Users.query.filter_by(id=user.id).first()
-
-        print(user_info_2.serialize2())
+    
+    if (user_query != None and
+        user_query.es_cuidador==True and
+        user_query.is_active == True):
+        
+        print(user_query.serialize2())
+        
         response_body = {
             "msg": "ok",
-            "results": user_info_2.serialize2()
-        }    
+            "results": user_query.serialize2()
+        }
+        
         return jsonify(response_body), 200
-    else : 
-        return jsonify({"msg":"No se ha encontrado"}), 404
-    return jsonify({"msg":"No se ha encontrado"}), 404
-
-
+    
+    return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
 
 @api.route('/user_info/<int:user_id>', methods=['GET'])
-def set_info_user(user_id):
+def get_info_user(user_id):
     user_query = Users.query.filter_by(id=user_id).first()
     if user_query != None and user_query.is_active is True:
         info = user_query.user_info[-1]
-        
+
         response_body = {
             "msg": "ok",
-            "results": {"info" : info.serialize(),
+            "results": {"info": info.serialize(),
                         "datospersonales": user_query.serialize()
                         }
-        }    
+        }
         return jsonify(response_body), 200
-    else : 
-        return jsonify({"msg":"No se ha encontrado"}), 400
-        
+    else:
+        return jsonify({"msg": "No se ha encontrado"}), 400
+
+
 # obtiene los datos de un usuario
 @api.route('/user/<int:user_id>', methods=['GET'])
-def get_info_user(user_id):
+def get_user(user_id):
     user_query = Users.query.filter_by(id=user_id).first()
     print(user_query)
-#querys o consultas
+# querys o consultas
     response_body = {
         "msg": "ok",
         "result": user_query.serialize()
     }
-    return jsonify(response_body), 200    
+    return jsonify(response_body), 200
+
+
 @api.route("/loosepassword", methods=["POST"])
 def loosepassword():
     recover_email = request.json['email']
-    #se genera nueva contraseña aleatoria 
-    recover_password = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
+    # se genera nueva contraseña aleatoria
+    recover_password = ''.join(random.choice(
+        string.ascii_uppercase + string.digits) for x in range(8))
 
     if not recover_email:
         return jsonify({"msg": "ingresar el correo"}), 401
     users = Users.query.filter_by(email=recover_email).first()
     if recover_email != users.email:
         return jsonify({"msg": "El correo no existe "}), 400
-    #se guarda nueva contraseña aleatoria
+    # se guarda nueva contraseña aleatoria
     users.password = recover_password
     db.session.commit()
-	#Se envia contraseña al correo 
+    # Se envia contraseña al correo
     msg = Message("Hi", recipients=[recover_email])
     msg.html = f"""<h1>Nueva contraseña: {recover_password}</h1>"""
     current_app.mail.send(msg)
     return jsonify({"msg": "Nueva clave enviada al correo electrónico "}), 200
+
+# obtiene los datos de todos los usuarios
+@api.route('/all_users', methods=['GET'])
+def handle_all_user():
+    #querys o consultas
+    users_query = Users.query.all()
+    result = list(map(lambda item: filtra_users(item), users_query))
+    result = list(filter(None,result))
+    response_body = {
+        "msg": "ok",
+        "results": result
+    }
+
+    return jsonify(response_body), 200
+
+def filtra_users(user):
+    info_query = User_info.query.filter_by(user_id=user.id).first()
+
+    if info_query != None:
+
+        direccion_query = Direccion.query.filter_by(
+            direccion_user_info=info_query.id).first()
+        foto_query = Foto.query.filter_by(
+            foto_user_info=info_query.id).first()
+        foto=None
+        ciudad=None
+        if foto_query != None:
+            foto = foto_query.serialize()
+
+        if direccion_query  != None:
+            result_direccion = direccion_query.serialize()
+            print(result_direccion)
+            if result_direccion["ciudad"]==None:
+                return 
+            ciudad=result_direccion["ciudad"]
+            
+        return {
+            "nombre_completo": user.nombre + " " + user.apellido,
+            "descripcion": info_query.descripcion,
+            "foto":foto,
+            "ciudad":ciudad
+        }
+    return 
