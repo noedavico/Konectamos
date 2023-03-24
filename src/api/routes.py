@@ -143,18 +143,31 @@ def set_es_cuidador():
     return jsonify({"msg": "Se ha actualizado el tipo de usuario"}), 200
 
 
+@api.route('/informacion/<int:user_id>', methods=['GET'])
+def set_info_user(user_id):
+    user_query = Users.query.filter_by(id=user_id).first()
+    if user_query != None and user_query.is_active is True:
+        user_info_2 = Users.query.filter_by(id=user.id).first()
+
+        print(user_info_2.serialize2())
+        response_body = {
+            "msg": "ok",
+            "results": user_info_2.serialize2()
+        }    
+        return jsonify(response_body), 200
+    else : 
+        return jsonify({"msg":"No se ha encontrado"}), 404
+    return jsonify({"msg":"No se ha encontrado"}), 404
+
+
+
+
 @api.route('/user_info/<int:user_id>', methods=['GET'])
 def set_info_user(user_id):
     user_query = Users.query.filter_by(id=user_id).first()
-    #user_query = Users.query.join(User_info).filter(Users.email == request_body["email"]).first()
-    print(user_query)
     if user_query != None and user_query.is_active is True:
         info = user_query.user_info[-1]
-        if info.user_info_direccion != []:
-            direccion = info.user_info_direccion[-1]
-        if info.user_info_foto != []:
-            foto = info.user_info_foto[-1]
-            
+        
         response_body = {
             "msg": "ok",
             "results": {"info" : info.serialize(),

@@ -37,10 +37,12 @@ class Users(db.Model):
             "nombre": self.nombre,
             "apellido": self.apellido,
             "email": self.email,
-            
-            
+            }
+        
+    def serialize2(self):
+        user_query = User_info.query.filter_by(user_id=self.id).first()
 
-        }
+        return user_query.serialize()
         
 class User_info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
