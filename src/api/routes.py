@@ -2,12 +2,15 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 from api.models import db, Users, User_info, Foto, Direccion, Categorias, Peques, Mayores, Mascota, Resenas, Valoracion
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from flask_mail import Message
+import random
+import string
 
 
 api = Blueprint('api', __name__)
@@ -276,3 +279,23 @@ def set_es_cuidador():
     db.session.commit()
 
     return jsonify({"msg": "Se ha actualizado el tipo de usuario"}), 200
+
+@api.route("/loosepassword", methods=["POST"])
+def loosepassword():
+    recover_email = request.json['email']
+    #se genera nueva contraseña aleatoria 
+    recover_password = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
+
+    if not recover_email:
+        return jsonify({"msg": "ingresar el correo"}), 401
+    users = Users.query.filter_by(email=recover_email).first()
+    if recover_email != users.email:
+        return jsonify({"msg": "El correo no existe "}), 400
+    #se guarda nueva contraseña aleatoria
+    users.password = recover_password
+    db.session.commit()
+	#Se envia contraseña al correo 
+    msg = Message("Hi", recipients=[recover_email])
+    msg.html = f"""<h1>Nueva contraseña: {recover_password}</h1>"""
+    current_app.mail.send(msg)
+    return jsonify({"msg": "Nueva clave enviada al correo electrónico "}), 200
