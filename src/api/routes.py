@@ -121,7 +121,9 @@ def create_user_info():
             educacion=req_body.get("educacion"),
             redes_sociales=req_body.get("redes_sociales"),
             tipo_servicios=req_body.get("tipo_servicios"),
-            user_id=user.id
+            user_id=user.id,
+            idiomas=req_body.get("idiomas"),
+            aptitudes=req_body.get("aptitudes")
         )
         db.session.add(user_info)
         db.session.commit()
@@ -221,7 +223,7 @@ def add_subcategoria():
             peques = Peques(
                 servicios=req_body.get("servicios"),
                 edades=req_body.get("edades"),
-                cualificacion=req_body.get("cualificacion")
+                formacion=req_body.get("formacion")
             )
             db.session.add(peques)
             db.session.commit()
@@ -237,7 +239,8 @@ def add_subcategoria():
         elif (req_body['subCategoria'] == "mascotas"):
             mascota = Mascota(
                 servicios=req_body.get("servicios"),
-                tipo_animal=req_body.get("tipo_animal")
+                tipo_animal=req_body.get("tipo_animal"),
+                formacion=req_body.get("formacion")
             )
             db.session.add(mascota)
             db.session.commit()
@@ -351,13 +354,14 @@ def loosepassword():
     current_app.mail.send(msg)
     return jsonify({"msg": "Nueva clave enviada al correo electrónico "}), 200
 
-# obtiene los datos de todos los usuarios
+# obtiene los datos de todos los cuidadores
 @api.route('/all_users', methods=['GET'])
 def handle_all_user():
     #querys o consultas
     users_query = Users.query.all()
     result = list(map(lambda item: filtra_users(item), users_query))
     result = list(filter(None,result))
+    
     response_body = {
         "msg": "ok",
         "results": result
@@ -374,8 +378,12 @@ def filtra_users(user):
             direccion_user_info=info_query.id).first()
         foto_query = Foto.query.filter_by(
             foto_user_info=info_query.id).first()
+        categoria_query = Categorias.query.filter_by(
+            categorias_user=user.id).first()
+        categoria=None
         foto=None
         ciudad=None
+        
         if foto_query != None:
             foto = foto_query.serialize()
 
@@ -386,10 +394,18 @@ def filtra_users(user):
                 return 
             ciudad=result_direccion["ciudad"]
             
+        if categoria_query  != None:
+            result_categoria = categoria_query.serialize()
+            if result_categoria["cat"]==None:
+                return 
+            categoria=result_categoria["cat"]    
+            
         return {
             "nombre_completo": user.nombre + " " + user.apellido,
+            "id":user.id,
             "descripcion": info_query.descripcion,
             "foto":foto,
-            "ciudad":ciudad
+            "ciudad":ciudad,
+            "categoria":categoria
         }
     return 

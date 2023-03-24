@@ -1,60 +1,51 @@
 import { Link } from "react-router-dom";
 import React, {useContext, useState, useEffect}  from "react";
 import { Context } from "../store/appContext";
-import Chica from "../../img/chica.png";
+import ImageWithFallback from "./imagenFallback";
 
-export const Todoslosperfiles = () => {
+
+
+export const Todoslosperfiles = (props) => {
 const { store, actions } = useContext(Context);
 
 return (
 
-<div className="container mx-auto ">
-<div className="col-sm-12 col-md-8 col-lg-10 border mx-auto">
-	<div className="product-content product-wrap clearfix">
-		<div className="row justify-content-center">
-				<div className="col-lg-4 col-sm-2 m-auto p-auto">
-					<div className="product-image"> 
-						<img src="https://www.bootdey.com/image/200x200/87CEFA" alt="194x228" className="img-responsive rounded-circle m-auto p-2"/> 
-						
-					</div>
+	<div className="container card text-center my-3" >
+	<div className="row row-flex">
+	  <div className="col-4 p-auto m-auto"  >
+						<ImageWithFallback imageUrl={props?.foto} alt={props?.foto_alt}  style={{height:"50px"}}className="img-fluid rounded-circle mb-3  p-3 shadow"/> 
 				</div>
-				<div className="col-md-6 col-sm-12 col-lg-8 m-auto">
-				<div className="titulo">
-						<h5 className="name">
-							<span>Nombre</span>
-							
-						</h5>
-						<p className="cuidad-container">
-							<span>ciudad</span>
+		<div className="col-8 col-md-6 m-auto p-auto">
+            <div className="card-body">
+              <h3 >{props.nombre}</h3>
+			  <p className="cuidad-container">
+							<span>{props.ciudad}</span>
 						</p>
-						<span className="tag1"></span> 
-				</div>
-				<div className="description">
-					<p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis praesentium recusandae asperiores, laborum odio iste tenetur enim architecto, numquam autem nostrum saepe minus nihil est ipsum eius nesciunt, sed accusantium! </p>
-				</div>
-				<div className="">
+              <p className="card-text">{props.descripcion}</p>       
+              </div>
+			  <div className="container">
 					<div className="row">
-						<div className="col-md-6 col-sm-6 col-xs-6"> 
-							<a href="javascript:void(0);" className="btn btn-success">Leer mas</a>
+						<div className="col-md-6 col-sm-6 col-xs-6 p-2"> 
+							<Link className="btn btn-primary" to={"/perfildetallado"+ props.id} >Leer mas</Link>
 						</div>
 						<div className="col-md-6 col-sm-6 col-xs-6">
 							<div className="rating">
-								<label for="stars-rating-5"><i className="fa fa-star"></i></label>
-								<label for="stars-rating-4"><i className="fa fa-star"></i></label>
-								<label for="stars-rating-3"><i className="fa fa-star text-primary"></i></label>
-								<label for="stars-rating-2"><i className="fa fa-star text-primary"></i></label>
-								<label for="stars-rating-1"><i className="fa fa-star text-primary"></i></label>
+								<label htmlFor="stars-rating-5"><i className="fa fa-star"></i></label>
+								<label htmlFor="stars-rating-4"><i className="fa fa-star"></i></label>
+								<label htmlFor="stars-rating-3"><i className="fa fa-star text-primary"></i></label>
+								<label htmlFor="stars-rating-2"><i className="fa fa-star text-primary"></i></label>
+								<label htmlFor="stars-rating-1"><i className="fa fa-star text-primary"></i></label>
 							</div>
 						</div>
 					</div>
 				</div>
+        </div>
+				
 			</div>
 		</div>
-	</div>
-</div>
 
 
-</div>
+
 
 )
 }

@@ -111,7 +111,11 @@ class User_info(db.Model):
                             unique=False, nullable=True)
     tipo_servicios = db.Column(
         db.String(255), default="", unique=False, nullable=True)
+    idiomas= db.Column(
+        db.String(255), default="", unique=False, nullable=True)
     redes_sociales = db.Column(
+        db.Text, default="", unique=False, nullable=True)
+    aptitudes= db.Column(
         db.String(120), default="", unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user_info_foto = db.relationship('Foto', backref='user_info', lazy=True)
@@ -151,7 +155,9 @@ class User_info(db.Model):
             "tipo_servicios": self.tipo_servicios,
             "redes_sociales": self.redes_sociales,
             "foto": result_foto,
-            "direccion": result_direccion
+            "direccion": result_direccion,
+            "idiomas":self.idiomas,
+            "aptitudes":self.aptitudes
         }
 
 
@@ -237,7 +243,7 @@ class Peques(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     servicios = db.Column(db.String(255), unique=False, nullable=True)
     edades = db.Column(db.String(120), unique=False, nullable=True)
-    cualificacion = db.Column(db.String(255), unique=False, nullable=True)
+    formacion = db.Column(db.String(255), unique=False, nullable=True)
     categorias = db.relationship('Categorias', backref='peques', lazy=True)
 
     def __repr__(self):
@@ -248,7 +254,7 @@ class Peques(db.Model):
             "id": self.id,
             "servicios": self.servicios,
             "edades": self.edades,
-            "cualificacion": self.cualificacion,
+            "formacion": self.formacion,
         }
 
 
@@ -272,6 +278,7 @@ class Mascota(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     servicios = db.Column(db.String(255), unique=False, nullable=True)
     tipo_animal = db.Column(db.String(120), unique=False, nullable=True)
+    formacion = db.Column(db.String(120), unique=False, nullable=True)
     categorias = db.relationship('Categorias', backref='mascota', lazy=True)
 
     def __repr__(self):
@@ -282,6 +289,8 @@ class Mascota(db.Model):
             "id": self.id,
             "tipo_animal": self.tipo_animal,
             "servicios": self.servicios,
+            "formacion": self.formacion,
+            
         }
 
 
