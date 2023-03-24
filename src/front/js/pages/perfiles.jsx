@@ -9,7 +9,7 @@ export const Perfiles = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="conatiner">
+		<div className="container">
 			
 				<Todoslosperfiles />
 			

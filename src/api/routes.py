@@ -381,7 +381,7 @@ def filtra_users(user):
 
         if direccion_query  != None:
             result_direccion = direccion_query.serialize()
-            print(result_direccion)
+
             if result_direccion["ciudad"]==None:
                 return 
             ciudad=result_direccion["ciudad"]
