@@ -283,18 +283,18 @@ def set_es_cuidador():
 @api.route("/loosepassword", methods=["POST"])
 def loosepassword():
     recover_email = request.json['email']
-    recover_password = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8)) #nueva clave aleatoria 
+    #se genera nueva contraseña aleatoria 
+    recover_password = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(8))
 
     if not recover_email:
         return jsonify({"msg": "ingresar el correo"}), 401
-	#busco si el correo existe 
     users = Users.query.filter_by(email=recover_email).first()
     if recover_email != users.email:
         return jsonify({"msg": "El correo no existe "}), 400
-    #si existe guardo la nueva contraseña aleatoria
+    #se guarda nueva contraseña aleatoria
     users.password = recover_password
     db.session.commit()
-	#luego se la envio al usuario por correo para que pueda ingresar
+	#Se envia contraseña al correo 
     msg = Message("Hi", recipients=[recover_email])
     msg.html = f"""<h1>Nueva contraseña: {recover_password}</h1>"""
     current_app.mail.send(msg)
