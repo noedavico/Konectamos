@@ -123,20 +123,16 @@ class User_info(db.Model):
 
     def serialize(self):
         query_foto = Foto.query.filter_by(
-            user_id=self.id).first()
+            foto_user_info=self.id).first()
         query_direccion = Direccion.query.filter_by(
             direccion_user_info=self.id).first()
         result_foto = None
         result_direccion = None
 
-        if query_foto is None:
-            result_foto
-        else:
+        if query_foto != None: 
             result_foto = query_foto.serialize()
 
-        if query_direccion is None:
-            result_direccion
-        else:
+        if query_direccion != None:
             result_direccion = query_direccion.serialize()
 
         return {
@@ -171,7 +167,6 @@ class Foto(db.Model):
 
     def serialize(self):
         return {
-            "id": self.id,
             "nombre": self.nombre,
             "foto_imagen": self.foto_imagen,
         }
