@@ -1,5 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from argon2 import PasswordHasher
+
+ph = PasswordHasher()
 
 db = SQLAlchemy()
 
@@ -19,7 +22,7 @@ class Users(db.Model):
     nombre = db.Column(db.String(120), unique=False, nullable=False)
     apellido = db.Column(db.String(120), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
+    password = db.Column(db.Text, unique=False, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False,
                            default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)
@@ -39,6 +42,15 @@ class Users(db.Model):
             "apellido": self.apellido,
             "email": self.email,
         }
+
+    def set_password(self, password):
+        self.password = ph.hash(password)
+
+    def check_password(self, password):
+        try:
+            return ph.verify(self.password, password)
+        except argon2.exceptions.VerifyMismatchError:
+            return False
 
     def serialize_cuidadores(self):
 
@@ -111,11 +123,11 @@ class User_info(db.Model):
                             unique=False, nullable=True)
     tipo_servicios = db.Column(
         db.String(255), default="", unique=False, nullable=True)
-    idiomas= db.Column(
+    idiomas = db.Column(
         db.String(255), default="", unique=False, nullable=True)
     redes_sociales = db.Column(
         db.Text, default="", unique=False, nullable=True)
-    aptitudes= db.Column(
+    aptitudes = db.Column(
         db.String(120), default="", unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user_info_foto = db.relationship('Foto', backref='user_info', lazy=True)
@@ -133,7 +145,7 @@ class User_info(db.Model):
         result_foto = None
         result_direccion = None
 
-        if query_foto != None: 
+        if query_foto != None:
             result_foto = query_foto.serialize()
 
         if query_direccion != None:
@@ -156,8 +168,8 @@ class User_info(db.Model):
             "redes": self.redes_sociales,
             "foto": result_foto,
             "direccion": result_direccion,
-            "idiomas":self.idiomas,
-            "aptitudes":self.aptitudes
+            "idiomas": self.idiomas,
+            "aptitudes": self.aptitudes
         }
 
 
@@ -243,17 +255,14 @@ class Categorias(db.Model):
         if self.peques_id != None:
             peque = Peques.query.filter_by(id=self.peques_id).first()
             result = peque.serialize()
-            
 
         if self.mayores_id != None:
             mayores = Mayores.query.filter_by(id=self.mayores_id).first()
-            result =  mayores.serialize()
-            
+            result = mayores.serialize()
 
         if self.mascota_id != None:
             mascota = Mascota.query.filter_by(id=self.mascota_id).first()
             result = mascota.serialize()
-            
 
         return result
 
@@ -307,7 +316,7 @@ class Mascota(db.Model):
             "tipo_animal": self.tipo_animal,
             "servicios": self.servicios,
             "formacion": self.formacion,
-            
+
         }
 
 
