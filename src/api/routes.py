@@ -83,9 +83,11 @@ def create_user():
         if (req_body.get("password") != None and
                 len(req_body.get("password")) >= 8 and
                 1 == 1):
-            user = User(email=req_body.get("email"),
-                        nombre=req_body.get("nombre"),
-                        apellido=req_body.get("apellido"),)
+            user = Users(
+                email=req_body.get("email"),
+                nombre=req_body.get("nombre"),
+                apellido=req_body.get("apellido")
+            )
 
             user.set_password(req_body.get("password"))
 
@@ -333,11 +335,15 @@ def loosepassword():
 
     if not recover_email:
         return jsonify({"msg": "ingresar el correo"}), 401
+
     users = Users.query.filter_by(email=recover_email).first()
+
     if recover_email != users.email:
         return jsonify({"msg": "El correo no existe "}), 400
+
     # se guarda nueva contraseña aleatoria
-    users.password = recover_password
+    users.set_password(recover_password)
+
     db.session.commit()
     # Se envia contraseña al correo
     msg = Message("Hi", recipients=[recover_email])
