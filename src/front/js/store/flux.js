@@ -8,6 +8,10 @@ const getState = ({
     return {
         store: {
             allusers: [],
+            cuidadoresPeques: [],
+            cuidadoresMascotas: [],
+            cuidadoresMayores: [],
+            infoDetallada: [],
             message: null,
             demo: [{
                     title: "FIRST",
@@ -157,22 +161,53 @@ const getState = ({
 
             loadUsuarios: async () => {
                 try {
+                    let response = await axios.get(
+                        process.env.BACKEND_URL + "/api/all_users"
+                    );
+                    let cuidadorPeques = response.data.results.filter(
+                        (item) => item.categoria === "peques"
+                    );
 
-                    let response = await axios.get(process.env.BACKEND_URL + "/api/all_users")
                     setStore({
-                        allusers: response.data.results
+                        cuidadoresPeques: cuidadorPeques,
                     });
-                    console.log(response.data.results)
+                    let cuidadorMascota = response.data.results.filter(
+                        (item) => item.categoria === "mascota"
+                    );
+                    setStore({
+                        cuidadoresMascotas: cuidadorMascota,
+                    });
+                    let cuidadorMayor = response.data.results.filter(
+                        (item) => item.categoria === "mayores"
+                    );
+                    setStore({
+                        cuidadoresMayores: cuidadorMayor,
+                    });
+                    setStore({
+                        allusers: response.data.results,
+                    });
                 } catch (error) {
                     console.log(error);
-                    if (error.response.status >= 400) {
-                        alert(error.response.data.msg);
-                    }
+                    //   alert(error.response.data.msg);
                 }
-            }
+            }, //fin
 
-        }
+            loadInfoDetallada: async (uid) => {
+                try {
+                    let response = await axios.get(
+                        `${process.env.BACKEND_URL}/api/user_info/${uid}`
+                    );
+                    setStore({
+                        infoDetallada: response.data.results,
+                    });
+
+
+                } catch (error) {
+                    console.log(error);
+                    //   alert(error.response.data.msg);
+                }
+            },
+        },
     };
 };
-
 export default getState;

@@ -147,13 +147,13 @@ class User_info(db.Model):
             "plus_tarifa": self.plus_tarifa,
             "puntuacion_global": self.puntuacion_global,
             "cantidad_votos": self.cantidad_votos,
-            "numero_telefono": self.numero_telefono,
+            "telefono": self.numero_telefono,
             "fecha_nacimiento": self.fecha_nacimiento,
             "genero": self.genero,
             "educacion": self.educacion,
             "experiencia": self.experiencia,
-            "tipo_servicios": self.tipo_servicios,
-            "redes_sociales": self.redes_sociales,
+            "servicios": self.tipo_servicios,
+            "redes": self.redes_sociales,
             "foto": result_foto,
             "direccion": result_direccion,
             "idiomas":self.idiomas,
@@ -238,6 +238,25 @@ class Categorias(db.Model):
 
         return result
 
+    def serialize2(self):
+        result = {}
+        if self.peques_id != None:
+            peque = Peques.query.filter_by(id=self.peques_id).first()
+            result = peque.serialize()
+            
+
+        if self.mayores_id != None:
+            mayores = Mayores.query.filter_by(id=self.mayores_id).first()
+            result =  mayores.serialize()
+            
+
+        if self.mascota_id != None:
+            mascota = Mascota.query.filter_by(id=self.mascota_id).first()
+            result = mascota.serialize()
+            
+
+        return result
+
 
 class Peques(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -251,7 +270,6 @@ class Peques(db.Model):
 
     def serialize(self):
         return {
-            "id": self.id,
             "servicios": self.servicios,
             "edades": self.edades,
             "formacion": self.formacion,
@@ -286,7 +304,6 @@ class Mascota(db.Model):
 
     def serialize(self):
         return {
-            "id": self.id,
             "tipo_animal": self.tipo_animal,
             "servicios": self.servicios,
             "formacion": self.formacion,

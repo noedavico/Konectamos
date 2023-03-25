@@ -6,25 +6,27 @@ import { Todoslosperfiles } from "../component/todoslosperfiles.jsx";
 
 export const Perfiles = () => {
   const { store, actions } = useContext(Context);
-  console.log(store.allusers);
+  const params = useParams();
+ 
+  const generadorDePerfil = (item) => (
+    <Todoslosperfiles
+      key={item.id}
+      id={item.id}
+      nombre={item.nombre_completo}
+      ciudad={item.ciudad}
+      descripcion={item.descripcion}
+      foto={item.foto?.foto_imagen}
+      foto_alt={item.foto?.nombre}
+      categoria={item.categoria}
+    />
+  );
   return (
-    <div className="container">
-      <div className="  border text-center border m-4">
-        {store.allusers.length > 0
-          ? store.allusers.map((item, index) => (
-              <Todoslosperfiles
-                key={item.id}
-                id={item.id}
-                nombre={item.nombre_completo}
-                ciudad={item.ciudad}
-                descripcion={item.descripcion}
-				foto={item.foto?.foto_imagen}
-				foto_alt={item.foto?.nombre}
-
-              />
-            ))
-          : null}
-      </div>
+    <div className="container border rounder shadow">
+      {params.perfil === "peques"
+        ? store.cuidadoresPeques.map(generadorDePerfil)
+        : params.perfil === "mascota"
+        ? store.cuidadoresMascotas.map(generadorDePerfil)
+        : store.cuidadoresMayores.map(generadorDePerfil)}
     </div>
   );
 };
