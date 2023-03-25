@@ -35,8 +35,12 @@ def login():
 # si no existe devuelvo msg
     if user is None:
         return jsonify({"msg": "User dosn't exist"}), 404
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
+
+    if user.check_password(password):
+        access_token = create_access_token(identity=email)
+        return jsonify(access_token=access_token), 200
+
+    return jsonify({"msg": "El usuario o la contraseña no coinciden"}), 404
 
 
 # endpoint profile
@@ -76,15 +80,21 @@ def create_user():
     user_query = Users.query.filter_by(email=req_body["email"]).first()
 
     if user_query is None:
-        user = User(email=req_body["email"],
-                    password=req_body["password"],
-                    nombre=req_body["nombre"],
-                    apellido=req_body["apellido"],)
+        if (req_body.get("password") != None and
+                len(req_body.get("password")) >= 8 and
+                1 == 1):
+            user = Users(
+                email=req_body.get("email"),
+                nombre=req_body.get("nombre"),
+                apellido=req_body.get("apellido")
+            )
 
-        db.session.add(user)
-        db.session.commit()
-        message = "el usuario se a creado con exito"
-        status = 200
+            user.set_password(req_body.get("password"))
+
+            db.session.add(user)
+            db.session.commit()
+            message = "el usuario se a creado con exito"
+            status = 200
 
     response_body = {
         "msg": message
@@ -283,8 +293,6 @@ def set_es_cuidador():
     return jsonify({"msg": "Se ha actualizado el tipo de usuario"}), 200
 
 
-
-
 @api.route('/user_info/<int:user_id>', methods=['GET'])
 def get_info_user(user_id):
     user_query = Users.query.filter_by(id=user_id).first()
@@ -297,7 +305,7 @@ def get_info_user(user_id):
             "msg": "ok",
             "results": {"info": info.serialize(),
                         "datos": user_query.serialize(),
-                        "categoria":categoria_query.serialize2()
+                        "categoria": categoria_query.serialize2()
                         }
         }
         return jsonify(response_body), 200
@@ -327,11 +335,15 @@ def loosepassword():
 
     if not recover_email:
         return jsonify({"msg": "ingresar el correo"}), 401
+
     users = Users.query.filter_by(email=recover_email).first()
+
     if recover_email != users.email:
         return jsonify({"msg": "El correo no existe "}), 400
+
     # se guarda nueva contraseña aleatoria
-    users.password = recover_password
+    users.set_password(recover_password)
+
     db.session.commit()
     # Se envia contraseña al correo
     msg = Message("Hi", recipients=[recover_email])
@@ -340,19 +352,22 @@ def loosepassword():
     return jsonify({"msg": "Nueva clave enviada al correo electrónico "}), 200
 
 # obtiene los datos de todos los cuidadores
+
+
 @api.route('/all_users', methods=['GET'])
 def handle_all_user():
-    #querys o consultas
+    # querys o consultas
     users_query = Users.query.all()
     result = list(map(lambda item: filtra_users(item), users_query))
-    result = list(filter(None,result))
-    
+    result = list(filter(None, result))
+
     response_body = {
         "msg": "ok",
         "results": result
     }
 
     return jsonify(response_body), 200
+
 
 def filtra_users(user):
     info_query = User_info.query.filter_by(user_id=user.id).first()
@@ -365,32 +380,32 @@ def filtra_users(user):
             foto_user_info=info_query.id).first()
         categoria_query = Categorias.query.filter_by(
             categorias_user=user.id).first()
-        categoria=None
-        foto=None
-        ciudad=None
-        
+        categoria = None
+        foto = None
+        ciudad = None
+
         if foto_query != None:
             foto = foto_query.serialize()
 
-        if direccion_query  != None:
+        if direccion_query != None:
             result_direccion = direccion_query.serialize()
 
-            if result_direccion["ciudad"]==None:
-                return 
-            ciudad=result_direccion["ciudad"]
-            
-        if categoria_query  != None:
+            if result_direccion["ciudad"] == None:
+                return
+            ciudad = result_direccion["ciudad"]
+
+        if categoria_query != None:
             result_categoria = categoria_query.serialize()
-            if result_categoria["cat"]==None:
-                return 
-            categoria=result_categoria["cat"]    
-            
+            if result_categoria["cat"] == None:
+                return
+            categoria = result_categoria["cat"]
+
         return {
             "nombre_completo": user.nombre + " " + user.apellido,
-            "id":user.id,
+            "id": user.id,
             "descripcion": info_query.descripcion,
-            "foto":foto,
-            "ciudad":ciudad,
-            "categoria":categoria
+            "foto": foto,
+            "ciudad": ciudad,
+            "categoria": categoria
         }
-    return 
+    return
