@@ -144,6 +144,7 @@ def create_user_info():
 
         response_body = {
             "msg": "ok",
+            "result": "Datos añadidos al usuario"
         }
 
         return jsonify(response_body), 200
@@ -281,6 +282,7 @@ def set_es_cuidador():
     user = Users.query.filter_by(email=current_user).first()
     if not user:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
     if req_body['categoria'] == "familia":
         user.es_cuidador = False
     elif req_body['categoria'] == "cuidador":
@@ -300,11 +302,12 @@ def get_info_user(user_id):
         info = user_query.user_info[-1]
         categoria_query = Categorias.query.filter_by(
             categorias_user=user_query.id).first()
+
         response = {}
         if info == None or categoria_query == None:
 
             if categoria_query != None:
-                response_body = {
+                response = {
                     "msg": "ok",
                     "results": {
                         "datos": user_query.serialize(),
@@ -312,7 +315,7 @@ def get_info_user(user_id):
                     }
                 }
             elif info != None:
-                response_body = {
+                response = {
                     "msg": "ok",
                     "results": {
                         "datos": user_query.serialize(),
@@ -320,23 +323,23 @@ def get_info_user(user_id):
                     }
                 }
             else:
-                response_body = {
+                response = {
                     "msg": "ok",
                     "results": {
                         "datos": user_query.serialize()
                     }
                 }
         else:
-            response_body = {
+            response = {
                 "msg": "ok",
                 "results": {"info": info.serialize(),
                             "datos": user_query.serialize(),
                             "categoria": categoria_query.serialize2()
                             }
             }
-        return jsonify(response_body), 200
+        return jsonify(response), 200
     else:
-        return jsonify({"msg": "No se ha encontrado"}), 400
+        return jsonify({"msg": "No se ha encontrado ningun usuario"}), 400
 
 
 # obtiene los datos personales de un usuario
@@ -359,7 +362,8 @@ def loosepassword():
     recover_password = ''.join(random.choice(
         string.ascii_uppercase +
         string.digits +
-        string.ascii_lowercase+"!@#$*%&^") for x in range(8, 16))
+        string.ascii_lowercase +
+        "!@#$*%&^") for x in range(8, 16))
 
     if not recover_email:
         return jsonify({"msg": "ingresar el correo"}), 401
