@@ -38,11 +38,11 @@ const Layout = () => {
             <Route path="/registropag1/" element={<Registropag1 />} />
             <Route path="/registropag2/" element={<Registropag2 />} />
             <Route path="/recuperar_password/" element={<Password />} />
-            <Route element={<Perfiles />} path="/perfiles" />
+            <Route element={<Perfiles />} path="/perfiles/:perfil" />
             <Route element={<Home />} path="/" />
             <Route element={<Demo />} path="/demo" />
-            <Route element={<Single />} path="/single/:theid" />
-            <Route element={<h1>Not found!</h1>} />
+            <Route element={<Single />} path="/perfildetallado/:id" />
+            <Route element={<h1> Not found! </h1>} />
           </Routes>
           <Footer />
         </ScrollToTop>

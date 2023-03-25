@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 868ea57b996f
+Revision ID: 6552d0e9f14f
 Revises: 
-Create Date: 2023-03-24 01:28:07.722709
+Create Date: 2023-03-24 19:25:10.637277
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '868ea57b996f'
+revision = '6552d0e9f14f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -22,6 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('servicios', sa.String(length=255), nullable=True),
     sa.Column('tipo_animal', sa.String(length=120), nullable=True),
+    sa.Column('formacion', sa.String(length=120), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('mayores',
@@ -34,7 +35,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('servicios', sa.String(length=255), nullable=True),
     sa.Column('edades', sa.String(length=120), nullable=True),
-    sa.Column('cualificacion', sa.String(length=255), nullable=True),
+    sa.Column('formacion', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('user',
@@ -83,7 +84,9 @@ def upgrade():
     sa.Column('genero', sa.String(length=10), nullable=True),
     sa.Column('educacion', sa.String(length=255), nullable=True),
     sa.Column('tipo_servicios', sa.String(length=255), nullable=True),
-    sa.Column('redes_sociales', sa.String(length=120), nullable=True),
+    sa.Column('idiomas', sa.String(length=255), nullable=True),
+    sa.Column('redes_sociales', sa.Text(), nullable=True),
+    sa.Column('aptitudes', sa.String(length=120), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
