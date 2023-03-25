@@ -29,24 +29,24 @@ const Layout = () => {
         <ScrollToTop>
           <Navbar />
           <Routes>
-            <Route path="/login/" element={<Login />} />{" "}
-            <Route path="/registro/" element={<Registro />} />{" "}
+            <Route path="/login/" element={<Login />} />
+            <Route path="/registro/" element={<Registro />} />
             <Route
               path="/registrobienvenidos/"
               element={<RegistroBienvenidos />}
-            />{" "}
-            <Route path="/registropag1/" element={<Registropag1 />} />{" "}
-            <Route path="/registropag2/" element={<Registropag2 />} />{" "}
-            <Route path="/recuperar_password/" element={<Password />} />{" "}
+            />
+            <Route path="/registropag1/" element={<Registropag1 />} />
+            <Route path="/registropag2/" element={<Registropag2 />} />
+            <Route path="/recuperar_password/" element={<Password />} />
             <Route element={<Perfiles />} path="/perfiles/:perfil" />
             <Route element={<Home />} path="/" />
             <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/perfildetallado/:id" />
             <Route element={<h1> Not found! </h1>} />
-          </Routes>{" "}
+          </Routes>
           <Footer />
-        </ScrollToTop>{" "}
-      </BrowserRouter>{" "}
+        </ScrollToTop>
+      </BrowserRouter>
     </div>
   );
 };
