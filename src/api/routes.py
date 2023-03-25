@@ -300,14 +300,40 @@ def get_info_user(user_id):
         info = user_query.user_info[-1]
         categoria_query = Categorias.query.filter_by(
             categorias_user=user_query.id).first()
-        print(categoria_query.serialize2())
-        response_body = {
-            "msg": "ok",
-            "results": {"info": info.serialize(),
+        response = {}
+        if info == None or categoria_query == None:
+
+            if categoria_query != None:
+                response_body = {
+                    "msg": "ok",
+                    "results": {
                         "datos": user_query.serialize(),
                         "categoria": categoria_query.serialize2()
-                        }
-        }
+                    }
+                }
+            elif info != None:
+                response_body = {
+                    "msg": "ok",
+                    "results": {
+                        "datos": user_query.serialize(),
+                        "info": info.serialize()
+                    }
+                }
+            else:
+                response_body = {
+                    "msg": "ok",
+                    "results": {
+                        "datos": user_query.serialize()
+                    }
+                }
+        else:
+            response_body = {
+                "msg": "ok",
+                "results": {"info": info.serialize(),
+                            "datos": user_query.serialize(),
+                            "categoria": categoria_query.serialize2()
+                            }
+            }
         return jsonify(response_body), 200
     else:
         return jsonify({"msg": "No se ha encontrado"}), 400
@@ -317,8 +343,8 @@ def get_info_user(user_id):
 @api.route('/user/<int:user_id>', methods=['GET'])
 def get_user(user_id):
     user_query = Users.query.filter_by(id=user_id).first()
-    print(user_query)
-# querys o consultas
+
+    # querys o consultas
     response_body = {
         "msg": "ok",
         "result": user_query.serialize()
@@ -331,7 +357,9 @@ def loosepassword():
     recover_email = request.json['email']
     # se genera nueva contraseña aleatoria
     recover_password = ''.join(random.choice(
-        string.ascii_uppercase + string.digits) for x in range(8))
+        string.ascii_uppercase +
+        string.digits +
+        string.ascii_lowercase+"!@#$*%&^") for x in range(8, 16))
 
     if not recover_email:
         return jsonify({"msg": "ingresar el correo"}), 401
@@ -346,8 +374,14 @@ def loosepassword():
 
     db.session.commit()
     # Se envia contraseña al correo
-    msg = Message("Hi", recipients=[recover_email])
-    msg.html = f"""<h1>Nueva contraseña: {recover_password}</h1>"""
+    msg = Message("Recuperación de contaseña", recipients=[recover_email])
+    msg.html = f"""<div style='display: flex; flex-flow: wrap column'>
+    <img src='https://github.com/noedavico/proyecto-final/blob/develop/src/front/img/Log.png?raw=true'
+    alt='Logo Konectamos' style='width: 30vmin;' />
+    <h1>Konectamos</h1>
+    </div>
+    <p>Tu nueva contraseña es: <h2>{recover_password}</h2></p>"""
+
     current_app.mail.send(msg)
     return jsonify({"msg": "Nueva clave enviada al correo electrónico "}), 200
 
