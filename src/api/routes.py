@@ -34,7 +34,7 @@ def login():
     user = Users.query.filter_by(email=email).first()
 # si no existe devuelvo msg
     if user is None:
-        return jsonify({"msg": "User dosn´t exist"}), 404
+        return jsonify({"msg": "User dosn't exist"}), 404
 
     if user.check_password(password):
         access_token = create_access_token(identity=email)

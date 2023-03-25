@@ -13,16 +13,18 @@ const getState = ({
             cuidadoresMayores: [],
             infoDetallada: [],
             message: null,
+            categorias: [{ tipo: "Mayores", nombre: "Cuidado de Mayores" }, { tipo: "Niños", nombre: "Cuidado de Niños" }, { tipo: "Mascotas", nombre: "Cuidado de Mascotas" }],
+            ciudades: [{ nombre: "Barcelona" }, { nombre: "Madrid" }, { nombre: "Valencia" }],
             demo: [{
-                    title: "FIRST",
-                    background: "white",
-                    initial: "white",
-                },
-                {
-                    title: "SECOND",
-                    background: "white",
-                    initial: "white",
-                },
+                title: "FIRST",
+                background: "white",
+                initial: "white",
+            },
+            {
+                title: "SECOND",
+                background: "white",
+                initial: "white",
+            },
             ],
         },
         actions: {
@@ -67,9 +69,9 @@ const getState = ({
                 try {
                     let response = await axios.post(
                         process.env.BACKEND_URL + "/api/login", {
-                            email: email,
-                            password: password,
-                        }
+                        email: email,
+                        password: password,
+                    }
                     );
                     //La API valida que nombre de usuario y contraseña sean correctos y regresa un objeto token
 
@@ -104,10 +106,10 @@ const getState = ({
                 try {
                     let response = await axios.get(
                         process.env.BACKEND_URL + "/api/validtoken", {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                     );
 
                     if (response.status === 200) {
@@ -127,13 +129,13 @@ const getState = ({
                 try {
                     let response = await axios.put(
                         process.env.BACKEND_URL + "/api/tipoUsuario", {
-                            categoria: categoria,
-                        }, {
-                            headers: {
-                                withCredentials: true,
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
+                        categoria: categoria,
+                    }, {
+                        headers: {
+                            withCredentials: true,
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                     );
                 } catch (error) {
                     if (error.response.status >= 400) alert(error);
@@ -144,8 +146,8 @@ const getState = ({
                 try {
                     let response = await axios.post(
                         process.env.BACKEND_URL + "/api/loosepassword", {
-                            email: email,
-                        }
+                        email: email,
+                    }
                     );
                     console.log(response);
 
