@@ -111,7 +111,7 @@ const handleDelete = (borrarTarea) => {
                         <small> Emergencia, fines de semana.</small>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
+                        <input class="form-check-input" type="checkbox" value="Envetual" role="switch"/>
                       </div>
                     </li>
                     <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
@@ -120,7 +120,7 @@ const handleDelete = (borrarTarea) => {
                         <small>De 4 a 20 hs semanales.</small>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" />
+                        <input class="form-check-input" type="checkbox" value="Jornada parcial" role="switch" />
                       </div>
                     </li>
                     <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
@@ -129,7 +129,7 @@ const handleDelete = (borrarTarea) => {
                         <small>De 20 a 40 hs semanales</small>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
+                        <input class="form-check-input" type="checkbox" value="Jornada completa" role="switch"/>
                       </div>
                     </li>
                     <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
@@ -138,7 +138,7 @@ const handleDelete = (borrarTarea) => {
                         <small>De lunes a viernes 24 hs.</small>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
+                        <input class="form-check-input" type="checkbox" value="Interna semanal" role="switch"/>
                       </div>
                     </li>
                     <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
@@ -147,7 +147,7 @@ const handleDelete = (borrarTarea) => {
                         <small>Sabado y domingo 24 hs</small>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
+                        <input class="form-check-input" type="checkbox" value="Interna fines de semana" role="switch"/>
                       </div>
                     </li>
                     <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
@@ -156,7 +156,7 @@ const handleDelete = (borrarTarea) => {
                         <small>Solo noches</small>
                       </div>
                       <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
+                        <input class="form-check-input" type="checkbox" value="Noches" role="switch"/>
                       </div>
                     </li>
                   </ul>
