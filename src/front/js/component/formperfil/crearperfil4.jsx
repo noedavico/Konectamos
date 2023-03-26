@@ -200,40 +200,7 @@ export const Crearperfil4  = () => {
                 </div>
               </div>
               
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h3 class="h6">Notification Settings</h3>
-                  <ul class="list-group list-group-flush mx-n2">
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">News and updates</h6>
-                        <small>News about product and feature updates.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Tips and tutorials</h6>
-                        <small>Tips on getting more out of the platform.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" checked=""/>
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">User Research</h6>
-                        <small>Get involved in our beta testing program.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+             
             </div>
           </div>
         </div>

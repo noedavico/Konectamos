@@ -19,10 +19,10 @@ import { Password } from "./pages/password";
 import { Crearperfil1 } from "./component/formperfil/crearpefil1.jsx";
 import { Crearperfil2 } from "./component/formperfil/crearperfil2.jsx";
 import { Crearperfil3 } from "./component/formperfil/crearperfil3.jsx";
-// import { Crearperfil4 } from "./component/formperfil/crearperfil4.jsx";
+import { Crearperfil4 } from "./component/formperfil/crearperfil4.jsx";
 // import { Crearperfil5 } from "./component/formperfil/crearperfil5.jsx";
 // import { Crearperfil6 } from "./component/formperfil/crearperfil6.jsx";
-// import { Crearperfil7 } from "./component/formperfil/crearperfil7.jsx";
+import { Crearperfil7 } from "./component/formperfil/crearperfil7.jsx";
 
 
 
@@ -50,10 +50,10 @@ const Layout = () => {
             <Route path="/crearperfil1/" element={<Crearperfil1 />} />
             <Route path="/crearperfil2/" element={<Crearperfil2 />} />
             <Route path="/crearperfil3/" element={<Crearperfil3 />} />
-           {/* <Route path="/crearperfil4/" element={<Crearperfil4 />} />
-            <Route path="/crearperfil5/" element={<Crearperfil5 />} />
-            <Route path="/crearperfil6/" element={<Crearperfil6 />} />
-            <Route path="/crearperfil7/" element={<Crearperfil7 />} /> */}
+            <Route path="/crearperfil4/" element={<Crearperfil4 />} />
+            {/* <Route path="/crearperfil5/" element={<Crearperfil5 />} />
+            <Route path="/crearperfil6/" element={<Crearperfil6 />} /> */}
+            <Route path="/crearperfil7/" element={<Crearperfil7 />} />
             <Route element={<Perfiles />} path="/perfiles/:perfil" />
             <Route element={<Home />} path="/" />
             <Route element={<Demo />} path="/demo" />
