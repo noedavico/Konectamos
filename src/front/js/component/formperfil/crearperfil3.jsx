@@ -68,108 +68,120 @@ export const CrearPerfil3 = () => {
 
   return (
     <div className="container-fluid ">
+
       <form onSubmit={handlePerfil}>
-        <div className="row">
-          <div className="card col-8 mt-3 m-auto">
-            <div className="card-body">
-              <h3 className="h6 mb-4">¿Cómo te describirías en 6 palabras?</h3>
 
-              <section className="row">
+        <div className="container col-10 m-auto ">
+          <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+            <h2 className="h5 mb-3 mb-lg-0">
+              <Link to="#" className="text-muted">
+                <i className="bi bi-arrow-left-square me-2"></i>
+              </Link>
+              <span>Crea tu perfil</span>
+            </h2>
+          </div>
+          <div className="row">
+            <div className="card col-8 mt-3 m-auto">
+              <div className="card-body">
+                <h3 className="h6 mb-4">¿Cómo te describirías en 6 palabras?</h3>
 
-                <div className="col-md-4">
-                  <div className="form-group">
-                    {seleccionados.slice(0, 6).map((opcion) => (
-                      <div key={opcion.nombre} className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id={opcion.nombre}
-                          value={opcion.nombre}
-                          checked={opcion.seleccionado}
-                          onChange={handleCheckboxChange}
-                        />
-                        <label htmlFor={opcion.nombre} className="form-check-label">
-                          {opcion.nombre}
-                        </label>
-                      </div>
-                    ))}
+                <section className="row">
+
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      {seleccionados.slice(0, 6).map((opcion) => (
+                        <div key={opcion.nombre} className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id={opcion.nombre}
+                            value={opcion.nombre}
+                            checked={opcion.seleccionado}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label htmlFor={opcion.nombre} className="form-check-label">
+                            {opcion.nombre}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    {seleccionados.slice(6, 12).map((opcion) => (
-                      <div key={opcion.nombre} className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id={opcion.nombre}
-                          value={opcion.nombre}
-                          checked={opcion.seleccionado}
-                          onChange={handleCheckboxChange}
-                        />
-                        <label htmlFor={opcion.nombre} className="form-check-label">
-                          {opcion.nombre}
-                        </label>
-                      </div>
-                    ))}
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      {seleccionados.slice(6, 12).map((opcion) => (
+                        <div key={opcion.nombre} className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id={opcion.nombre}
+                            value={opcion.nombre}
+                            checked={opcion.seleccionado}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label htmlFor={opcion.nombre} className="form-check-label">
+                            {opcion.nombre}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    {seleccionados.slice(12).map((opcion) => (
-                      <div key={opcion.nombre} className="form-check">
-                        <input
-                          type="checkbox"
-                          className="form-check-input"
-                          id={opcion.nombre}
-                          value={opcion.nombre}
-                          checked={opcion.seleccionado}
-                          onChange={handleCheckboxChange}
-                        />
-                        <label htmlFor={opcion.nombre} className="form-check-label">
-                          {opcion.nombre}
-                        </label>
-                      </div>
-                    ))}
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      {seleccionados.slice(12).map((opcion) => (
+                        <div key={opcion.nombre} className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id={opcion.nombre}
+                            value={opcion.nombre}
+                            checked={opcion.seleccionado}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label htmlFor={opcion.nombre} className="form-check-label">
+                            {opcion.nombre}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </section>
-              <section className="row mt-3">
-                <div className="col-12">
-                  <div className="mb-3">
-                    <h3 className="h6 mb-3">Presentacion detallada </h3>
-                    <textarea className="w-100 form-control" name="presentacion" id="presentacion" rows="3"
-                      placeholder="Esta es la parte más importante, las familias prestan mucha atención.
+                </section>
+                <section className="row mt-3">
+                  <div className="col-12">
+                    <div className="mb-3">
+                      <h3 className="h6 mb-3">Presentacion detallada </h3>
+                      <textarea className="w-100 form-control" name="presentacion" id="presentacion" rows="3"
+                        placeholder="Esta es la parte más importante, las familias prestan mucha atención.
 Preséntate de la manera más detallada posible."
-                      value={presentacion} onChange={e => setPresentacion(e.target.value)}>
+                        value={presentacion} onChange={e => setPresentacion(e.target.value)}>
 
-                    </textarea>
+                      </textarea>
+                    </div>
                   </div>
-                </div>
-              </section>
-              <section className="row">
-                <div className="col-md-6">
-                  <div className="mb-3">
-                    <h3 className="h6 mb-3">¿Cual es tu tarifa por hora?</h3>
-                    <input type="text" className="form-control" name="tarifa" id="tarifa" placeholder="Importe en euros" />
+                </section>
+                <section className="row">
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <h3 className="h6 mb-3">¿Cual es tu tarifa por hora?</h3>
+                      <input type="text" className="form-control" name="tarifa" id="tarifa" placeholder="Importe en euros" />
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="mb-3">
-                    <h3 className="h6 mb-3">¿Plus noche o fin de semana?</h3>
-                    <input type="text" className="form-control" name="plus" id="plus" placeholder="Importe en euros" />
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <h3 className="h6 mb-3">¿Plus noche o fin de semana?</h3>
+                      <input type="text" className="form-control" name="plus" id="plus" placeholder="Importe en euros" />
+                    </div>
                   </div>
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
           </div>
+          <button type="submit" className="btn btn-primary btn-sm btn-icon-text">
+            <i className=""></i>
+            <span className="text">Siguiente</span>
+          </button>
         </div>
-        <button type="submit" className="btn btn-primary btn-sm btn-icon-text">
-          <i className=""></i>
-          <span className="text">Siguiente</span>
-        </button>
       </form>
       <div className="container  m-auto gap-3"></div>
-    </div>
+    </div >
   )
 }  
