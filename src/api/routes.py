@@ -9,8 +9,10 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_mail import Message
+from ..app import photos
 import random
 import string
+import secrets
 
 
 api = Blueprint('api', __name__)
@@ -151,10 +153,13 @@ def create_user_info():
 
 
 @api.route('/foto', methods=['POST'])
-@jwt_required()
-def add_foto():
-    req_body = request.json
+@jwt_required
+def upload():
+
     current_user = get_jwt_identity()
+
+    if 'photo' not in request.files:
+        return jsonify({'error': 'No se encontró ningún archivo'}), 400
 
     user_query = Users.query.filter_by(email=current_user).first()
     if not user_query:
@@ -164,14 +169,29 @@ def add_foto():
     if user_info_query == None:
         return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
 
+    file = request.files['foto']
+    filename = photos.save(file)
+    public_url = photos.url(filename)
+
+    # cargar la imagen
+    filename = photos.save(request.files['photo'])
+
+    # generar la ruta pública
+    url = f'http://localhost:5000/uploads/{filename}'
+
+    # actualizar la columna de la base de datos con la nueva ruta
+
     foto = Foto(
-        nombre=req_body.get("foto_nombre"),
-        foto_imagen=req_body.get("foto_imagen"),
+        nombre=user.id,
+        foto_imagen=url,
         foto_user_info=user_info_query.id
     )
+
+    user.profile_picture = url
     db.session.add(foto)
     db.session.commit()
-    return jsonify({"msg": "Se ha actualizado la foto de usuario"}), 200
+
+    return jsonify({'message': 'Imagen cargada correctamente'})
 
 
 @api.route('/direccion', methods=['POST'])
@@ -212,6 +232,11 @@ def add_subcategoria():
     if not user_query:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
+    user_cat = Categorias.query.filter_by(categorias_user=user_query.id)
+    if user_cat:
+        return jsonify({"msg": "El usuario tiene una categoria"}), 401
+
+    print(req_body)
     if user_query.es_cuidador == True and user_query.is_active == True:
         if (req_body['subCategoria'] == "mayores"):
             mayores = Mayores(
@@ -281,9 +306,9 @@ def set_es_cuidador():
     user = Users.query.filter_by(email=current_user).first()
     if not user:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
-    if req_body['categoria'] == "familia":
+    if req_body['tipo'] == "familia":
         user.es_cuidador = False
-    elif req_body['categoria'] == "cuidador":
+    elif req_body['tipo'] == "cuidador":
         user.es_cuidador = True
     else:
         return jsonify({"msg": "Los datos no coinciden"}), 400

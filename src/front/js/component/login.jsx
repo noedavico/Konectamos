@@ -12,12 +12,16 @@ export const Login = () => {
 
   async function login(e) {
     e.preventDefault();
-    let isLogged = await actions.login(email, password);
-    if (isLogged) {
-      //true
-      setEmail("");
-      setPassword("");
-      navigate("/registrobienvenidos");
+    if (email && password) {
+      let isLogged = await actions.login(email, password);
+      if (isLogged) {
+        //true
+        setEmail("");
+        setPassword("");
+        navigate("/registrobienvenidos");
+      }
+
+      setPassword("")
     }
   }
   return (
@@ -75,12 +79,7 @@ export const Login = () => {
                       </Link>
                     </div>
                   </div>
-                  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
-    <label class="form-check-label" for="exampleCheck1">Al registrarte, estás de acuerdo con las condiciones de
-                      uso.</label>
-  </div>
-                  
+
                 </div>
               </form>
             </div>

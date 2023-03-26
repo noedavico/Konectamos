@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a96c9760a7ffae795cf2fd63432bdefe06fa8150968cde7db69d9467ddfc4522"
+            "sha256": "20067c309bd8d08a1943d93b416b72076d178cb97700a8cfabb95f250e24addf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -221,6 +221,13 @@
             ],
             "index": "pypi",
             "version": "==0.2.14"
+        },
+        "flask-uploads": {
+            "hashes": [
+                "sha256:53ecbd6033667d50ae02b63adebbaa33c7fc56c09e5293025810cf9d841ecb02"
+            ],
+            "index": "pypi",
+            "version": "==0.2.1"
         },
         "greenlet": {
             "hashes": [
