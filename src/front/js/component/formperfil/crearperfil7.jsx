@@ -1,162 +1,249 @@
+
 import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext.js";
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom";
 
+export const Crearperfil7 = () => {
+  const [numTelefono, setNumTelefono] = useState("");
+  const [fechaNacimiento, setfechaNacimiento] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { actions } = useContext(Context);
+  const navigate = useNavigate();
 
+  async function handleperfi(e) {
+    e.preventDefault();
+    let isLogged = await actions.perfilmascotas(email, password, nombre, apellido);
+    if (isLogged) {
+      //true
 
-export const Crearperfil7  = () => {
-    const [numTelefono, setNumTelefono] = useState("");
-	const [fechaNacimiento, setfechaNacimiento] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const {actions}=useContext(Context)
-    const navigate = useNavigate();
-    
-    async function handleperfi(e) {
-      e.preventDefault()
-      let isLogged = await actions.singup(email,password,nombre,apellido);
-      if(isLogged){//true
-
-        navigate("/login")
-      }
+      navigate("/login");
     }
-   
-	 return (<div class="container-fluid">
+  }
 
-   <div class="container">
-     <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
-       <h2 class="h5 mb-3 mb-lg-0"><a href="../../pages/admin/customers.html" class="text-muted"><i class="bi bi-arrow-left-square me-2"></i></a> Create new customer</h2>
-       <div class="hstack gap-3">
-         <button class="btn btn-light btn-sm btn-icon-text"><i class="bi bi-x"></i> <span class="text">Cancel</span></button>
-         <button class="btn btn-primary btn-sm btn-icon-text"><i class="bi bi-save"></i> <span class="text">Save</span></button>
-       </div>
-     </div>
-   
-     <div class="row">
-      
-       <div class="col-lg-8">
-        
-         <div class="card mb-4">
-           <div class="card-body">
-             <h3 class="h6 mb-4">Basic information</h3>
-             <div class="row">
-             <div className="col-lg-6">
-                    <div class="input-group mb-3">
-                        <label className="form-label">Idiomas </label> <span className="container " > {arrayIdiomas.length > 0 ?  arrayIdiomas.map((item, index) => 
-          <span className="badge bg-secondary text-dark m-2 " key={index}> <span style={{width:"95%"}}>{item.label} </span>
-            <button className="btn btn-secondary btn-sm " type="button"  onClick={ () => handleDelete(item)}>X</button>
-           </span>
-           ) : null } 
-             </span>
-                        <input type="text" className="form-control"  placeholder="Agrega todos los idiomas que hables" onChange={(e)=>setIdiomas(e.target.value)} value={idiomas}/><button className="btn btn-outline-secondary" 
-   type="button" 
-   id="button-addon2" 
-   onClick={agregaridiomas}>Agregar</button>
-                        </div>
-                        
-                    </div>
-               <div className="col-lg-6">
-                      <div className="mb-3">
-                        <label className="form-label">Educacion</label>
-                        <select onChange={(e)=>setEducacion(e.target.value)} value={educacion} class="form-select" aria-label="Default select example"   data-select2-id="select2-data-7-809c" tabIndex="-1" aria-hidden="true">
-                        <option selected></option>
-                          <option value="Educación Primaria.">Educación Primaria.</option>
-                          <option value="Educación Secundaria Obligatoria ESO">Educación Secundaria Obligatoria ESO </option>
-                          <option value="Bachillerato">Bachillerato</option>
-                          <option value="Formacion Profesional">Formacion Profesional</option>
-                          <option value="Formacion universitaria">Formacion universitaria</option>
-                        </select><span className="select2 select2-container select2-container--bootstrap-5" dir="ltr" data-select2-id="select2-data-8-3peu" style={{width: "391px"}}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex="0" aria-disabled="false" aria-labelledby="select2-jdfi-container" aria-controls="select2-jdfi-container"><span className="select2-selection__rendered" id="select2-jdfi-container" role="textbox" aria-readonly="true" title="Select city"></span><span className="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span className="dropdown-wrapper" aria-hidden="true"></span></span>
-                      </div>
-                    </div>
-             </div>
-             <div class="row">
-             <div className="col-lg-6 ">
-                      <div className="mb-3">
-                        <label className="form-label">Experiencia </label>
-                        <select onChange={(e)=>setExperiencia(e.target.value)} value={experiencia} class="form-select" aria-label="Default select example"  data-select2-id="select2-data-4-680y" tabIndex="-1" aria-hidden="true">
-                        <option selected></option>
-                          <option value="Sin experiencia, ¡pero estoy dispuesto a aprender!"> Sin experiencia, ¡pero estoy dispuesto a aprender!</option>
-                          <option value="Experiencia familiar">Experiencia familiar</option>
-                          <option value="Experiencia profesional, 1 a 2 años"> Experiencia profesional, 1 a 2 años.</option>
-                          <option value="Experiencia profesional, 2 a 5 años."> Experiencia profesional, 2 a 5 años.</option>
-                          <option value="Experiencia profesional, mas de 5 años."> Experiencia profesional, mas de 5 años.</option>
-                          <option value="Experiencia profesional, mas de 10 años."> Experiencia profesional, mas de 10 años.</option>
-                        </select><span className="select2 select2-container select2-container--bootstrap-5" dir="ltr" data-select2-id="select2-data-5-np4c" style={{width: "391px"}}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex="0" aria-disabled="false" aria-labelledby="select2-2fn7-container" aria-controls="select2-2fn7-container"> <span className="select2-selection__rendered" id="select2-2fn7-container" role="textbox" aria-readonly="true" title="Select state"></span><span className="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span className="dropdown-wrapper" aria-hidden="true"></span></span>
-                      </div>
-                    </div>
-               
-             </div>
-           </div>
-         </div>
-     
-       </div>
-       <div class="col-lg-4">
-         <div class="card mb-4">
-           <div class="card-body">
-           <h3 class="h6">Disponibilidad horaria</h3>
-                  <ul class="list-group list-group-flush mx-n2">
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Envetual</h6>
-                        <small> Emergencia, fines de semana, noches</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Jornada parcial, </h6>
-                        <small>De 4 a 20 hs semanales.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" />
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Jornada completa</h6>
-                        <small>De 20 a 40 hs semanales</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Interna semanal</h6>
-                        <small>De lunes a viernes 24 hs.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Interna fines de semana</h6>
-                        <small>Sabado y domingo 24 hs</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Noches</h6>
-                        <small>Solo noches</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch"/>
-                      </div>
-                    </li>
-                  </ul>
-           </div>
-         </div>
-       </div>
-     </div>
-   </div>
-   
-     </div>
+  return (
+    <div class="container-fluid">
+      <form onSubmit={handleperfi}></form>
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+          <h2 class="h5 mb-3 mb-lg-0">
+            <Link to="/crearperfil4" class="text-muted">
+              <i class="bi bi-arrow-left-square me-2"></i>
+            </Link>{" "}
+            Crea tu perfil{" "}
+          </h2>
+        </div>
 
-)      
-}  
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+              <div class="row my-2">
+                  <div class="card-header">
+                    <h6 class="h6 mb-4">
+                      Selecciona animales que cuidarias
+                    </h6>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check  ">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Gato"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                       Gato{" "}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Perro"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Perro{" "}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Peces"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Peces{" "}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Aves"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Aves{" "}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check  ">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Cerdito"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                       Cerdito{" "}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Reptiles"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Reptiles{" "}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Conejos"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Conejos{" "}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        value="Roedores"
+                        id="flexCheckDefault"
+                      />
+                      <label class="form-check-label" for="flexCheckDefault">
+                        Roedores{" "}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row my-2">
+                  <div class="card-header">
+                    <p class="h6 mb-4">
+                      Selecciona los servicios que ofreces 
+                    </p>
+                  </div>
+                  <div class="col-lg-7">
+                    <div class="mb-3">
+                    
+                  
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="inlineCheckbox1"
+                          value="Atención a tiempo completo en casa de la mascota vacaciones y otros"
+                        />
+                        <label class="form-check-label" for="inlineCheckbox1">
+                        Atención a tiempo completo en casa de la mascota, vacaciones y otros.
+                        </label>
+                      </div>
+                      
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="inlineCheckbox1"
+                          value="Atención a tiempo completo en mi domicilio"
+                        />
+                        <label class="form-check-label" for="inlineCheckbox1">
+                        Atención a tiempo completo en mi domicilio (vacaciones y otros).
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-5">
+                    <div class="mb-3">
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="inlineCheckbox1"
+                          value="Familia de acogida, alojamiento"
+                        />
+                        <label class="form-check-label" for="inlineCheckbox1">
+                        Familia de acogida, alojamiento
+
+                        </label>
+                      </div>
+                      
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="inlineCheckbox1"
+                          value="Visita a domicilio"
+                        />
+                        <label class="form-check-label" for="inlineCheckbox1">
+                        Visita a domicilio
+
+                        </label>
+                      </div>
+                      
+                      <div class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="inlineCheckbox2"
+                          value="Salidas y paseo"
+                        />
+                        <label class="form-check-label" for="inlineCheckbox2">
+                        Salidas y paseo
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                      <div class="mb-3">
+                        <h6 class="form-label"> Tienes alguna formacion a fines</h6>
+                        <input
+                          type="text"
+                          class="form-control"
+                          value=""
+                        />
+                       
+                      </div>
+                    </div>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
