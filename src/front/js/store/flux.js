@@ -280,7 +280,7 @@ const getState = ({
                 const token = localStorage.getItem("token");
                 try {
                     let response = await axios.post(
-                        process.env.BACKEND_URL + "/api/subcategoria", foto, {
+                        process.env.BACKEND_URL + "/api/subirfoto", foto, {
                         headers: {
                             withCredentials: true,
                             Authorization: `Bearer ${token}`,
@@ -291,7 +291,8 @@ const getState = ({
                     if (response.status >= 200 & response.status < 300) return true
                     return false
                 } catch (error) {
-                    if (error.response.status >= 400) alert(error.response.data.msg);
+                    console.log(error);
+                    if (error.response?.status >= 400) alert(error.response.data.msg);
                 }
             },// fin
             setCategoria: async (categoria) => {

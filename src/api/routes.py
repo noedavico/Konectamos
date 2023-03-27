@@ -9,10 +9,9 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_mail import Message
-from ..app import photos
+# from app import photos
 import random
 import string
-import secrets
 
 
 api = Blueprint('api', __name__)
@@ -152,46 +151,46 @@ def create_user_info():
     return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
 
-@api.route('/foto', methods=['POST'])
-@jwt_required
-def upload():
+# @api.route('/subirfoto', methods=['POST'])
+# @jwt_required
+# def upload():
 
-    current_user = get_jwt_identity()
+#     current_user = get_jwt_identity()
 
-    if 'photo' not in request.files:
-        return jsonify({'error': 'No se encontró ningún archivo'}), 400
+#     if 'photo' not in request.files:
+#         return jsonify({'error': 'No se encontró ningún archivo'}), 400
 
-    user_query = Users.query.filter_by(email=current_user).first()
-    if not user_query:
-        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+#     user_query = Users.query.filter_by(email=current_user).first()
+#     if not user_query:
+#         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
-    user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
-    if user_info_query == None:
-        return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
+#     user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
+#     if user_info_query == None:
+#         return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
 
-    file = request.files['foto']
-    filename = photos.save(file)
-    public_url = photos.url(filename)
+#     file = request.files['foto']
+#     filename = photos.save(file)
+#     public_url = photos.url(filename)
 
-    # cargar la imagen
-    filename = photos.save(request.files['photo'])
+#     # cargar la imagen
+#     filename = photos.save(request.files['photo'])
 
-    # generar la ruta pública
-    url = f'http://localhost:5000/uploads/{filename}'
+#     # generar la ruta pública
+#     url = f'http://localhost:5000/uploads/{filename}'
 
-    # actualizar la columna de la base de datos con la nueva ruta
+#     # actualizar la columna de la base de datos con la nueva ruta
 
-    foto = Foto(
-        nombre=user.id,
-        foto_imagen=url,
-        foto_user_info=user_info_query.id
-    )
+#     foto = Foto(
+#         nombre=user.id,
+#         foto_imagen=url,
+#         foto_user_info=user_info_query.id
+#     )
 
-    user.profile_picture = url
-    db.session.add(foto)
-    db.session.commit()
+#     user.profile_picture = url
+#     db.session.add(foto)
+#     db.session.commit()
 
-    return jsonify({'message': 'Imagen cargada correctamente'})
+#     return jsonify({'message': 'Imagen cargada correctamente'})
 
 
 @api.route('/direccion', methods=['POST'])

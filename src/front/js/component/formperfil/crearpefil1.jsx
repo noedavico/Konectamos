@@ -16,8 +16,8 @@ export const CrearPerfil1 = () => {
     e.preventDefault()
 
     const formData = new FormData();
-    formData.append('foto', selectedFile);
-
+    formData.append('foto', fotografia);
+    console.log(formData);
     let datos = await actions.creacionPerfil(numTelefono, fechaNacimiento, genero);
     if (datos && await actions.subirFoto(formData)) {//true
 
@@ -74,7 +74,7 @@ export const CrearPerfil1 = () => {
                       <div className="mb-3">
                         <h3 className="h6">Fotografia</h3>
                         <input className="form-control" type="file" id="foto"
-                          onChange={(e) => setFotografia(e.target.files[0])} value={fotografia} />
+                          onChange={(e) => setFotografia(e.target.files[0])} />
                       </div>
                     </div>
                   </section>
