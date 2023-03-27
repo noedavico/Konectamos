@@ -151,6 +151,59 @@ def create_user_info():
     return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
 
+@api.route('/user_info', methods=['PUT'])
+@jwt_required()
+def update_user_info():
+    req_body = request.json
+    current_user = get_jwt_identity()
+
+    user = Users.query.filter_by(email=current_user).first()
+    if (
+        user != None and
+        user.es_cuidador == True
+    ):
+        info_query = User_info.query.filter_by(user_id=user.id).first()
+
+        # tabla user_info
+        info_query(
+            descripcion=req_body.get("descripcion", user_info.descripcion),
+            experiencia=req_body.get("experiencia", user_info.experiencia),
+            tarifa=req_body.get("tarifa", user_info.tarifa),
+            plus_tarifa=req_body.get("plus_tarifa", user_info.plus_tarifa),
+            genero=req_body.get("genero", user_info.genero),
+            educacion=req_body.get("educacion", user_info.educacion),
+            puntuacion_global=req_body.get("puntuacion_global",
+                                           user_info.puntuacion_global),
+            cantidad_votos=req_body.get("cantidad_votos",
+                                        user_info.cantidad_votos),
+            numero_telefono=req_body.get("numero_telefono",
+                                         user_info.numero_telefono),
+            fecha_nacimiento=req_body.get("fecha_nacimiento",
+                                          user_info.fecha_nacimiento),
+            redes_sociales=req_body.get("redes_sociales",
+                                        user_info.redes_sociales),
+            tipo_servicios=req_body.get("tipo_servicios",
+                                        user_info.tipo_servicios),
+            user_id=user.id,
+            idiomas=req_body.get("idiomas", user_info.idiomas),
+            aptitudes=req_body.get("aptitudes", user_info.aptitudes)
+        )
+        db.session.add(user_info)
+        db.session.commit()
+
+        user_info_query = User_info.query.filter_by(
+            user_id=user.id).first()
+        user_info_2 = Users.query.filter_by(id=user.id).first()
+
+        response_body = {
+            "msg": "ok",
+            "result": "Datos añadidos al usuario"
+        }
+
+        return jsonify(response_body), 200
+    return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+
 # @api.route('/subirfoto', methods=['POST'])
 # @jwt_required
 # def upload():
