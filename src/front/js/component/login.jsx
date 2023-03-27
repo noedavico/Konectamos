@@ -70,17 +70,13 @@ export const Login = () => {
                     </div>
 
                     <div className="flex-column1 mx-2">
-                      <Link to="">
+                      <Link to="/recuperar_password">
                         <span>Olvide mi contraseña</span>
                       </Link>
                     </div>
                   </div>
-                  <p className="mt-2">
-                    <small>
-                      Al registrarte, estás de acuerdo con las condiciones de
-                      uso.
-                    </small>
-                  </p>
+                
+                  
                 </div>
               </form>
             </div>
@@ -108,7 +104,7 @@ export const Login = () => {
                     Publica tu perfil, cuentan tu experiencia y habilidades y
                     acércate un paso más a encontrar a que familia ayudar.{" "}
                   </p>
-                  <Link to="/registro1">
+                  <Link to="/registro">
                     <button
                       type="button"
                       className="btn  btn-primary text-white  mt-3"

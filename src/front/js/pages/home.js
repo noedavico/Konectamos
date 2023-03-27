@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import "../component/index/home.css";
-import { Portada } from "../component/index/portada";
-import { Destacados } from "../component/index/destacados";
-import { EresCuidador } from "../component/index/eresCuidador";
-import { Reviews } from "../component/index/reviews";
-import { Detallados } from "../component/index/detallado";
+import "../component/home/home.css";
+import { Portada } from "../component/home/portada";
+import { Destacados } from "../component/home/destacados";
+import { EresCuidador } from "../component/home/eresCuidador";
+import { Reviews } from "../component/home/reviews";
+import { Detallados } from "../component/home/detallado";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);

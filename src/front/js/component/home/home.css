@@ -1,0 +1,65 @@
+#detallado h2,
+#destacado h2 {
+    background-color: var(--color-naranja);
+}
+
+#portada {
+    margin-top: 5vh !important;
+    height: 100vh;
+}
+
+#portada .titular {
+    color: #fffe;
+    background-color: var(--color-verde-azulado-opacity-50);
+}
+
+#buscador {
+    transform: translate(-50%, 95%);
+}
+
+#portada button {
+    width: 100%;
+}
+
+
+#portada .bg-image-overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+#portada .bg-image-overlay img {
+    width: 100%;
+}
+
+
+
+@media screen and (min-width:552px) {
+
+    #portada .bg-image-overlay img {
+        width: auto;
+        height: 100%;
+    }
+}
+
+@media screen and (min-width:992px) {
+    #portada {
+        height: 70vh;
+    }
+
+    #portada button {
+        width: 11em;
+    }
+}
+
+
+@media screen and (min-width:1440px) {
+
+    #buscador {
+        transform: translate(-50%, 100%);
+    }
+
+}

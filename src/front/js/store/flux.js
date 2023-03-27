@@ -1,11 +1,36 @@
 import axios from "axios";
 
-const getState = ({ getStore, getActions, setStore }) => {
+const getState = ({
+    getStore,
+    getActions,
+    setStore
+}) => {
     return {
         store: {
+            allusers: [],
+            cuidadoresPeques: [],
+            cuidadoresMascotas: [],
+            cuidadoresMayores: [],
+            infoDetallada: [],
             message: null,
-            demo: [
-                {
+            categorias: [{
+                tipo: "Mayores",
+                nombre: "Cuidado de Mayores"
+            }, {
+                tipo: "Niños",
+                nombre: "Cuidado de Niños"
+            }, {
+                tipo: "Mascotas",
+                nombre: "Cuidado de Mascotas"
+            }],
+            ciudades: [{
+                nombre: "Barcelona"
+            }, {
+                nombre: "Madrid"
+            }, {
+                nombre: "Valencia"
+            }],
+            demo: [{
                     title: "FIRST",
                     background: "white",
                     initial: "white",
@@ -58,8 +83,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             login: async (email, password) => {
                 try {
                     let response = await axios.post(
-                        process.env.BACKEND_URL + "/api/login",
-                        {
+                        process.env.BACKEND_URL + "/api/login", {
                             email: email,
                             password: password,
                         }
@@ -96,8 +120,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const token = localStorage.getItem("token");
                 try {
                     let response = await axios.get(
-                        process.env.BACKEND_URL + "/api/validtoken",
-                        {
+                        process.env.BACKEND_URL + "/api/validtoken", {
                             headers: {
                                 Authorization: `Bearer ${token}`,
                             },
@@ -111,7 +134,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                         return true;
                     }
                 } catch (error) {
-                    if (error.response?.status === 401) alert(error.response.data.msg);
+                    if (error.response.status === 401) alert(error);
                     return false;
                 }
             },
@@ -120,11 +143,9 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const token = localStorage.getItem("token");
                 try {
                     let response = await axios.put(
-                        process.env.BACKEND_URL + "/api/tipoUsuario",
-                        {
+                        process.env.BACKEND_URL + "/api/tipoUsuario", {
                             categoria: categoria,
-                        },
-                        {
+                        }, {
                             headers: {
                                 withCredentials: true,
                                 Authorization: `Bearer ${token}`,
@@ -132,11 +153,84 @@ const getState = ({ getStore, getActions, setStore }) => {
                         }
                     );
                 } catch (error) {
-                    if (error.response.status === 401) alert(error);
+                    if (error.response.status >= 400) alert(error);
                 }
             },
+
+            password_recovery: async (email) => {
+                try {
+                    let response = await axios.post(
+                        process.env.BACKEND_URL + "/api/loosepassword", {
+                            email: email,
+                        }
+                    );
+                    console.log(response);
+
+                    return true;
+                } catch (error) {
+                    if (error?.response?.status >= 400) {
+                        alert(error?.response?.data?.msg);
+                    }
+                    return false;
+                }
+            },
+
+            loadUsuarios: async () => {
+                try {
+                    let response = await axios.get(
+                        process.env.BACKEND_URL + "/api/all_users"
+                    );
+                    let cuidadorPeques = response.data.results.filter(
+                        (item) => item.categoria === "peques"
+                    );
+
+                    setStore({
+                        cuidadoresPeques: cuidadorPeques,
+                    });
+                    let cuidadorMascota = response.data.results.filter(
+                        (item) => item.categoria === "mascota"
+                    );
+                    setStore({
+                        cuidadoresMascotas: cuidadorMascota,
+                    });
+                    let cuidadorMayor = response.data.results.filter(
+                        (item) => item.categoria === "mayores"
+                    );
+                    setStore({
+                        cuidadoresMayores: cuidadorMayor,
+                    });
+                    setStore({
+                        allusers: response.data.results,
+                    });
+                } catch (error) {
+                    console.log(error);
+                    //   alert(error.response.data.msg);
+                }
+            }, //fin
+
+            loadInfoDetallada: async (uid) => {
+                try {
+                    let response = await axios.get(
+                        `${process.env.BACKEND_URL}/api/user_info/${uid}`
+                    );
+                    setStore({
+                        infoDetallada: response.data.results,
+                    });
+                } catch (error) {
+                    console.log(error);
+                    //   alert(error.response.data.msg);
+                }
+            }, //fin
+
+            //funcion para cerrar sesion 
+            logout: () => {
+                localStorage.removeItem("token")
+                setStore({
+                    auth: false
+                })
+            }, //fin
+
         },
     };
 };
-
 export default getState;

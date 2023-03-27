@@ -1,9 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../store/appContext";
 
 export const Reviews = () => {
     const { store, actions } = useContext(Context);
+    const [sizeCard, setSizeCard] = useState("");
+    const [reviewClass, setReviewClass] = useState("");
+
     //TODO pendiente de eliminar y usar store
     const reviews = [
         {
@@ -40,11 +43,21 @@ export const Reviews = () => {
         },
     ];
 
+    const mobileOrPc = () => {
+        const mobile = window.matchMedia("(max-width: 552px)")
+        setSizeCard(mobile.matches ? setSizeCard("30rem") : setSizeCard("15rem"))
+        setReviewClass(mobile.matches ? "row" : "row overflow-auto flex-nowrap gap-2")
+    }
+
+    useEffect(() => {
+        mobileOrPc()
+    }, [window.matchMedia("(max-width: 552px)").matches])
+
     return (
-        <div className="container">
-            <div className="row">
+        <div id="review" className="container mt-5">
+            <div className={reviewClass}>
                 {reviews.map((review) => (
-                    <div className="col-md-3 mb-4" key={review.id}>
+                    <div className="col-md-3 mb-4" style={{ width: sizeCard }} key={review.id}>
                         <div className="card h-100">
                             <div className="card-body">
                                 <div className="col mb-3">
