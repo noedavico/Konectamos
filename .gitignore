@@ -77,3 +77,7 @@ database.database
 database.db
 diagram.png
 __pycache__/
+
+# uploads
+/uploads/*/*
+/uploads/test

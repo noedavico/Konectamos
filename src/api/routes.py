@@ -2,16 +2,19 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint, current_app
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app, send_file, send_from_directory
 from api.models import db, Users, User_info, Foto, Direccion, Categorias, Peques, Mayores, Mascota, Resenas, Valoracion
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_mail import Message
-# from app import photos
+from werkzeug.utils import secure_filename
+import magic
 import random
 import string
+import app
+import os
 
 
 api = Blueprint('api', __name__)
@@ -112,10 +115,8 @@ def create_user_info():
     current_user = get_jwt_identity()
 
     user = Users.query.filter_by(email=current_user).first()
-    if (
-        user != None and
-        user.es_cuidador == True
-    ):
+
+    if user != None:
         info_query = User_info.query.filter_by(user_id=user.id).first()
 
         # tabla user_info
@@ -151,46 +152,122 @@ def create_user_info():
     return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
 
-# @api.route('/subirfoto', methods=['POST'])
-# @jwt_required
-# def upload():
+@api.route('/subirfoto', methods=['POST'])
+@jwt_required()
+def foto():
 
-#     current_user = get_jwt_identity()
+    current_user = get_jwt_identity()
 
-#     if 'photo' not in request.files:
-#         return jsonify({'error': 'No se encontró ningún archivo'}), 400
+    if 'foto' not in request.files:
+        return jsonify({'error': 'No se encontró ningún archivo'}), 400
 
-#     user_query = Users.query.filter_by(email=current_user).first()
+    user_query = Users.query.filter_by(email=current_user).first()
+    if not user_query:
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+    user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
+    if not user_info_query:
+        return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
+
+    # obtener la foto de la solicitud
+    foto = request.files['foto']
+    filename = secure_filename(foto.filename)
+
+    # Guardar la foto en el servidor
+    foto.save(os.path.join(app.photos, filename))
+
+    # leer el contenido de la foto
+    foto_contenido = foto.read()
+
+    # generar la ruta pública
+    url = f'{app.photos}/{filename}'
+
+    # obtener el tipo de archivo
+    mime_type = magic.from_buffer(foto_contenido, mime=True)
+
+    # actualizar la columna de la base de datos con la nueva ruta
+    foto_query = Foto.query.filter_by(
+        foto_user_info=user_info_query.id).first()
+
+    if not foto_query:
+        foto = Foto(
+            nombre=user_query.id,
+            foto_imagen=url,
+            foto_user_info=user_info_query.id
+        )
+        db.session.add(foto)
+    else:
+        foto_query.foto_imagen = url
+
+    db.session.commit()
+
+    # devolver la misma foto como respuesta
+    return foto_contenido, 200, {'Content-Type': mime_type}
+
+
+# @api.route('/user/<int:id>/foto', methods=['GET'])
+# def get_user_foto(id):
+#     user_query = Users.query.filter_by(id=id).first()
 #     if not user_query:
 #         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
 #     user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
-#     if user_info_query == None:
+#     if not user_info_query:
 #         return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
 
-#     file = request.files['foto']
-#     filename = photos.save(file)
-#     public_url = photos.url(filename)
+#     foto_query = Foto.query.filter_by(foto_user_info=user_info_query.id).first()
+#     if not foto_query:
+#         return jsonify({"msg": "No se ha encontrado la foto del usuario o no se ha subido"}), 404
 
-#     # cargar la imagen
-#     filename = photos.save(request.files['photo'])
+#     filename = os.path.basename(foto_query.foto_imagen)
+#     foto_path = os.path.join(app.photos, filename)
 
-#     # generar la ruta pública
-#     url = f'http://localhost:5000/uploads/{filename}'
 
-#     # actualizar la columna de la base de datos con la nueva ruta
+#     ruta_relativa = os.path.join(app.photos, filename)
+#     ruta_absoluta = os.path.abspath(ruta_relativa)
 
-#     foto = Foto(
-#         nombre=user.id,
-#         foto_imagen=url,
-#         foto_user_info=user_info_query.id
-#     )
+#     print(ruta_absoluta)
+#     print(foto_path)
 
-#     user.profile_picture = url
-#     db.session.add(foto)
-#     db.session.commit()
+#     with open(ruta_absoluta, 'rb') as f:
+#         foto_contenido = f.read()
+#         mime_type = magic.from_buffer(foto_contenido, mime=True)
 
-#     return jsonify({'message': 'Imagen cargada correctamente'})
+#     print(foto_path)
+#     # print(foto_contenido)
+#     print(mime_type)
+
+#     headers = {'Content-Type': mime_type, 'Access-Control-Allow-Origin': '*'}
+#     return foto_contenido, 200, headers
+
+
+# @api.route('/user/<int:id>/foto', methods=['GET'])
+# def get_user_foto(id):
+#     user_query = Users.query.filter_by(id=id).first()
+#     if not user_query:
+#         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+#     user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
+#     if not user_info_query:
+#         return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
+
+#     foto_query = Foto.query.filter_by(
+#         foto_user_info=user_info_query.id).first()
+#     if not foto_query:
+#         return jsonify({"msg": "No se ha encontrado la foto del usuario"}), 404
+
+#     filename = os.path.basename(foto_query.foto_imagen)
+#     foto_path = os.path.join(app.photos, filename)
+
+#     ruta_relativa = './uploads/profile/'+filename
+#     ruta_absoluta = os.path.abspath(ruta_relativa)
+
+#     with open(ruta_absoluta, 'rb') as f:
+#         foto_contenido = f.read()
+
+#     mime_type = magic.from_buffer(foto_contenido, mime=True)
+
+#     return send_from_directory(app.photos, filename, as_attachment=True, mimetype=mime_type)
 
 
 @api.route('/direccion', methods=['POST'])
