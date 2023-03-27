@@ -21,9 +21,9 @@ export const Crearperfil5 = () => {
   }
 
   return (
-    <div class="container-fluid">
+    <div class="container">
       <form onSubmit={handleperfi}>
-      <div class="container">
+      
         <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
           <h2 class="h5 mb-3 mb-lg-0">
             <Link to="/crearperfil4" class="text-muted">
@@ -34,7 +34,7 @@ export const Crearperfil5 = () => {
         </div>
 
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-8 mt-3 m-auto">
             <div class="card mb-4">
               <div class="card-body">
                 <div class="row">
@@ -206,7 +206,6 @@ export const Crearperfil5 = () => {
                         </label>
                       </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </div>

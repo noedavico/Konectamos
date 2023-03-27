@@ -39,9 +39,9 @@ export const Crearperfil3 = () => {
   };
 
   return (
-    <div class="container m-auto ">
+    <div class="container">
       <form onSubmit={handleperfi}>
-        <div class="container">
+        
           <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
             <h2 class="h5 mb-3 mb-lg-0">
               <Link to="/crearperfil2" class="text-muted">
@@ -50,9 +50,9 @@ export const Crearperfil3 = () => {
               Crea tu perfil
             </h2>
           </div>
-
+          <div class="col-8 mt-3 m-auto">
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-7">
               <div class="card mb-4">
                 <div class="card-body">
                   <div class="row">
@@ -263,7 +263,7 @@ export const Crearperfil3 = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-5">
               <div class="card mb-4">
                 <div class="card-body">
                   <h3 class="h6">Disponibilidad horaria</h3>
@@ -356,7 +356,7 @@ export const Crearperfil3 = () => {
                 </div>
               </div>
             </div>
-          </div>
+            </div>
         </div>
         <div class="row justify-content-end">
           <div class="col-4 align-self-end">

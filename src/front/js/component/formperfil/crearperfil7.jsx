@@ -22,9 +22,8 @@ export const Crearperfil7 = () => {
   }
 
   return (
-    <div class="container-fluid">
-      <form onSubmit={handleperfi}></form>
-      <div class="container">
+    <div class="container">
+      <form onSubmit={handleperfi}>
         <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
           <h2 class="h5 mb-3 mb-lg-0">
             <Link to="/crearperfil4" class="text-muted">
@@ -35,12 +34,12 @@ export const Crearperfil7 = () => {
         </div>
 
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-8 mt-3 m-auto">
             <div class="card mb-4">
               <div class="card-body">
-              <div class="row my-2">
+              <div class="row ">
                   <div class="card-header">
-                    <h6 class="h6 mb-4">
+                    <h6 class="h6 ">
                       Selecciona animales que cuidarias
                     </h6>
                   </div>
@@ -150,9 +149,9 @@ export const Crearperfil7 = () => {
                   </div>
                 </div>
                 
-                <div class="row my-2">
+                <div class="row my-">
                   <div class="card-header">
-                    <p class="h6 mb-4">
+                    <p class="h6 ">
                       Selecciona los servicios que ofreces 
                     </p>
                   </div>
@@ -235,15 +234,13 @@ export const Crearperfil7 = () => {
                           class="form-control"
                           value=""
                         />
-                       
                       </div>
                     </div>
               </div>
-            </div>
-           
           </div>
         </div>
       </div>
+      </form>
     </div>
   );
 };

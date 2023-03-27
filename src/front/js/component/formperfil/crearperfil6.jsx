@@ -22,9 +22,9 @@ export const Crearperfil6 = () => {
   }
 
   return (
-    <div class="container-fluid">
+    <div class="container">
       <form onSubmit={handleperfi}>
-      <div class="container">
+     
         <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
           <h2 class="h5 mb-3 mb-lg-0">
             <Link to="/crearperfil4" class="text-muted">
@@ -35,12 +35,12 @@ export const Crearperfil6 = () => {
         </div>
 
         <div class="row">
-          <div class="col-lg-8">
+          <div class="col-8 mt-3 m-auto">
             <div class="card mb-4">
               <div class="card-body">
                 <div class="row">
                   <div class="card-header">
-                    <p class="h6 mb-4">Selecciona que servicios ofreces:</p>
+                    <p class="h6">Selecciona que servicios ofreces:</p>
                   </div>
                   <div class="col-lg-7 my-2">
                     <div class="form-check form-check-inline">
@@ -118,9 +118,9 @@ export const Crearperfil6 = () => {
 
                 
 
-                <div class="row my-2">
+                <div class="row ">
                   <div class="card-header">
-                    <p class="h6 mb-4">
+                    <p class="h6 ">
                       ¿Tienes algunas de estas cualificaciones? No es
                       obligatorio, pero es un plus :)
                     </p>
@@ -207,8 +207,6 @@ export const Crearperfil6 = () => {
                 </div>
               </div>
             </div>
-            
-          </div>
         </div>
       </div>
       </form>

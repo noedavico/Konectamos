@@ -25,9 +25,9 @@ export const Crearperfil1 = () => {
   }
 
   return (
-    <div class="container-fluid ">
+    <div class="container">
       <form onSubmit={handleperfi}>
-        <div class="container col-10 m-auto ">
+       
           <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
             <h2 class="h5 mb-3 mb-lg-0">
               <a href="../../registropag2" class="text-muted">
@@ -38,10 +38,11 @@ export const Crearperfil1 = () => {
           </div>
 
           <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 m-auto">
               <div class="card mb-4">
-                <div class="card-body">
-                  <h3 class="h6 mb-4">Informacion Basica</h3>
+                <div class="card-header">
+                  <h3 class="h6 mb-4">Informacion Basica</h3></div>
+                  <div class="card-body">
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="mb-3">
@@ -100,17 +101,20 @@ export const Crearperfil1 = () => {
                 </div>
               </div>
             </div>
-          </div>
+          
         </div>
       </form>
-      <div class="container  m-auto gap-3">
-        <Link to="/crearperfil2">
-          {" "}
-          <button class="btn btn-primary btn-sm btn-icon-text">
-            <i class=""></i> <span class="text">Siguiente</span>
-          </button>{" "}
-        </Link>
-      </div>
+      <div class="row justify-content-end">
+          <div class="col-4 align-self-end">
+            <Link to="/crearperfil2">
+              <button type="submit" className="btn  btn-primary  ">
+                {" "}
+                <span className="text">Siguiente</span>{" "}
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </Link>
+          </div>
+        </div>
     </div>
   );
 };
