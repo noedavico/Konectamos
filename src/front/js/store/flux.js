@@ -168,9 +168,8 @@ const getState = ({
 
                     return true;
                 } catch (error) {
-                    console.log(error);
-                    if (error.response.status >= 400) {
-                        alert(error.response.data.msg);
+                    if (error?.response?.status >= 400) {
+                        alert(error?.response?.data?.msg);
                     }
                     return false;
                 }
