@@ -170,9 +170,8 @@ const getState = ({
 
                     return true;
                 } catch (error) {
-                    console.log(error);
-                    if (error.response.status >= 400) {
-                        alert(error.response.data.msg);
+                    if (error?.response?.status >= 400) {
+                        alert(error?.response?.data?.msg);
                     }
                     return false;
                 }
@@ -219,8 +218,6 @@ const getState = ({
                     setStore({
                         infoDetallada: response.data.results,
                     });
-
-
                 } catch (error) {
                     console.log(error);
                     //   alert(error.response.data.msg);
@@ -314,6 +311,14 @@ const getState = ({
                     if (error.response.status >= 400) alert(error.response.data.msg);
                 }
             }, //fin
+            //funcion para cerrar sesion
+            logout: () => {
+                localStorage.removeItem("token")
+                setStore({
+                    auth: false
+                })
+            }, //fin
+
         },
     };
 };

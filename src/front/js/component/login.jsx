@@ -79,7 +79,6 @@ export const Login = () => {
                       </Link>
                     </div>
                   </div>
-
                 </div>
               </form>
             </div>
@@ -88,7 +87,6 @@ export const Login = () => {
                 <div>
                   <div>
                     <h3 className="text-center display-6 ">
-                      {" "}
                       <strong> Inscríbete ahora</strong>
                     </h3>
                   </div>
@@ -99,13 +97,13 @@ export const Login = () => {
                     <br />
                     Soluciona imprevistos con niños, adultos mayores o mascotas.
                     <br />
-                    Para unas pocas horas o para contratar{" "}
+                    Para unas pocas horas o para contratar
                   </p>
                   <div className="border-bottom w-100 ml-5 mt-4"></div>
                   <h4 className="mt-4">Cuidadores</h4>
                   <p>
                     Publica tu perfil, cuentan tu experiencia y habilidades y
-                    acércate un paso más a encontrar a que familia ayudar.{" "}
+                    acércate un paso más a encontrar a que familia ayudar.
                   </p>
                   <Link to="/registro">
                     <button

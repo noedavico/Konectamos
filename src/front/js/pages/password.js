@@ -12,7 +12,7 @@ export const Password = () => {
   };
 
   async function handleRecuperarContraseña(e) {
-    let recover = await actions.recover_password(email);
+    const recover = await actions.password_recovery(email);
     if (recover) {
       setEmail("");
       alert(

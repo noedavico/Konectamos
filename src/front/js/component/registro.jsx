@@ -49,7 +49,7 @@ export const Registro = () => {
                           <i className="fa fa-user text-muted"></i>
                         </span>
                       </div>
-                      <input id="firstName" type="text" name="firstname" placeholder="Nombre" className="form-control bg-white border-left-0 border-md" onChange={(e) => setNombre(e.target.value)} value={nombre} />
+                      <input id="firstName" type="text" name="firstname" placeholder="Nombre" className="form-control bg-white border-left-0 border-md" onChange={(e) => setNombre(e.target.value)} value={nombre} required />
                     </div>
                     <div className="input-group col-lg-6 mb-4 pt-1">
                       <div className="input-group-prepend pt-1">
@@ -57,7 +57,7 @@ export const Registro = () => {
                           <i className="fa fa-user text-muted"></i>
                         </span>
                       </div>
-                      <input id="lastName" type="text" name="lastname" placeholder="Apellido" className="form-control bg-white border-left-0 border-md" onChange={(e) => setApellido(e.target.value)} value={apellido} />
+                      <input id="lastName" type="text" name="lastname" placeholder="Apellido" className="form-control bg-white border-left-0 border-md" onChange={(e) => setApellido(e.target.value)} value={apellido} required />
                     </div>
                     {/* input email */}
                     <div className="input-group col-lg-12 mb-4">
@@ -66,7 +66,7 @@ export const Registro = () => {
                           <i className="fa fa-envelope text-muted"></i>
                         </span>
                       </div>
-                      <input id="email" type="email" name="email" placeholder="Email" className="form-control bg-white border-left-0 border-md" onChange={(e) => setEmail(e.target.value)} value={email} />
+                      <input id="email" type="email" name="email" placeholder="Email" className="form-control bg-white border-left-0 border-md" onChange={(e) => setEmail(e.target.value)} value={email} required />
                     </div>
                     {/* input password */}
                     <div className="input-group col-lg-6 mb-4">
@@ -75,12 +75,16 @@ export const Registro = () => {
                           <i className="fa fa-lock text-muted"></i>
                         </span>
                       </div>
-                      <input id="password" type="password" name="password" placeholder="Contraseña" className="form-control bg-white border-left-0 border-md" onChange={(e) => setPassword(e.target.value)} value={password} />
-                    </div>
-                    {/* checkbox */}
-                    <div className="mx-3 mb-3 form-check">
-                      <input type="checkbox" className="form-check-input" id="condiciones" value={checkConditions} onClick={e => setCheckConditions(e.target.value)} />
-                      <label className="form-check-label" htmlFor="condiciones">Al registrarte, estás de acuerdo con las condiciones de
+                      <input id="password" type="password" minLength="8" name="password" placeholder="Contraseña" className="form-control bg-white border-left-0 border-md" onChange={(e) => setPassword(e.target.value)} value={password}
+                        pattern="^[a-zA-Z0-9!@#$%^&*()_+<>?]{8,}$" required />
+                      <p><small>      La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un símbolo.</small></p>
+                    </div >
+                    <div className="form-group col-lg-12 d-flex align-items-center ">
+                      <div className="border-bottom w-100 ml-5"></div>
+                    </div >
+                    <div class="m-3 form-check ">
+                      <input type="checkbox" class="form-check-input" id="checkConditions" onChange={e => setCheckConditions(e.target.value)} />
+                      <label class="form-check-label" htmlFor="checkConditions">Al registrarte, estás de acuerdo con las condiciones de
                         uso.</label>
                     </div>
 
@@ -93,34 +97,16 @@ export const Registro = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-2">
-                      <div className="border-bottom w-100 ml-5"></div>
-                      <span className="px-2 small text-muted font-weight-bold text-muted"> O </span>
-                      <div className="border-bottom w-100 mr-5"></div>
-                    </div>
+                  </div >
+                </form >
+              </div >
+            </div >
 
-                    <div className="row  w-100 m-auto justify-content-center align-items-center">
-                      <div className="col-6 ">
-                        <Link className="btn btn-primary btn-block py-2 btn-facebook mx-1 mb-2" to='#'>
-                          <i className="fa-brands fa-facebook-f" /><span className="font-weight-bold"> Continua con Facebook</span>
-                        </Link>
-                      </div>
-                      <div className="col-6 right">
-                        <Link className="btn btn-primary btn-block py-2 btn-gmail mx-1 mb-2" to='#'>
-                          <i className="fa-brands fa-google"></i>
-                          <span className="font-weight-bold"> Continua con Gmail</span>
-                        </Link>
-                      </div>
-                    </div>
+          </div >
+          <div className="border-bottom w-100 ml-5"></div>
 
-                  </div>
-                </form>
-              </div>
-            </div>
-
-          </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
