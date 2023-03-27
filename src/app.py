@@ -3,6 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
+# from flask_uploads import UploadSet, configure_uploads, IMAGE
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -14,6 +15,7 @@ from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 from datetime import timedelta
+
 
 # from models import Person
 
@@ -35,9 +37,15 @@ ACCESS_EXPIRES = timedelta(hours=12)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 jwt = JWTManager(app)
+
+
+# photos = UploadSet('photos', IMAGES)
+# app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
+# configure_uploads(app, photos)
 
 # Allow CORS requests to this API
 CORS(app)
@@ -47,15 +55,15 @@ mail_settings = {
     "MAIL_PORT":  2525,
     "MAIL_USE_TLS": True,
     "MAIL_USE_SSL": False,
-    "MAIL_USERNAME":  '48df47c3f1a268', #CORREO DE LA APP 
-    "MAIL_PASSWORD": '261ad50be15890', #PASSWORD DEL CORREO DE LA APP 
+    "MAIL_USERNAME":  '48df47c3f1a268',  # CORREO DE LA APP
+    "MAIL_PASSWORD": '261ad50be15890',  # PASSWORD DEL CORREO DE LA APP
     "MAIL_DEFAULT_SENDER": 'daniel_bon84@hotmail.com'
 }
 
 app.config.update(mail_settings)
 mail = Mail(app)
-#agregan mail a la app y se va llamar en routes.py como current_app
-app.mail= mail
+# agregan mail a la app y se va llamar en routes.py como current_app
+app.mail = mail
 
 
 # add the admin

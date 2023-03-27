@@ -10,9 +10,9 @@ export const Crearperfil2 = () => {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
-  async function handleperfi(e) {
+  async function handlePerfil(e) {
     e.preventDefault();
-    let isLogged = await actions.PerfilDireccion(
+    let isLogged = await actions.perfilDireccion(
       calle,
       ciudad,
       provincia,
@@ -25,7 +25,7 @@ export const Crearperfil2 = () => {
   }
   return (
     <div class="container">
-      <form onSubmit={handleperfi}>
+      <form onSubmit={handlePerfil}>
         <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
           <h2 class="h5 mb-3 mb-lg-0">
             <Link to="/crearperfil1" class="text-muted">

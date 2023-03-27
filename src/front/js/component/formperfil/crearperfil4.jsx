@@ -2,278 +2,186 @@ import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 
+const opciones = [
+  "Responsable",
+  "Paciente",
+  "Amigable",
+  "Homador/a",
+  "Entusiasta",
+  "Divertido/a",
+  "Creativo/a",
+  "Tranquilo/a",
+  "Deportivo/a",
+  "Empatico/a",
+  "Activo/a",
+  "Amable",
+  "Sociable",
+  "Sereno/a",
+  "Alegre",
+  "Práctico/a",
+  "Optimista",
+  "Confiado/a"
+];
+
 export const Crearperfil4 = () => {
-  const [password, setPassword] = useState("");
-  const { actions } = useContext(Context);
+  const { actions } = useContext(Context)
   const navigate = useNavigate();
 
-  async function handleperfi(e) {
-    e.preventDefault();
-    let isLogged = await actions.singup(password);
-    if (isLogged) {
-      //true
+  const [seleccionados, setSeleccionados] = useState(
+    opciones.map((opcion) => ({ nombre: opcion, seleccionado: false }))
+  );
+  const [presentacion, setPresentacion] = useState("")
+  const [tarifa, setTarifa] = useState("")
+  const [plus, setPlus] = useState("")
 
-      navigate("/login");
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    setSeleccionados((prevSeleccionados) =>
+      prevSeleccionados.map((opcion) =>
+        opcion.nombre === value ? { ...opcion, seleccionado: checked } : opcion
+      )
+    );
+  };
+
+  async function handlePerfil(e) {
+    e.preventDefault()
+
+    let lista = seleccionados.map(opcion => {
+      if (opcion.seleccionado)
+        return opcion.nombre
+
+    });
+    if (lista.length > 0 & presentacion & tarifa & plus) {
+      lista = lista.join(",")
+
+      if (await actions.setDescripcion(lista, presentacion, tarifa, plus)) {//true
+        setSeleccionados(opciones.map((opcion) => ({ nombre: opcion, seleccionado: false })))
+        setPresentacion("")
+        setTarifa("")
+        setPlus("")
+        navigate("/crearperfil4")
+      }
     }
   }
 
+
+
   return (
-    <div class="container">
-      <form onSubmit={handleperfi}>
-     
-        <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
-          <h2 class="h5 mb-3 mb-lg-0">
-            <Link to="/crearperfil3" class="text-muted">
-              <i class="bi bi-arrow-left-square me-2"></i>
-            </Link>{" "}
-            Crea tu perfil{" "}
-          </h2>
-          <div class="hstack gap-3"></div>
-        </div>
+    <div className="container-fluid ">
 
-        <div class="row">
-          <div class="col-8 mt-3 m-auto">
-            <div class="card mb-4">
-              <div class="card-body">
-                <h3 class="h6 mb-4">
-                  ¿ Como te describirias en tres palabras? Elige entre 3 y 5
-                  cualidades .
-                </h3>
-                <div class="row">
-                  <div class="col-lg-4">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Responsable"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Responsable{" "}
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Amigable
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Paciente
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Entusiasta
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Divertido/a
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Creativo/a{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Deportista
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Tranquilo
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Empatico/a
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Amable
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Sociable
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Sereno/a
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Alegre
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Imaginativo/a
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Confiado/a
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Puntual
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Optimista
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Proactivo/a
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <form onSubmit={handlePerfil}>
 
-            <div class="card mb-4">
-              <div class="card-body">
-                <h3 class="h6">Descripcion</h3>
-                <textarea
-                  class="form-control"
-                  placeholder=" Esta es la parte más importante: las familias prestan mucha atención.
-                  Explica tus intereses, tus motivaciones. Resalta tus habilidades."
-                  rows="3"
-                ></textarea>
+        <div className="container col-10 m-auto ">
+          <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+            <h2 className="h5 mb-3 mb-lg-0">
+              <Link to="#" className="text-muted">
+                <i className="bi bi-arrow-left-square me-2"></i>
+              </Link>
+              <span>Crea tu perfil</span>
+            </h2>
+          </div>
+          <div className="row">
+            <div className="card col-8 mt-3 m-auto">
+              <div className="card-body">
+                <h3 className="h6 mb-4">¿Cómo te describirías en 6 palabras?</h3>
+
+                <section className="row">
+
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      {seleccionados.slice(0, 6).map((opcion) => (
+                        <div key={opcion.nombre} className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id={opcion.nombre}
+                            value={opcion.nombre}
+                            checked={opcion.seleccionado}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label htmlFor={opcion.nombre} className="form-check-label">
+                            {opcion.nombre}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      {seleccionados.slice(6, 12).map((opcion) => (
+                        <div key={opcion.nombre} className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id={opcion.nombre}
+                            value={opcion.nombre}
+                            checked={opcion.seleccionado}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label htmlFor={opcion.nombre} className="form-check-label">
+                            {opcion.nombre}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      {seleccionados.slice(12).map((opcion) => (
+                        <div key={opcion.nombre} className="form-check">
+                          <input
+                            type="checkbox"
+                            className="form-check-input"
+                            id={opcion.nombre}
+                            value={opcion.nombre}
+                            checked={opcion.seleccionado}
+                            onChange={handleCheckboxChange}
+                          />
+                          <label htmlFor={opcion.nombre} className="form-check-label">
+                            {opcion.nombre}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </section>
+                <section className="row mt-3">
+                  <div className="col-12">
+                    <div className="mb-3">
+                      <h3 className="h6 mb-3">Presentacion detallada </h3>
+                      <textarea className="w-100 form-control" name="presentacion" id="presentacion" rows="3"
+                        placeholder="Esta es la parte más importante, las familias prestan mucha atención.
+Preséntate de la manera más detallada posible."
+                        value={presentacion} onChange={e => setPresentacion(e.target.value)}>
+
+                      </textarea>
+                    </div>
+                  </div>
+                </section>
+                <section className="row">
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <h3 className="h6 mb-3">¿Cual es tu tarifa por hora?</h3>
+                      <input type="text" className="form-control" name="tarifa" id="tarifa" placeholder="Importe en euros" />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="mb-3">
+                      <h3 className="h6 mb-3">¿Plus noche o fin de semana?</h3>
+                      <input type="text" className="form-control" name="plus" id="plus" placeholder="Importe en euros" />
+                    </div>
+                  </div>
+                </section>
               </div>
             </div>
           </div>
+          <button type="submit" className="btn btn-primary btn-sm btn-icon-text">
+            <i className=""></i>
+            <span className="text">Siguiente</span>
+          </button>
         </div>
-        <div class="row justify-content-end">
-          <div class="col-4 align-self-end">
-            <Link to="/crearperfil5">
-              <button type="submit" className="btn  btn-primary  ">
-                {" "}
-                <span className="text">Siguiente</span>{" "}
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </Link>
-          </div>
-        </div>
-     
       </form>
-    </div>
-  );
-};
+      <div className="container  m-auto gap-3"></div>
+    </div >
+  )
+}  

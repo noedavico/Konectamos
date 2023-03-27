@@ -31,15 +31,15 @@ const getState = ({
                 nombre: "Valencia"
             }],
             demo: [{
-                    title: "FIRST",
-                    background: "white",
-                    initial: "white",
-                },
-                {
-                    title: "SECOND",
-                    background: "white",
-                    initial: "white",
-                },
+                title: "FIRST",
+                background: "white",
+                initial: "white",
+            },
+            {
+                title: "SECOND",
+                background: "white",
+                initial: "white",
+            },
             ],
         },
         actions: {
@@ -84,9 +84,9 @@ const getState = ({
                 try {
                     let response = await axios.post(
                         process.env.BACKEND_URL + "/api/login", {
-                            email: email,
-                            password: password,
-                        }
+                        email: email,
+                        password: password,
+                    }
                     );
                     //La API valida que nombre de usuario y contraseña sean correctos y regresa un objeto token
 
@@ -121,10 +121,10 @@ const getState = ({
                 try {
                     let response = await axios.get(
                         process.env.BACKEND_URL + "/api/validtoken", {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                     );
 
                     if (response.status === 200) {
@@ -139,30 +139,32 @@ const getState = ({
                 }
             },
             //fin
-            tipoUsuario: async (categoria) => {
+            tipoUsuario: async (tipo) => {
                 const token = localStorage.getItem("token");
                 try {
                     let response = await axios.put(
                         process.env.BACKEND_URL + "/api/tipoUsuario", {
-                            categoria: categoria,
-                        }, {
-                            headers: {
-                                withCredentials: true,
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
+                        tipo: tipo,
+                    }, {
+                        headers: {
+                            withCredentials: true,
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
                     );
+                    if (response.status >= 200 & response.status < 300) return true
+                    return false
                 } catch (error) {
                     if (error.response.status >= 400) alert(error);
                 }
             },
-
+            //fin
             password_recovery: async (email) => {
                 try {
                     let response = await axios.post(
                         process.env.BACKEND_URL + "/api/loosepassword", {
-                            email: email,
-                        }
+                        email: email,
+                    }
                     );
                     console.log(response);
 
@@ -175,7 +177,7 @@ const getState = ({
                     return false;
                 }
             },
-
+            //fin
             loadUsuarios: async () => {
                 try {
                     let response = await axios.get(
@@ -226,7 +228,7 @@ const getState = ({
             }, //fin
 
             // funcion para crear perfil 
-            CreacionPerfil: async (numTelefono, fechaNacimiento, genero) => {
+            creacionPerfil: async (numTelefono, fechaNacimiento, genero) => {
                 try {
                     let response = axios.post(process.env.BACKEND_URL + "/api/user_info", {
                         numero_telefono: numTelefono,
@@ -238,18 +240,78 @@ const getState = ({
                 } catch (error) {
                     alert(error);
                 }
-            }, //
-            PerfilDireccion: async (calle, ciudad, provincia, codigoPostal) => {
+            }, //fin
+            perfilDireccion: async (calle, ciudad, provincia, codigoPostal) => {
                 try {
                     let response = axios.post(process.env.BACKEND_URL + "/api/direccion", {
                         calle: calle,
                         ciudad: ciudad,
                         provincia: provincia,
-                        codigo_postal:codigoPostal
+                        codigo_postal: codigoPostal
                     });
                     return true;
                 } catch (error) {
                     alert(error);
+                }
+            }, //fin
+            setDescripcion: async (lista, presentacion, tarifa, plus) => {
+                const token = localStorage.getItem("token");
+                try {
+                    let response = await axios.post(
+                        process.env.BACKEND_URL + "/api/descripcion", {
+                        tipoPersona: lista,
+                        descripcion: presentacion,
+                        tarifa: tarifa,
+                        plus: plus
+                    }, {
+                        headers: {
+                            withCredentials: true,
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                    );
+                    if (response.status >= 200 & response.status < 300) return true
+                    return false
+                } catch (error) {
+                    if (error.response.status >= 400) alert(error.response.data.msg);
+                }
+            },// fin
+            subirFoto: async (foto) => {
+                const token = localStorage.getItem("token");
+                try {
+                    let response = await axios.post(
+                        process.env.BACKEND_URL + "/api/subirfoto", foto, {
+                        headers: {
+                            withCredentials: true,
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": 'multipart/form-data'
+                        },
+                    }
+                    );
+                    if (response.status >= 200 & response.status < 300) return true
+                    return false
+                } catch (error) {
+                    console.log(error);
+                    if (error.response?.status >= 400) alert(error.response.data.msg);
+                }
+            },// fin
+            setCategoria: async (categoria) => {
+                const token = localStorage.getItem("token");
+                try {
+                    let response = await axios.post(
+                        process.env.BACKEND_URL + "/api/subcategoria", {
+                        subCategoria: categoria,
+                    }, {
+                        headers: {
+                            withCredentials: true,
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                    );
+                    if (response.status >= 200 & response.status < 300) return true
+                    return false
+                } catch (error) {
+                    if (error.response.status >= 400) alert(error.response.data.msg);
                 }
             }, //fin
         },
