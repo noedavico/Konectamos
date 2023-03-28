@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Cuidadores from "../../../img/cuiadoress.png";
+
 
 export const EresCuidador = () => {
     return (
-        <div className="container my-4">
+        <div className="container my-4" style={{backgroundColor:"#2d7895"}}>
             <div className="row">
                 <div className="col-md-6 d-flex flex-column justify-content-center">
                     <h2>¿Eres cuidador/a?</h2>
@@ -14,7 +16,7 @@ export const EresCuidador = () => {
                 </div>
                 <div className="col-md-6">
                     <img
-                        src="https://via.placeholder.com/500x250"
+                        src={Cuidadores}
                         alt="Cuidador/a"
                         className="img-fluid"
                     />
