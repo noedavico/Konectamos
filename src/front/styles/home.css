@@ -45,3 +45,10 @@
 body {
     color: var(--color-azul-oscuro);
 }
+
+#boton {
+    background-color: var(--color-rojo);
+    border-color: var(--color-naranja);
+    border-radius: 10%;
+
+}

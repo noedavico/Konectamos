@@ -55,9 +55,9 @@ mail_settings = {
     "MAIL_PORT":  2525,
     "MAIL_USE_TLS": True,
     "MAIL_USE_SSL": False,
-    "MAIL_USERNAME":  '48df47c3f1a268',  # CORREO DE LA APP
-    "MAIL_PASSWORD": '261ad50be15890',  # PASSWORD DEL CORREO DE LA APP
-    "MAIL_DEFAULT_SENDER": 'daniel_bon84@hotmail.com'
+    "MAIL_USERNAME":  os.getenv('MAIL_USER'),  # CORREO DE LA APP
+    "MAIL_PASSWORD": os.getenv('MAIL_PASSWD'),  # PASSWORD DEL CORREO DE LA APP
+    "MAIL_DEFAULT_SENDER": 'contacto@konectamos.es'
 }
 
 app.config.update(mail_settings)

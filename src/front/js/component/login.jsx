@@ -79,7 +79,6 @@ export const Login = () => {
                       </Link>
                     </div>
                   </div>
-
                 </div>
               </form>
             </div>
