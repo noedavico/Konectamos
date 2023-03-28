@@ -54,6 +54,8 @@ export const Crearperfil3 = () => {
   const [experiencia, setExperiencia] = useState(perfil?.experiencia || "");
   const [educacion, setEducacion] = useState(perfil?.educacion || "");
   const [tipoServicio, setTipoServicio] = useState(perfil?.tipo_servicios || []);
+  const [tarifa, setTarifa] = useState(perfil?.tarifa || "")
+  const [plus, setPlus] = useState(perfil?.plus || "")
 
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
@@ -66,34 +68,28 @@ export const Crearperfil3 = () => {
       setTipoServicio(tipoServicio.filter((item) => item !== value));
     }
 
-    console.log(tipoServicio);
   };
-
-
-  const handleCheck = (event) => {
-    // manejar el evento de checkbox
-  };
-
 
   async function handlePerfil(e) {
     e.preventDefault();
-    if (store?.auth) {
-      await actions.creacionPerfil3(
-        arrayIdiomas,
-        experiencia,
-        educacion,
-        tipoServicio
-      )
-      //true
+    await actions.creacionPerfil3(
+      arrayIdiomas,
+      experiencia,
+      educacion,
+      tipoServicio,
+      tarifa,
+      plus
+    )
+    //true
 
-      navigate("/creacionperfil4");
-    }
+    navigate("/crearperfil4");
   }
   //funciona agregar idioma
   const agregaridiomas = () => {
     setArrayIdiomas([...arrayIdiomas, { label: idiomas, done: false }]);
     setIdiomas("");
   };
+
   //funcion borrar idioma
   const handleDelete = (borrarTarea) => {
     const newArray = arrayIdiomas.filter((item) => item !== borrarTarea);
@@ -122,16 +118,16 @@ export const Crearperfil3 = () => {
                       <div className="input-group mb-3">
                         <label className="form-label">Idiomas </label>
                         <span className="container ">
-                          {arrayIdiomas.length > 0
+                          {arrayIdiomas?.length > 0
                             ? arrayIdiomas.map((item, index) => (
                               <span
-                                className="badge bg-secondary text-dark m-2 "
+                                className="badge bg-success text-light m-2 "
                                 key={index}
-                              >
-
+                              >{console.log(item)}
                                 <span style={{ width: "95%" }}>
                                   {item.label}
                                 </span>
+                                <a href="#" className="btn btn-primary btn-sm ms-2" onClick={() => handleDelete(item)}>X</a>
                               </span>
                             ))
                             : null}
@@ -305,6 +301,8 @@ export const Crearperfil3 = () => {
                           type="text"
                           placeholder="Ingresa valor en € por hora. Ej 8"
                           className="form-control"
+                          value={tarifa}
+                          onChange={e => setTarifa(e.target.value)}
                         />
                       </div>
                     </div>
@@ -315,6 +313,8 @@ export const Crearperfil3 = () => {
                           type="text"
                           placeholder="Noches,fin de semanas"
                           className="form-control"
+                          value={plus}
+                          onChange={e => setPlus(e.target.value)}
                         />
                       </div>
                     </div>
@@ -354,7 +354,7 @@ export const Crearperfil3 = () => {
         </div>
         <div className="row justify-content-end">
           <div className="col-4 align-self-end">
-            <button onClick={handlePerfil} type="submit" className="btn  btn-primary  ">
+            <button type="submit" className="btn btn-primary">
               <span className="text">Siguiente</span>
               <i className="fa-solid fa-arrow-right"></i>
             </button>

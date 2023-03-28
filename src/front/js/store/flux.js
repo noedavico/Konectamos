@@ -30,7 +30,7 @@ const getState = ({
                     calle: "",
                     ciudad: "",
                     provincia: "",
-                    codigo_postal: "",
+                    codigo_postal: null,
                 }
             },
             message: null,
@@ -258,6 +258,26 @@ const getState = ({
                     //   alert(error.response.data.msg);
                 }
             }, //fin
+            loadUser: async () => {
+
+                const token = localStorage.getItem("token");
+                try {
+                    let response = await axios.post(
+                        process.env.BACKEND_URL + "/api/user_info",
+                        getStore()?.perfil,
+                        {
+                            headers: {
+                                withCredentials: true,
+                                Authorization: `Bearer ${token}`,
+                            }
+                        }
+                    );
+                    return true;
+                } catch (error) {
+                    alert(error);
+                }
+            },
+
             /**
              * funcion para crear perfil 
              * @returns 
@@ -332,7 +352,9 @@ const getState = ({
              * @param {string} educacion 
              * @param {Array<string>} tipoServicios 
              */
-            creacionPerfil3: async (arrayIdiomas, experiencia, educacion, tipoServicios) => {
+            creacionPerfil3: async (arrayIdiomas, experiencia, educacion, tipoServicios, tarifa, plus) => {
+
+                console.log(arrayIdiomas, experiencia, educacion, tipoServicios);
                 try {
                     setStore({
                         perfil: {
@@ -340,6 +362,8 @@ const getState = ({
                             experiencia: experiencia,
                             educacion: educacion,
                             tipo_servicios: tipoServicios,
+                            tarifa: tarifa,
+                            plus: plus
                         },
                     })
                 } catch (error) {
@@ -354,14 +378,12 @@ const getState = ({
              * @param {number} tarifa 
              * @param {number} plus 
              */
-            creacionPerfil4: async (aptitudes, presentacion, tarifa, plus) => {
+            creacionPerfil4: async (aptitudes, presentacion) => {
                 try {
                     setStore({
                         perfil: {
                             aptitudes: aptitudes,
-                            presentacion: presentacion,
-                            tarifa: tarifa,
-                            plus_tarifa: plus,
+                            presentacion: presentacion
                         },
                     })
                 } catch (error) {

@@ -11,7 +11,7 @@ export const Crearperfil2 = () => {
   const [calle, setCalle] = useState(perfil?.direccion?.calle || "");
   const [ciudad, setCiudad] = useState(perfil?.direccion?.ciudad || "");
   const [provincia, setProvincia] = useState(perfil?.direccion?.provincia || "");
-  const [codigoPostal, setCodigoPostal] = useState(perfil?.direccion?.codigoPostal || "");
+  const [codigoPostal, setCodigoPostal] = useState(perfil?.direccion?.codigo_postal || "");
 
   async function handlePerfil(e) {
     e.preventDefault();

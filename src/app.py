@@ -2,8 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
-# from flask_uploads import UploadSet, configure_uploads, IMAGE
+from flask import Flask, request, jsonify, url_for
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -42,10 +41,10 @@ app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 jwt = JWTManager(app)
 
+# configuracion de ruta para guardar las fotos
+app.config['UPLOAD_FOLDER'] = 'uploads/profile/'
+photos = app.config['UPLOAD_FOLDER']
 
-# photos = UploadSet('photos', IMAGES)
-# app.config['UPLOADED_PHOTOS_DEST'] = 'uploads'
-# configure_uploads(app, photos)
 
 # Allow CORS requests to this API
 CORS(app)

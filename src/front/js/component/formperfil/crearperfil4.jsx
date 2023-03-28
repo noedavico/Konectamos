@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
+import { object } from "prop-types";
 
 const opciones = [
   "Responsable",
@@ -29,41 +30,38 @@ export const Crearperfil4 = () => {
 
   const perfil = store?.perfil
 
-  const [marcados, setMarcados] = useState(perfil?.aptitudes)
-
-  const [seleccionados, setSeleccionados] = useState(
-    opciones.map((opcion, index) => ({ nombre: opcion, seleccionado: compruebaMarcados(marcados, opcion, index) }))
-  );
-  const [presentacion, setPresentacion] = useState(perfil?.descripcion || "")
-  const [tarifa, setTarifa] = useState(perfil?.tarifa || "")
-  const [plus, setPlus] = useState(perfil?.plus_tarifa || "")
+  const [presentacion, setPresentacion] = useState(perfil?.descripcion || "");
+  const [checkboxesSeleccionados, setCheckboxesSeleccionados] = useState([]);
 
   const handleCheckboxChange = (event) => {
-    const { value, checked } = event.target;
-    setSeleccionados((prevSeleccionados) =>
-      prevSeleccionados.map((opcion) =>
-        opcion.nombre === value ? { ...opcion, seleccionado: checked } : opcion
-      )
-    );
+    const value = event.target.value;
+    if (event.target.checked) {
+      setCheckboxesSeleccionados([...checkboxesSeleccionados, value]);
+    } else {
+      setCheckboxesSeleccionados(
+        checkboxesSeleccionados.filter((selected) => selected !== value)
+      );
+    }
   };
 
-  function compruebaMarcados(check, opcion, index) {
-    let arr = check.split(";").filter((item, i) => item === opcion && index === i)
-    console.log(arr);
-    return false
-  }
+
 
   async function handlePerfil(e) {
     e.preventDefault()
-
-    let lista = seleccionados.map(opcion => {
-      if (opcion.seleccionado)
-        return opcion.nombre
+    const lista = checkboxesSeleccionados.map(opcion => {
+      if (opcion)
+        return opcion
 
     });
-    lista = lista.join(";")
 
-    if (await actions.creacionPerfil4(lista, presentacion, tarifa, plus)) {//true
+    lista.join(";")
+
+    console.log(lista);
+
+    if (await actions.creacionPerfil4(lista, presentacion)
+      && await actions.crearPeril()
+      && await actions.loadInfoDetallada()
+    ) {//true
 
       navigate("/crearperfil")
     }
@@ -79,7 +77,7 @@ export const Crearperfil4 = () => {
         <div className="container col-10 m-auto ">
           <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
             <h2 className="h5 mb-3 mb-lg-0">
-              <Link to="#" className="text-muted">
+              <Link to="/crearperfil3" className="text-muted">
                 <i className="bi bi-arrow-left-square me-2"></i>
               </Link>
               <span>Crea tu perfil</span>
@@ -94,57 +92,63 @@ export const Crearperfil4 = () => {
 
                   <div className="col-md-4">
                     <div className="form-group">
-                      {seleccionados.slice(0, 6).map((opcion) => (
-                        <div key={opcion.nombre} className="form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id={opcion.nombre}
-                            value={opcion.nombre}
-                            checked={opcion.seleccionado}
-                            onChange={handleCheckboxChange}
-                          />
-                          <label htmlFor={opcion.nombre} className="form-check-label">
-                            {opcion.nombre}
-                          </label>
+                      {opciones.slice(0, 6).map((item, i) => (
+                        <div className="col-lg-3" key={i}>
+                          <div className="form-check  ">
+                            <label>
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                value={item}
+                                name={item}
+                                checked={checkboxesSeleccionados.indexOf(item) !== -1}
+                                onChange={handleCheckboxChange}
+                              />
+                              {item}
+                            </label>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className="col-md-4">
                     <div className="form-group">
-                      {seleccionados.slice(6, 12).map((opcion) => (
-                        <div key={opcion.nombre} className="form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id={opcion.nombre}
-                            value={opcion.nombre}
-                            checked={opcion.seleccionado}
-                            onChange={handleCheckboxChange}
-                          />
-                          <label htmlFor={opcion.nombre} className="form-check-label">
-                            {opcion.nombre}
-                          </label>
+                      {opciones.slice(6, 12).map((item, i) => (
+                        <div className="col-lg-3" key={i}>
+                          <div className="form-check  ">
+                            <label>
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                value={item}
+                                name={item}
+                                checked={checkboxesSeleccionados.indexOf(item) !== -1}
+                                onChange={handleCheckboxChange}
+                              />
+                              {item}
+                            </label>
+                          </div>
                         </div>
                       ))}
                     </div>
                   </div>
                   <div className="col-md-4">
                     <div className="form-group">
-                      {seleccionados.slice(12).map((opcion) => (
-                        <div key={opcion.nombre} className="form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id={opcion.nombre}
-                            value={opcion.nombre}
-                            checked={opcion.seleccionado}
-                            onChange={handleCheckboxChange}
-                          />
-                          <label htmlFor={opcion.nombre} className="form-check-label">
-                            {opcion.nombre}
-                          </label>
+                      {opciones.slice(12).map((item, i) => (
+                        <div className="col-lg-3" key={i}>
+                          <div className="form-check  ">
+                            <label>
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                value={item}
+                                name={item}
+                                checked={checkboxesSeleccionados.indexOf(item) !== -1}
+                                onChange={handleCheckboxChange}
+                              />
+                              {item}
+                            </label>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -160,20 +164,6 @@ Preséntate de la manera más detallada posible."
                         value={presentacion} onChange={e => setPresentacion(e.target.value)}>
 
                       </textarea>
-                    </div>
-                  </div>
-                </section>
-                <section className="row">
-                  <div className="col-md-6">
-                    <div className="mb-3">
-                      <h3 className="h6 mb-3">¿Cual es tu tarifa por hora?</h3>
-                      <input type="text" className="form-control" name="tarifa" id="tarifa" placeholder="Importe en euros" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="mb-3">
-                      <h3 className="h6 mb-3">¿Plus noche o fin de semana?</h3>
-                      <input type="text" className="form-control" name="plus" id="plus" placeholder="Importe en euros" />
                     </div>
                   </div>
                 </section>
