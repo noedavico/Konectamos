@@ -43,8 +43,8 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 jwt = JWTManager(app)
 
 # configuracion de ruta para guardar las fotos
-app.config['UPLOAD_FOLDER'] = './uploads/profile'
-photos=app.config['UPLOAD_FOLDER']
+app.config['UPLOAD_FOLDER'] = 'uploads/profile/'
+photos = app.config['UPLOAD_FOLDER']
 
 
 # Allow CORS requests to this API
