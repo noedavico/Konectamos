@@ -25,7 +25,6 @@ cloudinary.config(cloud_name=os.getenv('CLOUD_NAME'),
                   api_secret=os.getenv('CLOUD_API_SECRET'))
 
 
-
 api = Blueprint('api', __name__)
 
 
@@ -280,7 +279,6 @@ def get_user_foto(id):
     return jsonify({"foto": foto_query.serialize()}), 200
 
 
-
 @api.route('/direccion', methods=['POST'])
 @jwt_required()
 def add_direccion():
@@ -383,8 +381,6 @@ def add_subcategoria():
     return jsonify({"msg": "El usuario no es profesional o esta inactivo"}), 400
 
 
-
-
 @api.route('/getcategoria', methods=['GET'])
 @jwt_required()
 def get_categoria():
@@ -395,15 +391,21 @@ def get_categoria():
     categoria = None
     if not user_query:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
-    print()
-    user_cat = Categorias.query.filter_by(categorias_user=user_query.id)
-    
-    if user_cat:
-        return jsonify({"msg": "El usuario tiene una categoria"}), 401
 
-    db.session.commit()
+    categoria_query = Categorias.query.filter_by(
+        categorias_user=user_query.id).first()
 
-    return jsonify({"categoria": categoria_query.serialize2()}), 200
+    if not categoria_query:
+        return jsonify({"msg": "El usuario no tiene una categoria asignada"}), 401
+
+    if categoria_query != None:
+        result_categoria = categoria_query.serialize()
+        if result_categoria["cat"] == None:
+            return
+        categoria = result_categoria["cat"]
+
+    return jsonify({"categoria": categoria}), 200
+
 
 @api.route('/tipoUsuario', methods=['PUT'])
 @jwt_required()
