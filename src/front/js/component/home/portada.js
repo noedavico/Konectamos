@@ -23,7 +23,7 @@ export const Portada = () => {
     }, [ciudad, categoria])
 
     return (
-        <div  className="conatiner mt-5 mt-md-0 container fondoclaro p-3 shadow border rounded">
+        <div  className="conatiner my-5 mt-md-0 container fondoclaro p-3 shadow border rounded">
             <div className="row flex-row">
             <div className="col-lg-6 col-sm-12">
             <div className="titular">
