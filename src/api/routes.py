@@ -9,8 +9,21 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_mail import Message
+from werkzeug.utils import secure_filename
+
+from cloudinary.uploader import upload
+from cloudinary.utils import cloudinary_url
+import cloudinary
+
 import random
 import string
+import app
+import os
+
+cloudinary.config(cloud_name=os.getenv('CLOUD_NAME'),
+                  api_key=os.getenv('CLOUD_API_KEY'),
+                  api_secret=os.getenv('CLOUD_API_SECRET'))
+
 
 
 api = Blueprint('api', __name__)
@@ -151,28 +164,121 @@ def create_user_info():
     return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
 
-@api.route('/foto', methods=['POST'])
+@api.route('/user_info', methods=['PUT'])
 @jwt_required()
-def add_foto():
+def update_user_info():
     req_body = request.json
     current_user = get_jwt_identity()
+
+    user = Users.query.filter_by(email=current_user).first()
+    if (
+        user != None and
+        user.es_cuidador == True
+    ):
+        info_query = User_info.query.filter_by(user_id=user.id).first()
+
+        # tabla user_info
+        info_query(
+            descripcion=req_body.get("descripcion", user_info.descripcion),
+            experiencia=req_body.get("experiencia", user_info.experiencia),
+            tarifa=req_body.get("tarifa", user_info.tarifa),
+            plus_tarifa=req_body.get("plus_tarifa", user_info.plus_tarifa),
+            genero=req_body.get("genero", user_info.genero),
+            educacion=req_body.get("educacion", user_info.educacion),
+            puntuacion_global=req_body.get("puntuacion_global",
+                                           user_info.puntuacion_global),
+            cantidad_votos=req_body.get("cantidad_votos",
+                                        user_info.cantidad_votos),
+            numero_telefono=req_body.get("numero_telefono",
+                                         user_info.numero_telefono),
+            fecha_nacimiento=req_body.get("fecha_nacimiento",
+                                          user_info.fecha_nacimiento),
+            redes_sociales=req_body.get("redes_sociales",
+                                        user_info.redes_sociales),
+            tipo_servicios=req_body.get("tipo_servicios",
+                                        user_info.tipo_servicios),
+            user_id=user.id,
+            idiomas=req_body.get("idiomas", user_info.idiomas),
+            aptitudes=req_body.get("aptitudes", user_info.aptitudes)
+        )
+        db.session.add(user_info)
+        db.session.commit()
+
+        user_info_query = User_info.query.filter_by(
+            user_id=user.id).first()
+        user_info_2 = Users.query.filter_by(id=user.id).first()
+
+        response_body = {
+            "msg": "ok",
+            "result": "Datos añadidos al usuario"
+        }
+
+        return jsonify(response_body), 200
+    return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+
+@api.route('/subirfoto', methods=['POST'])
+@jwt_required()
+def foto():
+
+    current_user = get_jwt_identity()
+
+    if 'foto' not in request.files:
+        return jsonify({'error': 'No se encontró ningún archivo'}), 400
 
     user_query = Users.query.filter_by(email=current_user).first()
     if not user_query:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
     user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
-    if user_info_query == None:
+    if not user_info_query:
         return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
 
-    foto = Foto(
-        nombre=req_body.get("foto_nombre"),
-        foto_imagen=req_body.get("foto_imagen"),
-        foto_user_info=user_info_query.id
-    )
-    db.session.add(foto)
-    db.session.commit()
-    return jsonify({"msg": "Se ha actualizado la foto de usuario"}), 200
+    # obtener la foto de la solicitud
+    foto = request.files['foto']
+
+    if foto:
+        upload_result = cloudinary.uploader.upload(foto)
+        print(upload_result)
+        url = upload_result["url"]
+
+        # actualizar la columna de la base de datos con la nueva ruta
+        foto_query = Foto.query.filter_by(
+            foto_user_info=user_info_query.id).first()
+
+        if not foto_query:
+            foto = Foto(
+                nombre=user_query.id,
+                foto_imagen=upload_result["url"],
+                foto_user_info=user_info_query.id
+            )
+            db.session.add(foto)
+        else:
+            foto_query.foto_imagen = url
+
+        db.session.commit()
+
+    # devolver la misma foto como respuesta
+    return jsonify({"url": url}), 200
+
+
+@api.route('/user/<int:id>/foto', methods=['GET'])
+def get_user_foto(id):
+    user_query = Users.query.filter_by(id=id).first()
+    if not user_query:
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+    user_info_query = User_info.query.filter_by(user_id=user_query.id).first()
+    if not user_info_query:
+        return jsonify({"msg": "No se ha encontrado info del usuario"}), 404
+
+    foto_query = Foto.query.filter_by(
+        foto_user_info=user_info_query.id).first()
+    if not foto_query:
+        return jsonify({"msg": "No se ha encontrado la foto del usuario o no se ha subido"}), 404
+
+    return jsonify({"foto": foto_query.serialize()}), 200
+
 
 
 @api.route('/direccion', methods=['POST'])
@@ -212,6 +318,10 @@ def add_subcategoria():
     categoria = None
     if not user_query:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+    user_cat = Categorias.query.filter_by(categorias_user=user_query.id)
+    if not user_cat:
+        return jsonify({"msg": "El usuario tiene una categoria"}), 401
 
     if user_query.es_cuidador == True and user_query.is_active == True:
         if (req_body['subCategoria'] == "mayores"):
@@ -273,6 +383,28 @@ def add_subcategoria():
     return jsonify({"msg": "El usuario no es profesional o esta inactivo"}), 400
 
 
+
+
+@api.route('/getcategoria', methods=['GET'])
+@jwt_required()
+def get_categoria():
+    req_body = request.json
+    current_user = get_jwt_identity()
+
+    user_query = Users.query.filter_by(email=current_user).first()
+    categoria = None
+    if not user_query:
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+    print()
+    user_cat = Categorias.query.filter_by(categorias_user=user_query.id)
+    
+    if user_cat:
+        return jsonify({"msg": "El usuario tiene una categoria"}), 401
+
+    db.session.commit()
+
+    return jsonify({"categoria": categoria_query.serialize2()}), 200
+
 @api.route('/tipoUsuario', methods=['PUT'])
 @jwt_required()
 def set_es_cuidador():
@@ -282,10 +414,9 @@ def set_es_cuidador():
     user = Users.query.filter_by(email=current_user).first()
     if not user:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
-
-    if req_body['categoria'] == "familia":
+    if req_body['tipo'] == "familia":
         user.es_cuidador = False
-    elif req_body['categoria'] == "cuidador":
+    elif req_body['tipo'] == "cuidador":
         user.es_cuidador = True
     else:
         return jsonify({"msg": "Los datos no coinciden"}), 400

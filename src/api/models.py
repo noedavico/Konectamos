@@ -106,7 +106,7 @@ class Users(db.Model):
 
 class User_info(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    descripcion = db.Column(db.Text, unique=False, nullable=False)
+    descripcion = db.Column(db.Text, unique=False, nullable=True)
     experiencia = db.Column(db.String(120), default="",
                             unique=False, nullable=True)
     tarifa = db.Column(db.Integer, unique=False, nullable=True)
@@ -128,7 +128,7 @@ class User_info(db.Model):
     redes_sociales = db.Column(
         db.Text, default="", unique=False, nullable=True)
     aptitudes = db.Column(
-        db.String(120), default="", unique=False, nullable=True)
+        db.String(255), default="", unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user_info_foto = db.relationship('Foto', backref='user_info', lazy=True)
     user_info_direccion = db.relationship(
