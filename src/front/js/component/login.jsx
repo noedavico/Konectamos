@@ -20,8 +20,9 @@ export const Login = () => {
         setPassword("");
         navigate("/registrobienvenidos");
       }
-
-      setPassword("")
+      else {
+        setPassword("")
+      }
     }
   }
   return (

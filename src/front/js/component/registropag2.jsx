@@ -17,7 +17,7 @@ export const Registropag2 = () => {
   }
 
   async function ajusteCategoria(categoria) {
-    if (categoria & await actions.setCategoria(categoria))
+    if (categoria && await actions.setCategoria(categoria))
       navigate("/crearperfil1")
   }
 

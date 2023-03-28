@@ -2,29 +2,91 @@ import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 
+
+
+const listaItems = [
+  {
+    id: 1,
+    titulo: "Envetual",
+    descripcion: "Emergencia, findes.",
+    valor: "Envetual"
+  },
+  {
+    id: 2,
+    titulo: "Jornada parcial",
+    descripcion: "De 4 a 20 hs semanales.",
+    valor: "Jornada parcial"
+  },
+  {
+    id: 3,
+    titulo: "Jornada completa",
+    descripcion: "De 20 a 40 hs semanales",
+    valor: "Jornada completa"
+  },
+  {
+    id: 4,
+    titulo: "Interna semanal",
+    descripcion: "De lunes a viernes 24 hs.",
+    valor: "Interna semanal"
+  },
+  {
+    id: 5,
+    titulo: "Interna fines de semana",
+    descripcion: "Sabado y domingo 24 hs",
+    valor: "Interna fines de semana"
+  },
+  {
+    id: 6,
+    titulo: "Noches",
+    descripcion: "Solo noches",
+    valor: "Noches"
+  }
+];
+
 export const Crearperfil3 = () => {
-  const [idiomas, setIdiomas] = useState("");
-  const [arrayIdiomas, setArrayIdiomas] = useState([]);
-  const [experiencia, setExperiencia] = useState("");
-  const [educacion, setEducacion] = useState("");
-  const [tipoServicio, setTipoServicio] = useState("");
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const navigate = useNavigate();
 
-  console.log(idiomas);
+  const perfil = store?.perfil
 
-  async function handleperfi(e) {
+  const [idiomas, setIdiomas] = useState("");
+  const [arrayIdiomas, setArrayIdiomas] = useState(perfil?.idiomas || []);
+  const [experiencia, setExperiencia] = useState(perfil?.experiencia || "");
+  const [educacion, setEducacion] = useState(perfil?.educacion || "");
+  const [tipoServicio, setTipoServicio] = useState(perfil?.tipo_servicios || []);
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    // check if the checkbox is selected or deselected
+    if (event.target.checked) {
+      // add value to selectedCheckboxes
+      setTipoServicio([...tipoServicio, value]);
+    } else {
+      // remove value from selectedCheckboxes
+      setTipoServicio(tipoServicio.filter((item) => item !== value));
+    }
+
+    console.log(tipoServicio);
+  };
+
+
+  const handleCheck = (event) => {
+    // manejar el evento de checkbox
+  };
+
+
+  async function handlePerfil(e) {
     e.preventDefault();
-    let isLogged = await actions.CreacionPerfil(
-      arrayIdiomas,
-      experiencia,
-      educacion,
-      apellido
-    );
-    if (isLogged) {
+    if (store?.auth) {
+      await actions.creacionPerfil3(
+        arrayIdiomas,
+        experiencia,
+        educacion,
+        tipoServicio
+      )
       //true
 
-      navigate("/login");
+      navigate("/creacionperfil4");
     }
   }
   //funciona agregar idioma
@@ -39,40 +101,39 @@ export const Crearperfil3 = () => {
   };
 
   return (
-    <div class="container">
-      <form onSubmit={handleperfi}>
-        
-          <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
-            <h2 class="h5 mb-3 mb-lg-0">
-              <Link to="/crearperfil2" class="text-muted">
-                <i class="bi bi-arrow-left-square me-2"></i>
-              </Link>{" "}
-              Crea tu perfil
-            </h2>
-          </div>
-          <div class="col-8 mt-3 m-auto">
-          <div class="row">
-            <div class="col-lg-7">
-              <div class="card mb-4">
-                <div class="card-body">
-                  <div class="row">
+    <div className="container">
+      <form onSubmit={handlePerfil}>
+
+        <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+          <h2 className="h5 mb-3 mb-lg-0">
+            <Link to="/crearperfil2" className="text-muted">
+              <i className="bi bi-arrow-left-square me-2"></i>
+            </Link>
+            Crea tu perfil
+          </h2>
+        </div>
+        <div className="col-8 mt-3 m-auto">
+          <section className="row">
+            <article className="col-lg-7">
+              <div className="card mb-4">
+                <div className="card-body">
+                  <div className="row">
                     <div className="col-lg-12 my-2">
-                      <div class="input-group mb-3">
-                        <label className="form-label">Idiomas </label>{" "}
+                      <div className="input-group mb-3">
+                        <label className="form-label">Idiomas </label>
                         <span className="container ">
-                          {" "}
                           {arrayIdiomas.length > 0
                             ? arrayIdiomas.map((item, index) => (
-                                <span
-                                  className="badge bg-secondary text-dark m-2 "
-                                  key={index}
-                                >
-                                  {" "}
-                                  <span style={{ width: "95%" }}>
-                                    {item.label}{" "}
-                                  </span>
+                              <span
+                                className="badge bg-secondary text-dark m-2 "
+                                key={index}
+                              >
+
+                                <span style={{ width: "95%" }}>
+                                  {item.label}
                                 </span>
-                              ))
+                              </span>
+                            ))
                             : null}
                         </span>
                         <input
@@ -98,18 +159,18 @@ export const Crearperfil3 = () => {
                         <select
                           onChange={(e) => setEducacion(e.target.value)}
                           value={educacion}
-                          class="form-select"
+                          className="form-select"
                           aria-label="Default select example"
                           data-select2-id="select2-data-7-809c"
                           tabIndex="-1"
                           aria-hidden="true"
                         >
-                          <option selected></option>
+                          <option defaultValue></option>
                           <option value="Educación Primaria.">
                             Educación Primaria.
                           </option>
                           <option value="Educación Secundaria Obligatoria ESO">
-                            Educación Secundaria Obligatoria ESO{" "}
+                            Educación Secundaria Obligatoria ESO
                           </option>
                           <option value="Bachillerato">Bachillerato</option>
                           <option value="Formacion Profesional">
@@ -165,34 +226,32 @@ export const Crearperfil3 = () => {
                         <select
                           onChange={(e) => setExperiencia(e.target.value)}
                           value={experiencia}
-                          class="form-select"
+                          className="form-select"
                           aria-label="Default select example"
                           data-select2-id="select2-data-4-680y"
                           tabIndex="-1"
                           aria-hidden="true"
                         >
-                          <option selected></option>
+                          <option defaultValue></option>
                           <option value="Sin experiencia, ¡pero estoy dispuesto a aprender!">
-                            {" "}
                             Sin experiencia, ¡pero estoy dispuesto a aprender!
                           </option>
                           <option value="Experiencia familiar">
                             Experiencia familiar
                           </option>
                           <option value="Experiencia profesional, 1 a 2 años">
-                            {" "}
                             Experiencia profesional, 1 a 2 años.
                           </option>
                           <option value="Experiencia profesional, 2 a 5 años.">
-                            {" "}
+
                             Experiencia profesional, 2 a 5 años.
                           </option>
                           <option value="Experiencia profesional, mas de 5 años.">
-                            {" "}
+
                             Experiencia profesional, mas de 5 años.
                           </option>
                           <option value="Experiencia profesional, mas de 10 años.">
-                            {" "}
+
                             Experiencia profesional, mas de 10 años.
                           </option>
                         </select>
@@ -213,7 +272,7 @@ export const Crearperfil3 = () => {
                               aria-labelledby="select2-2fn7-container"
                               aria-controls="select2-2fn7-container"
                             >
-                              {" "}
+
                               <span
                                 className="select2-selection__rendered"
                                 id="select2-2fn7-container"
@@ -236,140 +295,72 @@ export const Crearperfil3 = () => {
                         </span>
                       </div>
                     </div>
+                  </div>
 
-                    <div class="row">
-                      <div class="col-lg-7">
-                        <div class="mb-3">
-                          <label class="form-label">Tarifa </label>
-                          <input
-                            type="text"
-                            placeholder="Ingresa valor en € por hora. Ej 8"
-                            class="form-control"
-                          />
-                        </div>
+                  <div className="row">
+                    <div className="col-lg-7">
+                      <div className="mb-3">
+                        <label className="form-label">Tarifa </label>
+                        <input
+                          type="text"
+                          placeholder="Ingresa valor en € por hora. Ej 8"
+                          className="form-control"
+                        />
                       </div>
-                      <div class="col-lg-5">
-                        <div class="mb-3">
-                          <label class="form-label">Plus Tarifa </label>
-                          <input
-                            type="text"
-                            placeholder="Noches,fin de semanas"
-                            class="form-control"
-                          />
-                        </div>
+                    </div>
+                    <div className="col-lg-5">
+                      <div className="mb-3">
+                        <label className="form-label">Plus Tarifa </label>
+                        <input
+                          type="text"
+                          placeholder="Noches,fin de semanas"
+                          className="form-control"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-5">
-              <div class="card mb-4">
-                <div class="card-body">
-                  <h3 class="h6">Disponibilidad horaria</h3>
-                  <ul class="list-group list-group-flush mx-n2">
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Envetual</h6>
-                        <small> Emergencia, fines de semana.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value="Envetual"
-                          role="switch"
-                        />
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Jornada parcial, </h6>
-                        <small>De 4 a 20 hs semanales.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value="Jornada parcial"
-                          role="switch"
-                        />
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Jornada completa</h6>
-                        <small>De 20 a 40 hs semanales</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value="Jornada completa"
-                          role="switch"
-                        />
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Interna semanal</h6>
-                        <small>De lunes a viernes 24 hs.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value="Interna semanal"
-                          role="switch"
-                        />
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Interna fines de semana</h6>
-                        <small>Sabado y domingo 24 hs</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value="Interna fines de semana"
-                          role="switch"
-                        />
-                      </div>
-                    </li>
-                    <li class="list-group-item px-0 d-flex justify-content-between align-items-start">
-                      <div class="ms-2 me-auto">
-                        <h6 class="mb-0">Noches</h6>
-                        <small>Solo noches</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          value="Noches"
-                          role="switch"
-                        />
-                      </div>
-                    </li>
+            </article>
+
+            <article className="col-lg-5">
+              <div className="card mb-4">
+                <div className="card-body">
+                  <h3 className="h6">Disponibilidad horaria</h3>
+                  <ul className="list-group list-group-flush mx-n2">
+                    {
+                      listaItems.map((item) => (
+                        <li key={item.id} className="list-group-item px-0 d-flex justify-content-between align-items-start">
+                          <div className="ms-2 me-auto">
+                            <h6 className="mb-0">{item.titulo}</h6>
+                            <small>{item.descripcion}</small>
+                          </div>
+                          <div className="form-check form-switch">
+                            <input
+                              className="form-check-input"
+                              type="checkbox"
+                              value={item.valor}
+                              role="switch"
+                              onChange={handleCheckboxChange}
+                            />
+                          </div>
+                        </li>
+                      ))}
                   </ul>
                 </div>
               </div>
-            </div>
-            </div>
+            </article>
+          </section>
         </div>
-        <div class="row justify-content-end">
-          <div class="col-4 align-self-end">
-            <Link to="/crearperfil4">
-              <button type="submit" className="btn  btn-primary  ">
-                {" "}
-                <span className="text">Siguiente</span>{" "}
-                <i class="fa-solid fa-arrow-right"></i>
-              </button>
-            </Link>
+        <div className="row justify-content-end">
+          <div className="col-4 align-self-end">
+            <button onClick={handlePerfil} type="submit" className="btn  btn-primary  ">
+              <span className="text">Siguiente</span>
+              <i className="fa-solid fa-arrow-right"></i>
+            </button>
           </div>
         </div>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 };

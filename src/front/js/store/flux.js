@@ -12,6 +12,27 @@ const getState = ({
             cuidadoresMascotas: [],
             cuidadoresMayores: [],
             infoDetallada: [],
+            perfil: {
+                descripcion: "",
+                experiencia: "",
+                tarifa: "",
+                plus_tarifa: "",
+                numero_telefono: "",
+                fecha_nacimiento: "",
+                genero: "",
+                educacion: "",
+                redes_sociales: "",
+                tipo_servicios: [],
+                idiomas: [],
+                aptitudes: "",
+                foto: null,
+                direccion: {
+                    calle: "",
+                    ciudad: "",
+                    provincia: "",
+                    codigo_postal: "",
+                }
+            },
             message: null,
             categorias: [{
                 tipo: "Mayores",
@@ -44,10 +65,6 @@ const getState = ({
         },
         actions: {
             // Use getActions to call a function within a fuction
-            exampleFunction: () => {
-                getActions().changeColor(0, "green");
-            },
-
             getMessage: async () => {
                 try {
                     // fetching data from the backend
@@ -63,23 +80,13 @@ const getState = ({
                     alert(error);
                 }
             },
-            changeColor: (index, color) => {
-                //get the store
-                const store = getStore();
-
-                //we have to loop the entire demo array to look for the respective index
-                //and change its color
-                const demo = store.demo.map((elm, i) => {
-                    if (i === index) elm.background = color;
-                    return elm;
-                });
-
-                //reset the global store
-                setStore({
-                    demo: demo,
-                });
-            },
-            //funcion de logueo verifica el usario recibido desde el front
+            /**
+             * funcion de logueo verifica el usario recibido desde el front
+             * La API valida que nombre de usuario y contraseña sean correctos y regresa un objeto token
+             * @param {string} email 
+             * @param {string} password 
+             * @returns 
+             */
             login: async (email, password) => {
                 try {
                     let response = await axios.post(
@@ -88,7 +95,7 @@ const getState = ({
                         password: password,
                     }
                     );
-                    //La API valida que nombre de usuario y contraseña sean correctos y regresa un objeto token
+                    //
 
                     localStorage.setItem("token", response.data.access_token);
 
@@ -100,10 +107,18 @@ const getState = ({
                     alert(error);
                 }
             },
-            // funcion para crear nuevo usuario
+            // fin
+            /**
+             * funcion para crear nuevo usuario
+             * @param {string} email 
+             * @param {string} password 
+             * @param {string} nombre 
+             * @param {string} apellido 
+             * @returns 
+             */
             singup: async (email, password, nombre, apellido) => {
                 try {
-                    let response = axios.post(process.env.BACKEND_URL + "/api/user", {
+                    let response = await axios.post(process.env.BACKEND_URL + "/api/user", {
                         nombre: nombre,
                         apellido: apellido,
                         email: email,
@@ -114,8 +129,11 @@ const getState = ({
                     alert(error);
                 }
             },
-
             //fin
+            /**
+             * checkea si el token sigue siendo valido
+             * @returns 
+             */
             validToken: async () => {
                 const token = localStorage.getItem("token");
                 try {
@@ -139,6 +157,11 @@ const getState = ({
                 }
             },
             //fin
+            /**
+             * funcion para configurar el tipo de categoria del usuario
+             * @param {string} tipo 
+             * @returns 
+             */
             tipoUsuario: async (tipo) => {
                 const token = localStorage.getItem("token");
                 try {
@@ -152,13 +175,19 @@ const getState = ({
                         },
                     }
                     );
-                    if (response.status >= 200 & response.status < 300) return true
+                    if (response.status >= 200 && response.status < 300)
+                        return true
                     return false
                 } catch (error) {
                     if (error.response.status >= 400) alert(error);
                 }
             },
             //fin
+            /**
+             * funcion para enviar una nueva contraseña
+             * @param {string} email 
+             * @returns 
+             */
             password_recovery: async (email) => {
                 try {
                     let response = await axios.post(
@@ -177,6 +206,9 @@ const getState = ({
                 }
             },
             //fin
+            /**
+             * funcion para traer los datos de todos los usuarios
+             */
             loadUsuarios: async () => {
                 try {
                     let response = await axios.get(
@@ -209,7 +241,10 @@ const getState = ({
                     //   alert(error.response.data.msg);
                 }
             }, //fin
-
+            /**
+             * funcion para traer datos de 1 usuario
+             * @param {number} uid 
+             */
             loadInfoDetallada: async (uid) => {
                 try {
                     let response = await axios.get(
@@ -223,57 +258,144 @@ const getState = ({
                     //   alert(error.response.data.msg);
                 }
             }, //fin
-
-            // funcion para crear perfil 
-            creacionPerfil: async (numTelefono, fechaNacimiento, genero) => {
-                try {
-                    let response = axios.post(process.env.BACKEND_URL + "/api/user_info", {
-                        numero_telefono: numTelefono,
-                        fecha_nacimiento: fechaNacimiento,
-                        genero: genero,
-
-                    });
-                    return true;
-                } catch (error) {
-                    alert(error);
-                }
-            }, //fin
-            perfilDireccion: async (calle, ciudad, provincia, codigoPostal) => {
-                try {
-                    let response = axios.post(process.env.BACKEND_URL + "/api/direccion", {
-                        calle: calle,
-                        ciudad: ciudad,
-                        provincia: provincia,
-                        codigo_postal: codigoPostal
-                    });
-                    return true;
-                } catch (error) {
-                    alert(error);
-                }
-            }, //fin
-            setDescripcion: async (lista, presentacion, tarifa, plus) => {
+            /**
+             * funcion para crear perfil 
+             * @returns 
+             */
+            creacionPerfil: async () => {
                 const token = localStorage.getItem("token");
                 try {
                     let response = await axios.post(
-                        process.env.BACKEND_URL + "/api/descripcion", {
-                        tipoPersona: lista,
-                        descripcion: presentacion,
-                        tarifa: tarifa,
-                        plus: plus
-                    }, {
-                        headers: {
-                            withCredentials: true,
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
+                        process.env.BACKEND_URL + "/api/user_info",
+                        getStore()?.perfil,
+                        {
+                            headers: {
+                                withCredentials: true,
+                                Authorization: `Bearer ${token}`,
+                            }
+                        }
                     );
-                    if (response.status >= 200 & response.status < 300) return true
-                    return false
+                    return true;
                 } catch (error) {
-                    if (error.response.status >= 400) alert(error.response.data.msg);
+                    alert(error);
                 }
-            },// fin
-            subirFoto: async (foto) => {
+            }, //fin
+            /**
+             * funcion para añadir datos vista 1
+             * @param {number} numTelefono 
+             * @param {Date} fechaNacimiento 
+             * @param {string} genero 
+             * @param {FormData} foto 
+             */
+            creacionPerfil1: async (numTelefono, fechaNacimiento, genero, foto) => {
+                try {
+                    setStore({
+                        perfil: {
+                            numero_telefono: parseInt(numTelefono),
+                            fecha_nacimiento: fechaNacimiento,
+                            genero: genero,
+                            foto: foto,
+                        },
+                    })
+                } catch (error) {
+                    alert(error);
+                }
+            }, //fin
+            /**
+             * funcion para añadir datos vista 2
+             * @param {string} calle 
+             * @param {string} ciudad 
+             * @param {string} provincia 
+             * @param {number} codigoPostal 
+             */
+            creacionPerfil2: async (calle, ciudad, provincia, codigoPostal) => {
+                try {
+                    setStore({
+                        perfil: {
+                            direccion: {
+                                calle: calle,
+                                ciudad: ciudad,
+                                provincia: provincia,
+                                codigo_postal: codigoPostal
+                            }
+                        }
+                    })
+                } catch (error) {
+                    alert(error);
+                }
+            }, //fin
+
+            /**
+             * funcion para añadir datos vista 3
+             * @param {string} arrayIdiomas 
+             * @param {string} experiencia 
+             * @param {string} educacion 
+             * @param {Array<string>} tipoServicios 
+             */
+            creacionPerfil3: async (arrayIdiomas, experiencia, educacion, tipoServicios) => {
+                try {
+                    setStore({
+                        perfil: {
+                            idiomas: arrayIdiomas,
+                            experiencia: experiencia,
+                            educacion: educacion,
+                            tipo_servicios: tipoServicios,
+                        },
+                    })
+                } catch (error) {
+                    alert(error);
+                }
+            }, //fin
+
+            /**
+             * funcion para añadir datos vista 4
+             * @param {string} aptitudes 
+             * @param {string} presentacion 
+             * @param {number} tarifa 
+             * @param {number} plus 
+             */
+            creacionPerfil4: async (aptitudes, presentacion, tarifa, plus) => {
+                try {
+                    setStore({
+                        perfil: {
+                            aptitudes: aptitudes,
+                            presentacion: presentacion,
+                            tarifa: tarifa,
+                            plus_tarifa: plus,
+                        },
+                    })
+                } catch (error) {
+                    alert(error);
+                }
+            }, //fin
+
+            /**
+             * funcion para crear direccion
+             * @returns 
+             */
+            perfilDireccion: async () => {
+                const token = localStorage.getItem("token");
+                try {
+                    let response = await axios.post(
+                        process.env.BACKEND_URL + "/api/direccion",
+                        getStore()?.perfil?.direccion,
+                        {
+                            headers: {
+                                withCredentials: true,
+                                Authorization: `Bearer ${token}`,
+                            }
+                        }
+                    );
+                    return true;
+                } catch (error) {
+                    alert(error);
+                }
+            }, //fin
+            /**
+             * funcion para subir foto
+             * @returns 
+             */
+            subirFoto: async () => {
                 const token = localStorage.getItem("token");
                 try {
                     let response = await axios.post(
@@ -285,13 +407,16 @@ const getState = ({
                         },
                     }
                     );
-                    if (response.status >= 200 & response.status < 300) return true
+                    if (response.status >= 200 && response.status < 300) return true
                     return false
                 } catch (error) {
                     console.log(error);
                     if (error.response?.status >= 400) alert(error.response.data.msg);
                 }
             },// fin
+            /**
+             * funcion para crear categoria del usuario
+             */
             setCategoria: async (categoria) => {
                 const token = localStorage.getItem("token");
                 try {
@@ -305,13 +430,15 @@ const getState = ({
                         },
                     }
                     );
-                    if (response.status >= 200 & response.status < 300) return true
+                    if (response.status >= 200 && response.status < 300) return true
                     return false
                 } catch (error) {
                     if (error.response.status >= 400) alert(error.response.data.msg);
                 }
             }, //fin
-            //funcion para cerrar sesion
+            /**
+             * funcion para cerrar sesion
+             */
             logout: () => {
                 localStorage.removeItem("token")
                 setStore({

@@ -12,6 +12,7 @@ export const RegistroBienvenidos = () => {
     let isLogged = await actions.validToken();
     if (!isLogged) //false
       navigate("/login")
+
   }
 
   useEffect(() => {

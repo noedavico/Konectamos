@@ -24,15 +24,19 @@ const opciones = [
 ];
 
 export const Crearperfil4 = () => {
-  const { actions } = useContext(Context)
+  const { store, actions } = useContext(Context)
   const navigate = useNavigate();
 
+  const perfil = store?.perfil
+
+  const [marcados, setMarcados] = useState(perfil?.aptitudes)
+
   const [seleccionados, setSeleccionados] = useState(
-    opciones.map((opcion) => ({ nombre: opcion, seleccionado: false }))
+    opciones.map((opcion, index) => ({ nombre: opcion, seleccionado: compruebaMarcados(marcados, opcion, index) }))
   );
-  const [presentacion, setPresentacion] = useState("")
-  const [tarifa, setTarifa] = useState("")
-  const [plus, setPlus] = useState("")
+  const [presentacion, setPresentacion] = useState(perfil?.descripcion || "")
+  const [tarifa, setTarifa] = useState(perfil?.tarifa || "")
+  const [plus, setPlus] = useState(perfil?.plus_tarifa || "")
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
@@ -43,6 +47,12 @@ export const Crearperfil4 = () => {
     );
   };
 
+  function compruebaMarcados(check, opcion, index) {
+    let arr = check.split(";").filter((item, i) => item === opcion && index === i)
+    console.log(arr);
+    return false
+  }
+
   async function handlePerfil(e) {
     e.preventDefault()
 
@@ -51,16 +61,11 @@ export const Crearperfil4 = () => {
         return opcion.nombre
 
     });
-    if (lista.length > 0 & presentacion & tarifa & plus) {
-      lista = lista.join(",")
+    lista = lista.join(";")
 
-      if (await actions.setDescripcion(lista, presentacion, tarifa, plus)) {//true
-        setSeleccionados(opciones.map((opcion) => ({ nombre: opcion, seleccionado: false })))
-        setPresentacion("")
-        setTarifa("")
-        setPlus("")
-        navigate("/crearperfil4")
-      }
+    if (await actions.creacionPerfil4(lista, presentacion, tarifa, plus)) {//true
+
+      navigate("/crearperfil")
     }
   }
 

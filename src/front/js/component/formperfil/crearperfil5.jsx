@@ -1,18 +1,58 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
+import { checkboxesCualificaciones, checkServicios, edadNinos } from "./opcionesPerfil5.js";
 
 export const Crearperfil5 = () => {
-  const [numTelefono, setNumTelefono] = useState("");
-  const [fechaNacimiento, setfechaNacimiento] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
+  const [selectedServicios, setSelectedServicios] = useState([]);
+  const [checkedEdadNinos, setCheckedEdadNinos] = useState([]);
+  const [cualificacion, setCualificacion] = useState([]);
+
+  // cualificaciones
+  const handleCheckboxCualif = (event) => {
+    const value = event.target.value;
+    if (event.target.checked) {
+      setCualificacion((prevCheckboxes) => [...prevCheckboxes, value]);
+    } else {
+      setCualificacion((prevCheckboxes) =>
+        prevCheckboxes.filter((checkbox) => checkbox !== value)
+      );
+    }
+  };
+
+  // edades
+  const handleChangeEdad = (event) => {
+
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      setCheckedEdadNinos([...checkedEdadNinos, value]);
+    } else {
+      setCheckedEdadNinos(checkedEdadNinos.filter((val) => val !== value));
+    }
+  };
+
+
+  //servicios
+
+  const handleCheckboxServicios = (event) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      setSelectedServicios([...selectedServicios, value]);
+    } else {
+      setSelectedServicios(selectedServicios.filter((val) => val !== value));
+    }
+  };
+
+
+  //guardar datos
   async function handleperfi(e) {
     e.preventDefault();
-    let isLogged = await actions.perfilniños(email, password, nombre, apellido);
+    let isLogged = await actions.perfilNinos();
     if (isLogged) {
       //true
 
@@ -21,198 +61,138 @@ export const Crearperfil5 = () => {
   }
 
   return (
-    <div class="container">
+    <div className="container">
       <form onSubmit={handleperfi}>
-      
-        <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
-          <h2 class="h5 mb-3 mb-lg-0">
-            <Link to="/crearperfil4" class="text-muted">
-              <i class="bi bi-arrow-left-square me-2"></i>
-            </Link>{" "}
-            Crea tu perfil{" "}
+
+        <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+          <h2 className="h5 mb-3 mb-lg-0">
+            <Link to="/crearperfil4" className="text-muted">
+              <i className="bi bi-arrow-left-square me-2"></i>
+            </Link>
+            Crea tu perfil
           </h2>
         </div>
 
-        <div class="row">
-          <div class="col-8 mt-3 m-auto">
-            <div class="card mb-4">
-              <div class="card-body">
-                <div class="row">
-                  <div class="card-header">
-                    <p class="h6 mb-4">Selecciona que servicios ofreces:</p>
+        <div className="row">
+          <div className="col-8 mt-3 m-auto">
+            <div className="card mb-4">
+              <div className="card-body">
+                <div className="row">
+                  <div className="card-header">
+                    <h6 className="mb-4">Selecciona que servicios ofreces:</h6>
                   </div>
-                  <div class="col-lg-6 my-2">
-                    <div class="form-check form-check-inline">
+                  <div className="col-lg-6 my-2">
+                    <div className="form-check form-check-inline">
                       <input
-                        class="form-check-input"
                         type="checkbox"
                         id="inlineCheckbox1"
                         value="Ayudar a los niños con los deberes"
                       />
-                      <label class="form-check-label" for="inlineCheckbox1">
+                      <label className="form-check-label" htmlFor="inlineCheckbox1">
                         Ayudar a los niños con los deberes
                       </label>
                     </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox2"
-                        value="Cocinar para los niños"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox2">
-                        Cocinar para los niños
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox1"
-                        value="Auyudar con las tareas del hogar"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox1">
-                        Auyudar con las tareas del hogar
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 my-2">
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox2"
-                        value="Acompañamiento y recogida del colegio"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox2">
-                        Acompañamiento y recogida del colegio
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox2"
-                        value="Actividades de ocio y tiempo libre"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox2">
-                        Actividades de ocio y tiempo libre
-                      </label>
-                    </div>
+                    <ul className="list-group">
+                      {checkServicios.map((item, i) => (
+                        <li className="list-group-item" key={i}>
+                          <label className="form-check-label">
+                            <input
+                              className="form-check-input me-1"
+                              type="checkbox"
+                              name={item}
+                              value={item}
+                              checked={selectedServicios.includes(item)}
+                              onChange={handleCheckboxServicios}
+                            />
+                            {item}
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
 
-                <div class="row my-2">
-                  <div class="card-header">
-                    <h6 class="h6 mb-4">
+                <div className="row my-2">
+                  <div className="card-header">
+                    <h6 className="h6 mb-4">
                       Selecciona las edades de los niños que has cuidado
                       anteriormente?
                     </h6>
                   </div>
-                  <div class="col-lg-3">
-                    <div class="form-check  ">
+                  <div className="col-lg-3">
+                    <div className="form-check  ">
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         type="checkbox"
                         value="Responsable"
                         id="flexCheckDefault"
                       />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        0 a 1 año{" "}
+                      <label className="form-check-label" htmlFor="flexCheckDefault">
+                        0 a 1 año
                       </label>
                     </div>
                   </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Responsable"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        1 a 3 años{" "}
+                  {edadNinos.map((item, i) => (
+                    <div className="col-lg-3" key={i}>
+                      <label className="form-check-label" >
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          name={item}
+                          value={item}
+                          checked={checkedEdadNinos.includes(item)}
+                          onChange={handleChangeEdad}
+                        />
+                        {item}
                       </label>
                     </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Responsable"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        3 a 6 años{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Responsable"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        mayores de 6 años{" "}
-                      </label>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-                
-                <div class="row my-2">
-                  <div class="card-header">
-                    <p class="h6 mb-4">
+
+                <div className="row my-2">
+                  <div className="card-header">
+                    <p className="h6 mb-4">
                       ¿Tienes algunas de estas cualificaciones? No es
                       obligatorio, pero es un plus :)
                     </p>
                   </div>
-                  <div class="col-lg-6">
-                    <div class="mb-3">
-                      <div class="form-check form-check-inline">
+                  <div className="col-lg-6">
+                    <div className="mb-3">
+                      <div className="form-check form-check-inline">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="inlineCheckbox1"
                           value="Primeros auxilios (o socorrista)"
                         />
-                        <label class="form-check-label" for="inlineCheckbox1">
+                        <label className="form-check-label" htmlFor="inlineCheckbox1">
                           Primeros auxilios (o socorrista)
                         </label>
                       </div>
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox2"
-                          value="Monitor-Animador Sociocultural"
-                        />
-                        <label class="form-check-label" for="inlineCheckbox2">
-                          Monitor-Animador Sociocultural
-                        </label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Formación en Educación Infantil"
-                        />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                          Formación en Educación Infantil
-                        </label>
-                      </div>
+                      {checkboxesCualificaciones.map((checkbox) => (
+                        <div className="form-check form-check-inline" key={checkbox.id}>
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            id={checkbox.id}
+                            value={checkbox.value}
+                            checked={cualificacion.includes(checkbox.value)}
+                            onChange={handleCheckboxCualif}
+                          />
+                          <label className="form-check-label" htmlFor={checkbox.id}>
+                            {checkbox.label}
+                          </label>
+                        </div>
+                      )
+                      )}
                     </div>
+                  </div>
                 </div>
               </div>
+
             </div>
-           
           </div>
         </div>
-      </div>
       </form>
     </div>
   );

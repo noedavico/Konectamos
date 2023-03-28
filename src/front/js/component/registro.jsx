@@ -24,7 +24,7 @@ export const Registro = () => {
         setPassword("")
         setApellido("")
         setNombre("")
-        navigate("/login")
+        navigate("/registrobienvenidos")
       }
     }
   }

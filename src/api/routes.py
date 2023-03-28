@@ -286,10 +286,9 @@ def add_subcategoria():
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
     user_cat = Categorias.query.filter_by(categorias_user=user_query.id)
-    if user_cat:
+    if not user_cat:
         return jsonify({"msg": "El usuario tiene una categoria"}), 401
 
-    print(req_body)
     if user_query.es_cuidador == True and user_query.is_active == True:
         if (req_body['subCategoria'] == "mayores"):
             mayores = Mayores(

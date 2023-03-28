@@ -16,13 +16,14 @@ export const Registropag1 = () => {
   }
 
   async function tipoUsuario(tipo) {
-    if (tipo & await actions.tipoUsuario(tipo))
+    if (tipo && await actions.tipoUsuario(tipo)) {
       if (tipo === "cuidador") {
         navigate("/registropag2")
       }
       else if (tipo === "usuario") {
         navigate("/registrousuario")
       }
+    }
 
   }
 
@@ -39,7 +40,7 @@ export const Registropag1 = () => {
               <img
                 src={Familia}
                 alt="Imagen Familia"
-                width="130"
+                width="130px"
                 className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"
               />
               <span className=" text-decoration-none text-white" onClick={() => tipoUsuario("familia")}>
@@ -50,7 +51,7 @@ export const Registropag1 = () => {
                     <br />
                     Soluciona imprevistos con niños, adultos mayores o mascotas.
                     <br />
-                    Para unas pocas horas o para contratar{" "}
+                    Para unas pocas horas o para contratar
                   </p>
                 </div>
               </span>
@@ -60,7 +61,7 @@ export const Registropag1 = () => {
               <img
                 src={Chica}
                 alt="Imagen Cuidador/a"
-                width="130"
+                width="130px"
                 className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"
               />
 

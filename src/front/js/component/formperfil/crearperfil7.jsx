@@ -3,18 +3,61 @@ import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 
+
+const checkEspecies = [
+  "Gato",
+  "Perro",
+  "Peces",
+  "Aves",
+  "Cerdito",
+  "Reptiles",
+  "Conejos",
+  "Roedores",
+];
+
+const checkServicios = [
+  "Atención a tiempo completo en casa de la mascota vacaciones y otros",
+  "Atención a tiempo completo en mi domicilio (vacaciones y otros)",
+  "Familia de acogida, alojamiento",
+  "Visita a domicilio",
+  "Salidas y paseo",
+]
+
+
 export const Crearperfil7 = () => {
-  const [numTelefono, setNumTelefono] = useState("");
-  const [fechaNacimiento, setfechaNacimiento] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
-  async function handleperfi(e) {
+  const [seleccionadoEspecie, setSeleccionadoEspecie] = useState([]);
+  const [seleccionadoServicios, setSeleccionadoServicios] = useState([]);
+  const [formacion, setFormacion] = useState("")
+
+
+
+  const handleCheckboxServicios = (event) => {
+    const valor = event.target.value;
+    const index = seleccionadoServicios.indexOf(valor);
+    if (index === -1) {
+      setSeleccionadoServicios([...seleccionadoServicios, valor]);
+    } else {
+      setSeleccionadoServicios(seleccionadoServicios.filter((item) => item !== valor));
+    }
+  };
+
+  const handleCheckboxEspecie = (event) => {
+    const valor = event.target.value;
+    const index = seleccionadoEspecie.indexOf(valor);
+    if (index === -1) {
+      setSeleccionadoEspecie([...seleccionadoEspecie, valor]);
+    } else {
+      setSeleccionadoEspecie(seleccionadoEspecie.filter((item) => item !== valor));
+    }
+  };
+
+  async function handlePerfil(e) {
     e.preventDefault();
-    let isLogged = await actions.perfilmascotas(email, password, nombre, apellido);
-    if (isLogged) {
+    let isLogged = await actions.perfilmascotas();
+    if (isLogged) { //TO-DO 
       //true
 
       navigate("/login");
@@ -22,224 +65,104 @@ export const Crearperfil7 = () => {
   }
 
   return (
-    <div class="container">
-      <form onSubmit={handleperfi}>
-        <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
-          <h2 class="h5 mb-3 mb-lg-0">
-            <Link to="/crearperfil4" class="text-muted">
-              <i class="bi bi-arrow-left-square me-2"></i>
-            </Link>{" "}
-            Crea tu perfil{" "}
+    <div className="container">
+      <form onSubmit={handlePerfil}>
+        <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+          <h2 className="h5 mb-3 mb-lg-0">
+            <Link to="/crearperfil4" className="text-muted">
+              <i className="bi bi-arrow-left-square me-2"></i>
+            </Link>
+            <span>Crea tu perfil</span>
           </h2>
         </div>
 
-        <div class="row">
-          <div class="col-8 mt-3 m-auto">
-            <div class="card mb-4">
-              <div class="card-body">
-              <div class="row ">
-                  <div class="card-header">
-                    <h6 class="h6 ">
+        <div className="row">
+          <div className="col-8 mt-3 m-auto">
+            <div className="card mb-4">
+              <div className="card-body">
+                <div className="row ">
+                  <div className="card-header">
+                    <h6 className="h6 ">
                       Selecciona animales que cuidarias
                     </h6>
                   </div>
-                  <div class="col-lg-3">
-                    <div class="form-check  ">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Gato"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                       Gato{" "}
-                      </label>
+                  {checkEspecies.map((item, i) => (
+                    <div className="col-lg-3" key={i}>
+                      <div className="form-check  ">
+                        <label>
+                          <input
+                            className="form-check-input"
+                            type="checkbox"
+                            value={item}
+                            name={item}
+                            checked={seleccionadoEspecie.indexOf(item) !== -1}
+                            onChange={handleCheckboxEspecie}
+                          />
+                          {item}
+                        </label>
+                      </div>
                     </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Perro"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Perro{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Peces"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Peces{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Aves"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Aves{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check  ">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Cerdito"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                       Cerdito{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Reptiles"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Reptiles{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Conejos"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Conejos{" "}
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-3">
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value="Roedores"
-                        id="flexCheckDefault"
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Roedores{" "}
-                      </label>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-                
-                <div class="row my-">
-                  <div class="card-header">
-                    <p class="h6 ">
-                      Selecciona los servicios que ofreces 
+                <div className="row my-2">
+                  <div className="card-header">
+                    <p className="h6 ">
+                      Selecciona los servicios que ofreces
                     </p>
                   </div>
-                  <div class="col-lg-7">
-                    <div class="mb-3">
-                    
-                  
-                      <div class="form-check form-check-inline">
+                  <div className="col-lg-7 mb-3">
+                    {checkServicios.slice(0, 2).map((item, i) => (
+                      <div className="form-check form-check-inline" key={i}>
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Atención a tiempo completo en casa de la mascota vacaciones y otros"
+                          value={item}
+                          name={item}
+                          id={"servicio0" + i}
+                          checked={seleccionadoServicios.indexOf(item) !== -1}
+                          onChange={handleCheckboxServicios}
                         />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                        Atención a tiempo completo en casa de la mascota, vacaciones y otros.
+                        <label className="form-check-label" htmlFor={"servicio0" + i}>
+                          {item}
                         </label>
                       </div>
-                      
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Atención a tiempo completo en mi domicilio"
-                        />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                        Atención a tiempo completo en mi domicilio (vacaciones y otros).
-                        </label>
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                  <div class="col-lg-5">
-                    <div class="mb-3">
-                      <div class="form-check form-check-inline">
+                  <div className="col-lg-5 mb-3">
+                    {checkServicios.slice(2).map((item, i) => (
+                      <div className="form-check form-check-inline" key={i}>
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Familia de acogida, alojamiento"
+                          value={item}
+                          name={item}
+                          id={"servicio1" + i}
+                          checked={seleccionadoServicios.indexOf(item) !== -1}
+                          onChange={handleCheckboxServicios}
                         />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                        Familia de acogida, alojamiento
-
+                        <label className="form-check-label" htmlFor={"servicio1" + i}>
+                          {item}
                         </label>
                       </div>
-                      
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Visita a domicilio"
-                        />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                        Visita a domicilio
-
-                        </label>
-                      </div>
-                      
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox2"
-                          value="Salidas y paseo"
-                        />
-                        <label class="form-check-label" for="inlineCheckbox2">
-                        Salidas y paseo
-                        </label>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-                <div class="col-lg-12">
-                      <div class="mb-3">
-                        <h6 class="form-label"> Tienes alguna formacion a fines</h6>
-                        <input
-                          type="text"
-                          class="form-control"
-                          value=""
-                        />
-                      </div>
-                    </div>
+                <div className="col-lg-12">
+                  <div className="mb-3">
+                    <h6 className="form-label"><label htmlFor="afin">¿Tienes alguna formación afín?</label></h6>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="afin"
+                      value={formacion}
+                      onChange={(e) => { setFormacion(e.target.value) }}
+                    />
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
         </div>
-      </div>
       </form>
     </div>
   );

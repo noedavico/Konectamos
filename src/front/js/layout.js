@@ -4,7 +4,6 @@ import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./pages/home";
 import { Perfiles } from "./pages/perfiles.jsx";
-import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
@@ -56,7 +55,6 @@ const Layout = () => {
             <Route path="/crearperfil7/" element={<Crearperfil7 />} />
             <Route element={<Perfiles />} path="/perfiles/:perfil" />
             <Route element={<Home />} path="/" />
-            <Route element={<Demo />} path="/demo" />
             <Route element={<Single />} path="/perfildetallado/:id" />
             <Route element={<h1> Not found! </h1>} />
           </Routes>

@@ -3,15 +3,55 @@ import React, { useState, useContext } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 
+const checkServicio = [
+  "Auxiliar de enfermeria",
+  "Cuidado y asistencia para el adulto mayor",
+  "Auxiliarde geriatria",
+  "Atencion sociosanitaria",
+  "Primeros auxilios",
+  "Emergencias",
+]
+
+
+const checkServicios = [
+  "Ayudar a los niños con los deberes",
+  "Cocinar para los niños",
+  "Auyudar con las tareas del hogar",
+  "Acompañamiento y recogida del colegio",
+  "Actividades de ocio y tiempo libre",
+]
+
 export const Crearperfil6 = () => {
-  const [numTelefono, setNumTelefono] = useState("");
-  const [fechaNacimiento, setfechaNacimiento] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
-  async function handleperfi(e) {
+
+  const [seleccionadoServicio, setSeleccionadoServicio] = useState([]);
+  const [seleccionadoServicios, setSeleccionadoServicios] = useState([]);
+
+  const handleCheckboxServicios = (event) => {
+    const valor = event.target.value;
+    const index = seleccionadoServicios.indexOf(valor);
+    if (index === -1) {
+      setSeleccionadoServicios([...seleccionadoServicios, valor]);
+    } else {
+      setSeleccionadoServicios(seleccionadoServicios.filter((item) => item !== valor));
+    }
+  };
+
+  //servicio
+  const handleCheckboxServicio = (event) => {
+    const valor = event.target.value;
+    const index = seleccionadoServicio.indexOf(valor);
+    if (index === -1) {
+      setSeleccionadoServicio([...seleccionadoServicio, valor]);
+    } else {
+      setSeleccionadoServicio(seleccionadoServicio.filter((item) => item !== valor));
+    }
+  };
+
+
+  async function handlePerfil(e) {
     e.preventDefault();
     let isLogged = await actions.perfilmayores(email, password, nombre, apellido);
     if (isLogged) {
@@ -22,193 +62,116 @@ export const Crearperfil6 = () => {
   }
 
   return (
-    <div class="container">
-      <form onSubmit={handleperfi}>
-     
-        <div class="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
-          <h2 class="h5 mb-3 mb-lg-0">
-            <Link to="/crearperfil4" class="text-muted">
-              <i class="bi bi-arrow-left-square me-2"></i>
-            </Link>{" "}
-            Crea tu perfil{" "}
+    <div className="container">
+      <form onSubmit={handlePerfil}>
+
+        <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
+          <h2 className="h5 mb-3 mb-lg-0">
+            <Link to="/crearperfil4" className="text-muted">
+              <i className="bi bi-arrow-left-square me-2"></i>
+            </Link>
+            <span>Crea tu perfil</span>
           </h2>
         </div>
 
-        <div class="row">
-          <div class="col-8 mt-3 m-auto">
-            <div class="card mb-4">
-              <div class="card-body">
-                <div class="row">
-                  <div class="card-header">
-                    <p class="h6">Selecciona que servicios ofreces:</p>
+        <div className="row">
+          <div className="col-8 mt-3 m-auto">
+            <div className="card mb-4">
+              <div className="card-body">
+                <div className="row">
+                  <div className="card-header">
+                    <p className="h6">Selecciona que servicios ofreces:</p>
                   </div>
-                  <div class="col-lg-7 my-2">
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox1"
-                        value="Asistencia de hogar (limpieza, cocina, compras)"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox1">
-                      Asistencia de hogar (limpieza, cocina, compras)
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox2"
-                        value="Asistencia personal (aseo, curas, medicación)"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox2">
-                      Asistencia personal (aseo, curas, medicación)
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox2"
-                        value="Acompañamientos (citas médicas, paseo)"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox2">
-                      Acompañamientos (citas médicas, paseo)
-                      </label>
-                    </div>
-                   
+                  <div className="col-lg-7 mb-lg-3 mt-3">
+                    {checkServicio.slice(0, 3).map((item, i) => (
+                      <div className="form-check form-check-inline" key={i}>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={item}
+                          name={item}
+                          id={"servicio0" + i}
+                          checked={seleccionadoServicio.indexOf(item) !== -1}
+                          onChange={handleCheckboxServicio}
+                        />
+                        <label className="form-check-label" htmlFor={"servicio0" + i}>
+                          {item}
+                        </label>
+                      </div>
+                    ))}
+
                   </div>
-                  <div class="col-lg-5 my-2">
-                  <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox1"
-                        value="Actividades (ocio junto al mayor)"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox1">
-                      Actividades (ocio junto al mayor)
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox2"
-                        value="Asistencia en hospitales"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox2">
-                      Asistencia en hospitales
-                      </label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="inlineCheckbox2"
-                        value="Compañía y escucha activa"
-                      />
-                      <label class="form-check-label" for="inlineCheckbox2">
-                      Compañía noches
-                      </label>
-                    </div>
-                   
+                  <div className="col-lg-5 mb-3 mt-lg-3">
+                    {checkServicio.slice(3).map((item, i) => (
+                      <div className="form-check form-check-inline" key={i}>
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value={item}
+                          name={item}
+                          id={"servicio1" + i}
+                          checked={seleccionadoServicio.indexOf(item) !== -1}
+                          onChange={handleCheckboxServicio}
+                        />
+                        <label className="form-check-label" htmlFor={"servicio1" + i}>
+                          {item}
+                        </label>
+                      </div>
+                    ))}
+
                   </div>
                 </div>
 
-                
 
-                <div class="row ">
-                  <div class="card-header">
-                    <p class="h6 ">
-                      ¿Tienes algunas de estas cualificaciones? No es
-                      obligatorio, pero es un plus :)
+
+                <div className="row ">
+                  <div className="card-header">
+                    <p className="h6 ">
+                      ¿Tienes algunas de estas cualificaciones? No es obligatorio, pero es un plus :)
                     </p>
                   </div>
-                  <div class="col-lg-7">
-                    <div class="mb-3">
-                    
-                      
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox2"
-                          value="Auxiliar de enfermeria "
-                        />
-                        <label class="form-check-label" for="inlineCheckbox2">
-                        Auxiliar de enfermeria 
-                        </label>
-                      </div>
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Cuidado y asistencia para el adulto mayor"
-                        />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                        Cuidado y asistencia para el adulto mayor
-                        </label>
-                      </div>
+                  <div className="col-lg-7 mb-lg-3 mt-3">
 
-                      <div class="form-check form-check-inline">
+                    {checkServicios.slice(0, 3).map((item, i) => (
+                      <div className="form-check form-check-inline" key={i}>
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Auxiliarde geriatria"
+                          value={item}
+                          name={item}
+                          id={"qa0" + i}
+                          checked={seleccionadoServicios.indexOf(item) !== -1}
+                          onChange={handleCheckboxServicios}
                         />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                        Auxiliarde geriatria
+                        <label className="form-check-label" htmlFor={"qa0" + i}>
+                          {item}
                         </label>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                  <div class="col-lg-5">
-                    <div class="mb-3">
-                      <div class="form-check form-check-inline">
+                  <div className="col-lg-5 mb-3 mt-lg-3">
+                    {checkServicios.slice(3).map((item, i) => (
+                      <div className="form-check form-check-inline" key={i}>
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Atencion sociosanitaria"
+                          value={item}
+                          name={item}
+                          id={"qa1" + i}
+                          checked={seleccionadoServicios.indexOf(item) !== -1}
+                          onChange={handleCheckboxServicios}
                         />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                        Atencion sociosanitaria
+                        <label className="form-check-label" htmlFor={"qa1" + i}>
+                          {item}
                         </label>
                       </div>
-                      
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Primeros auxilios "
-                        />
-                        <label class="form-check-label" for="inlineCheckbox1">
-                          Primeros auxilios(o socorrista)
-                        </label>
-                      </div>
-                      
-                      <div class="form-check form-check-inline">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox2"
-                          value="Emergencia"
-                        />
-                        <label class="form-check-label" for="inlineCheckbox2">
-                        Emergencias
-                        </label>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
+          </div>
         </div>
-      </div>
       </form>
     </div>
   );
