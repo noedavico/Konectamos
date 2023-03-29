@@ -7,6 +7,7 @@ const getState = ({
 }) => {
     return {
         store: {
+            auth: localStorage.getItem("auth") || false,
             allusers: [],
             cuidadoresPeques: [],
             cuidadoresMascotas: [],
@@ -15,23 +16,26 @@ const getState = ({
             perfil: {
                 descripcion: "",
                 experiencia: "",
-                tarifa: "",
-                plus_tarifa: "",
+                tarifa: 0,
+                plus_tarifa: 0,
+                puntuacion_global: 0,
+                cantidad_votos: 0,
                 numero_telefono: "",
                 fecha_nacimiento: "",
                 genero: "",
+                foto: new FormData(),
                 educacion: "",
                 redes_sociales: "",
                 tipo_servicios: [],
                 idiomas: [],
-                aptitudes: "",
-                foto: null,
-                direccion: {
-                    calle: "",
-                    ciudad: "",
-                    provincia: "",
-                    codigo_postal: null,
-                }
+                aptitudes: [],
+
+            },
+            direccion: {
+                domicilio: "",
+                ciudad: "",
+                provincia: "",
+                codigo_postal: "",
             },
             message: null,
             categorias: [{
@@ -98,7 +102,7 @@ const getState = ({
                     //
 
                     localStorage.setItem("token", response.data.access_token);
-
+                    localStorage.setItem("auth", true);
                     setStore({
                         auth: true,
                     });
@@ -131,6 +135,17 @@ const getState = ({
             },
             //fin
             /**
+             * funcion para cerrar sesion
+             */
+            logout: () => {
+                localStorage.removeItem("token")
+                localStorage.removeItem("auth")
+                setStore({
+                    auth: false
+                })
+            },
+            //fin
+            /**
              * checkea si el token sigue siendo valido
              * @returns 
              */
@@ -145,7 +160,7 @@ const getState = ({
                     }
                     );
 
-                    if (response.status === 200) {
+                    if (response.status >= 200 && response.status < 300) {
                         setStore({
                             auth: response.data.isLogged,
                         });
@@ -195,7 +210,6 @@ const getState = ({
                         email: email,
                     }
                     );
-                    console.log(response);
 
                     return true;
                 } catch (error) {
@@ -258,13 +272,15 @@ const getState = ({
                     //   alert(error.response.data.msg);
                 }
             }, //fin
-            loadUser: async () => {
-
+            /**
+             * Pide al back el nombre de la categoria que tiene ese usuario en particular
+             * @returns el nombre de la categoria
+             */
+            loadUserCategoria: async () => {
                 const token = localStorage.getItem("token");
                 try {
-                    let response = await axios.post(
-                        process.env.BACKEND_URL + "/api/user_info",
-                        getStore()?.perfil,
+                    let response = await axios.get(
+                        process.env.BACKEND_URL + "/api/getcategoria",
                         {
                             headers: {
                                 withCredentials: true,
@@ -272,34 +288,12 @@ const getState = ({
                             }
                         }
                     );
-                    return true;
+                    return response?.data?.categoria
                 } catch (error) {
-                    alert(error);
+                    console.log(error);
+                    // alert(error);
                 }
             },
-
-            /**
-             * funcion para crear perfil 
-             * @returns 
-             */
-            creacionPerfil: async () => {
-                const token = localStorage.getItem("token");
-                try {
-                    let response = await axios.post(
-                        process.env.BACKEND_URL + "/api/user_info",
-                        getStore()?.perfil,
-                        {
-                            headers: {
-                                withCredentials: true,
-                                Authorization: `Bearer ${token}`,
-                            }
-                        }
-                    );
-                    return true;
-                } catch (error) {
-                    alert(error);
-                }
-            }, //fin
             /**
              * funcion para añadir datos vista 1
              * @param {number} numTelefono 
@@ -329,15 +323,14 @@ const getState = ({
              * @param {number} codigoPostal 
              */
             creacionPerfil2: async (calle, ciudad, provincia, codigoPostal) => {
+
                 try {
                     setStore({
-                        perfil: {
-                            direccion: {
-                                calle: calle,
-                                ciudad: ciudad,
-                                provincia: provincia,
-                                codigo_postal: codigoPostal
-                            }
+                        direccion: {
+                            domicilio: calle,
+                            ciudad: ciudad,
+                            provincia: provincia,
+                            codigo_postal: codigoPostal
                         }
                     })
                 } catch (error) {
@@ -347,14 +340,15 @@ const getState = ({
 
             /**
              * funcion para añadir datos vista 3
-             * @param {string} arrayIdiomas 
+             * @param {Array<string>} arrayIdiomas 
              * @param {string} experiencia 
              * @param {string} educacion 
              * @param {Array<string>} tipoServicios 
+             * @param {number} tarifa
+             * @param {number} plus
              */
             creacionPerfil3: async (arrayIdiomas, experiencia, educacion, tipoServicios, tarifa, plus) => {
 
-                console.log(arrayIdiomas, experiencia, educacion, tipoServicios);
                 try {
                     setStore({
                         perfil: {
@@ -363,7 +357,7 @@ const getState = ({
                             educacion: educacion,
                             tipo_servicios: tipoServicios,
                             tarifa: tarifa,
-                            plus: plus
+                            plus_tarifa: plus
                         },
                     })
                 } catch (error) {
@@ -374,16 +368,14 @@ const getState = ({
             /**
              * funcion para añadir datos vista 4
              * @param {string} aptitudes 
-             * @param {string} presentacion 
-             * @param {number} tarifa 
-             * @param {number} plus 
+             * @param {string} presentacion
              */
             creacionPerfil4: async (aptitudes, presentacion) => {
                 try {
                     setStore({
                         perfil: {
                             aptitudes: aptitudes,
-                            presentacion: presentacion
+                            descripcion: presentacion
                         },
                     })
                 } catch (error) {
@@ -391,16 +383,62 @@ const getState = ({
                 }
             }, //fin
 
+
+
             /**
-             * funcion para crear direccion
+             * funcion para crear perfil 
              * @returns 
              */
-            perfilDireccion: async () => {
+            gestionPerfil: async () => {
+                try {
+                    const actions = getActions()
+                    if (
+                        await actions.creacionPerfil()
+                        && await actions.subirFoto()
+                        && await actions.perfilDireccion()
+                    )
+                        return true;
+                } catch (error) {
+                    alert(error);
+                }
+            }, //fin
+
+            /**
+             * funcion para crear perfil 
+             * @returns 
+             */
+            creacionPerfil: async (datos) => {
                 const token = localStorage.getItem("token");
                 try {
                     let response = await axios.post(
-                        process.env.BACKEND_URL + "/api/direccion",
-                        getStore()?.perfil?.direccion,
+                        process.env.BACKEND_URL + "/api/user_info",
+                        datos,
+                        {
+                            headers: {
+                                withCredentials: true,
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": "application/json"
+                            }
+                        }
+                    );
+                    if (response.status >= 200 && response.status < 300)
+                        return true;
+                } catch (error) {
+                    console.warn(error);
+                    return false
+                }
+            }, //fin
+
+            /**
+             * funcion para crear perfil 
+             * @returns 
+             */
+            actualizaPerfil: async (datosNuevos) => {
+                const token = localStorage.getItem("token");
+                try {
+                    let response = await axios.put(
+                        process.env.BACKEND_URL + "/api/user_info",
+                        datosNuevos,
                         {
                             headers: {
                                 withCredentials: true,
@@ -408,32 +446,73 @@ const getState = ({
                             }
                         }
                     );
-                    return true;
+                    if (response.status >= 200 && response.status < 300)
+                        return true;
                 } catch (error) {
-                    alert(error);
+                    console.warn(error);
+                    return false
+                }
+            }, //fin
+
+            /**
+             * funcion para crear direccion
+             * @returns 
+             */
+            perfilDireccion: async (calle, ciudad, provincia, codigoPostal) => {
+                const token = localStorage.getItem("token");
+                try {
+                    const direccion = getStore()?.direccion
+                    direccion.calle = direccion.domicilio
+
+                    let response = await axios.post(
+                        process.env.BACKEND_URL + "/api/direccion",
+                        {
+                            calle: calle,
+                            ciudad: ciudad,
+                            provincia: provincia,
+                            codigo_postal: codigoPostal
+                        },
+                        {
+                            headers: {
+                                withCredentials: true,
+                                Authorization: `Bearer ${token}`,
+                            }
+                        }
+                    );
+                    if (response.status >= 200 && response.status < 300)
+                        return true;
+                } catch (error) {
+                    console.warn(error);
+                    return false
                 }
             }, //fin
             /**
              * funcion para subir foto
+             * @param {FormData} foto
              * @returns 
              */
-            subirFoto: async () => {
+            subirFoto: async (foto) => {
                 const token = localStorage.getItem("token");
                 try {
-                    let response = await axios.post(
-                        process.env.BACKEND_URL + "/api/subirfoto", foto, {
-                        headers: {
-                            withCredentials: true,
-                            Authorization: `Bearer ${token}`,
-                            "Content-Type": 'multipart/form-data'
-                        },
+                    if (foto.has("foto")) {
+
+                        let response = await axios.post(
+                            process.env.BACKEND_URL + "/api/subirfoto", foto, {
+                            headers: {
+                                withCredentials: true,
+                                Authorization: `Bearer ${token}`,
+                                "Content-Type": 'multipart/form-data'
+                            },
+                        }
+                        );
+                        if (response.status >= 200 && response.status < 300)
+                            return true;
                     }
-                    );
-                    if (response.status >= 200 && response.status < 300) return true
-                    return false
                 } catch (error) {
-                    console.log(error);
-                    if (error.response?.status >= 400) alert(error.response.data.msg);
+
+                    console.warn(error);
+                    if (error.response?.status >= 400) console.error(error.response?.data?.msg);
+                    return false
                 }
             },// fin
             /**
@@ -452,22 +531,38 @@ const getState = ({
                         },
                     }
                     );
-                    if (response.status >= 200 && response.status < 300) return true
+
+                    if (response?.status >= 200 && response?.status < 300) return true
                     return false
                 } catch (error) {
-                    if (error.response.status >= 400) alert(error.response.data.msg);
+                    if (error?.response?.status >= 400) alert(error?.response?.data?.msg);
+                    console.error(error);
                 }
             }, //fin
             /**
-             * funcion para cerrar sesion
+             * funcion para actualizar categoria del usuario
              */
-            logout: () => {
-                localStorage.removeItem("token")
-                setStore({
-                    auth: false
-                })
-            }, //fin
+            actualizaCategoria: async (datos) => {
+                const token = localStorage.getItem("token");
+                try {
+                    let response = await axios.put(
+                        process.env.BACKEND_URL + "/api/subcategoria",
+                        datos,
+                        {
+                            headers: {
+                                withCredentials: true,
+                                Authorization: `Bearer ${token}`,
+                            },
+                        }
+                    );
 
+                    if (response?.status >= 200 && response?.status < 300) return true
+                    return false
+                } catch (error) {
+                    if (error?.response?.status >= 400) alert(error?.response?.data?.msg);
+                    console.error(error);
+                }
+            }, //fin
         },
     };
 };

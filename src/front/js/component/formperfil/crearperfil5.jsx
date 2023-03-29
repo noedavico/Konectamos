@@ -7,8 +7,8 @@ export const Crearperfil5 = () => {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
-  const [selectedServicios, setSelectedServicios] = useState([]);
-  const [checkedEdadNinos, setCheckedEdadNinos] = useState([]);
+  const [servicios, setServicios] = useState([]);
+  const [checkEdadNinos, setCheckEdadNinos] = useState([]);
   const [cualificacion, setCualificacion] = useState([]);
 
   // cualificaciones
@@ -29,9 +29,9 @@ export const Crearperfil5 = () => {
     const value = event.target.value;
     const isChecked = event.target.checked;
     if (isChecked) {
-      setCheckedEdadNinos([...checkedEdadNinos, value]);
+      setCheckEdadNinos([...checkEdadNinos, value]);
     } else {
-      setCheckedEdadNinos(checkedEdadNinos.filter((val) => val !== value));
+      setCheckEdadNinos(checkEdadNinos.filter((val) => val !== value));
     }
   };
 
@@ -42,31 +42,44 @@ export const Crearperfil5 = () => {
     const value = event.target.value;
     const isChecked = event.target.checked;
     if (isChecked) {
-      setSelectedServicios([...selectedServicios, value]);
+      setServicios([...servicios, value]);
     } else {
-      setSelectedServicios(selectedServicios.filter((val) => val !== value));
+      setServicios(servicios.filter((val) => val !== value));
     }
   };
 
 
   //guardar datos
-  async function handleperfi(e) {
-    e.preventDefault();
-    let isLogged = await actions.perfilNinos();
-    if (isLogged) {
-      //true
 
-      navigate("/login");
+  async function handlePerfil(e) {
+    e.preventDefault();
+
+    const datos = {
+      servicios: servicios.join(";"),
+      edades: edadNinos.join(";"),
+      formacion: cualificacion
     }
+
+    if (await actions.actualizaCategoria(datos))
+      navigate("/")
   }
+
+  async function validacion(e) {
+    if (!(await actions.validToken()))
+      //false
+      navigate("/login");
+  }
+  useEffect(() => {
+    validacion();
+  }, []);
 
   return (
     <div className="container">
-      <form onSubmit={handleperfi}>
+      <form onSubmit={handlePerfil}>
 
         <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
           <h2 className="h5 mb-3 mb-lg-0">
-            <Link to="/crearperfil4" className="text-muted">
+            <Link to="/crearperfil/4" className="text-muted">
               <i className="bi bi-arrow-left-square me-2"></i>
             </Link>
             Crea tu perfil
@@ -81,19 +94,9 @@ export const Crearperfil5 = () => {
                   <div className="card-header">
                     <h6 className="mb-4">Selecciona que servicios ofreces:</h6>
                   </div>
-                  <div className="col-lg-6 my-2">
-                    <div className="form-check form-check-inline">
-                      <input
-                        type="checkbox"
-                        id="inlineCheckbox1"
-                        value="Ayudar a los niños con los deberes"
-                      />
-                      <label className="form-check-label" htmlFor="inlineCheckbox1">
-                        Ayudar a los niños con los deberes
-                      </label>
-                    </div>
-                    <ul className="list-group">
-                      {checkServicios.map((item, i) => (
+                  <div className="col-lg-6 mt-2 my-lg-2">
+                    <ul className="my-0 my-lg-3">
+                      {checkServicios.slice(0, 3).map((item, i) => (
                         <li className="list-group-item" key={i}>
                           <label className="form-check-label">
                             <input
@@ -101,7 +104,7 @@ export const Crearperfil5 = () => {
                               type="checkbox"
                               name={item}
                               value={item}
-                              checked={selectedServicios.includes(item)}
+                              checked={servicios.includes(item)}
                               onChange={handleCheckboxServicios}
                             />
                             {item}
@@ -110,6 +113,24 @@ export const Crearperfil5 = () => {
                       ))}
                     </ul>
                   </div>
+                  <div className="col-lg-6 my-lg-2 mb-2">
+                    <ul className="my-lg-3">
+                      {checkServicios.slice(3).map((item, i) => (
+                        <li className="list-group-item" key={i}>
+                          <label className="form-check-label">
+                            <input
+                              className="form-check-input me-1"
+                              type="checkbox"
+                              name={item}
+                              value={item}
+                              checked={servicios.includes(item)}
+                              onChange={handleCheckboxServicios}
+                            />
+                            {item}
+                          </label>
+                        </li>
+                      ))}
+                    </ul></div>
                 </div>
 
                 <div className="row my-2">
@@ -119,34 +140,23 @@ export const Crearperfil5 = () => {
                       anteriormente?
                     </h6>
                   </div>
-                  <div className="col-lg-3">
-                    <div className="form-check  ">
-                      <input
-                        className="form-check-input"
-                        type="checkbox"
-                        value="Responsable"
-                        id="flexCheckDefault"
-                      />
-                      <label className="form-check-label" htmlFor="flexCheckDefault">
-                        0 a 1 año
-                      </label>
-                    </div>
+                  <div className="row p-2">
+                    {edadNinos.map((item, i) => (
+                      <div className="col-6 col-lg-3" key={i}>
+                        <label className="form-check-label" >
+                          <input
+                            className="form-check-input me-2"
+                            type="checkbox"
+                            name={item}
+                            value={item}
+                            checked={checkEdadNinos.includes(item)}
+                            onChange={handleChangeEdad}
+                          />
+                          {item}
+                        </label>
+                      </div>
+                    ))}
                   </div>
-                  {edadNinos.map((item, i) => (
-                    <div className="col-lg-3" key={i}>
-                      <label className="form-check-label" >
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          name={item}
-                          value={item}
-                          checked={checkedEdadNinos.includes(item)}
-                          onChange={handleChangeEdad}
-                        />
-                        {item}
-                      </label>
-                    </div>
-                  ))}
                 </div>
 
                 <div className="row my-2">
@@ -192,8 +202,16 @@ export const Crearperfil5 = () => {
 
             </div>
           </div>
+          <div className="row justify-content-end">
+            <div className="col-4 align-self-end">
+              <button type="submit" className="btn  btn-primary">
+                <span className="text">Siguiente </span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
         </div>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 };

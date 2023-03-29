@@ -1,29 +1,27 @@
 import { Link } from "react-router-dom";
-import React, { useContext, useState, useEffect } from "react";
-import { Context } from "../store/appContext";
-import ImageWithFallback from "./imagenFallback";
+import React from "react";
+import ImageWithFallback from "../imagenFallback";
 
 export const PerfilesRandom = (props) => {
-  const { store, actions } = useContext(Context);
-  
+
   return (
     <div className="col me-2">
-		  <div className=" card card-cover text-bg-dark" style={{width: "15rem"}}>
-          <ImageWithFallback
-            imageUrl={props?.foto}
-            alt={props?.foto_alt}
-            className="card-img-top circle p-2"
-          />
-          <div class="card-body">
-    
-              <h3> {props.nombre}</h3>
-              <p>
-                
-                Cuidador de
-                {props.categoria === "peques" ? "niños" : props.categoria}{" "}
-              </p>
-            
-            
+      <div className=" card card-cover text-bg-light" style={{ width: "15rem" }}>
+        <ImageWithFallback
+          imageUrl={props?.foto}
+          alt={props?.foto_alt}
+          className="card-img-top circle p-2"
+        />
+        <div className="card-body">
+
+          <h3> {props.nombre}</h3>
+          <p>
+
+            Cuidador de
+            {props.categoria === "peques" ? "niños" : props.categoria}
+          </p>
+
+
           <p className="cuidad-container">
             <span>{props.ciudad}</span>
           </p>
@@ -62,7 +60,7 @@ export const PerfilesRandom = (props) => {
           </div>
         </div>
       </div>
-      </div>
+    </div>
 
   );
 };

@@ -18,7 +18,7 @@ export const Registropag2 = () => {
 
   async function ajusteCategoria(categoria) {
     if (categoria && await actions.setCategoria(categoria))
-      navigate("/crearperfil1")
+      navigate("/crearperfil/1")
   }
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export const Registropag2 = () => {
 
       <div className="container mt-4">
         <div className="row text-center">
-          <div className="col-lg-4 col-12 mb-5 position-relative" onClick={() => ajusteCategoria("peques")}>
+          <div role="button" tabIndex="0" className="col-lg-4 col-12 mb-5 position-relative" onClick={() => ajusteCategoria("peques")}>
             <img src={Niños} alt="." width="130" className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute" />
             <div className=" rounded shadow-sm py-5 px-4 fondoclaro" style={{ height: "250px" }} >
               <h5 className="mb-2 mt-5  text-white">Niños</h5>
@@ -46,7 +46,7 @@ export const Registropag2 = () => {
             </div>
           </div>
 
-          <div className="col-lg-4 col-12 mb-5 mt-5 mt-lg-0 position-relative" onClick={() => ajusteCategoria("mayores")}>
+          <div role="button" tabIndex="0" className="col-lg-4 col-12 mb-5 mt-5 mt-lg-0 position-relative" onClick={() => ajusteCategoria("mayores")}>
             <img src={Adultos} alt="." width="130" className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute" />
             <div className="rounded shadow-sm py-5 px-4 fondoclaro" style={{ height: "250px" }} >
               <h5 className="mb-2 mt-5 text-white">Adultos mayores</h5>
@@ -54,7 +54,7 @@ export const Registropag2 = () => {
             </div>
           </div>
 
-          <div className="col-lg-4 col-12 mb-5 mt-5 mt-lg-0 position-relative" onClick={() => ajusteCategoria("mascotas")}>
+          <div role="button" tabIndex="0" className="col-lg-4 col-12 mb-5 mt-5 mt-lg-0 position-relative" onClick={() => ajusteCategoria("mascotas")}>
             <img src={Paseador} alt="." width="130" className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute" />
             <div className=" rounded shadow-sm py-5 px-4 fondoclaro" style={{ height: "250px" }} >
               <h5 className="mb-2  mt-5 text-white">Mascotas</h5>
