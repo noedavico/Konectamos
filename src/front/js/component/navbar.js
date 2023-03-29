@@ -14,8 +14,8 @@ export const Navbar = () => {
 		navigate("/")
 	}
 	return (
-		<nav className=" navbar navbar-expand-lg ">
-			<div className="row d-flex" style={{ width: "80%" }}>
+		<nav className=" navbar m-0 navbar-expand-lg ">
+			<div className="row d-flex" style={{width: "80%"}}>
 				<Link to="/">
 
 					<img src={Logo} className="img-fluid " style={{ height: "130px" }} />

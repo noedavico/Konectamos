@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
 import { SearchBar } from "../SearchBar/SearchBar";
-
+import Banner from "../../../img/banner.png"
 import Familia from "../../../img/familia.png";
 
 export const Portada = () => {
@@ -23,6 +23,9 @@ export const Portada = () => {
     }, [ciudad, categoria])
 
     return (
+
+        
+                            {/* </div>
         <div  className="conatiner my-5 mt-md-0 container fondoclaro p-3 shadow border rounded">
             <div className="row flex-row">
             <div className="col-lg-6 col-sm-12">
@@ -49,6 +52,6 @@ export const Portada = () => {
             </div>
         </div > 
     </div>
-    
+     */}
     );
 };

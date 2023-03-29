@@ -32,23 +32,27 @@ export const Detallados = () => {
   ];
 
   return (
+  
 
-<div className="container mt-5">
-    <div className="row text-center mt-5">{secciones.map((seccion, index) => (
-       <div key={index} className="col-xl-4 col-sm-6 mb-5 position-relative" >
+
+  
+<div className="container pt-4 mt-5">
+    <section className="row text-center mt-5">{secciones.map((seccion, index) => (
+       <div key={index} className="col-lg-4 col-md-4 col-sm-12 mb-5 position-relative" >
          <Link className=" text-decoration-none text-white" to={"/perfiles/" + seccion.categoria}>
         <img src={seccion.src}
             alt={seccion.imgAlt} 
               width="130px" 
-              className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"/>
-            <div className=" rounded shadow-sm py-5 px-4 fondoclaro" style={{height:"200px"}} >
-                <h5 className="mb-2  my-4 text-white">{seccion.titulo}</h5>
-                <span className="small text-uppercase  text-white">{seccion.descripcion}</span>
+              className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow position-absolute"/>
+            <div className=" rounded shadow-sm py-5 px-3 mb-5 fondoclaro" style={{height:"240px"}} >
+                <h5 className="mb-2  my-4 text-uppercase text-white">{seccion.titulo}</h5>
+                <span className="small  mb-3 text-white ">{seccion.descripcion}</span>
             </div>
             </Link>
         </div>
     ))}
-    </div>
+    </section>
+   
 </div>
 
   );
