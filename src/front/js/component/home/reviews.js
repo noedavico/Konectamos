@@ -7,7 +7,7 @@ export const Reviews = () => {
     const [sizeCard, setSizeCard] = useState("");
     const [reviewClass, setReviewClass] = useState("");
 
-    //TODO pendiente de eliminar y usar store
+    //TO-DO pendiente de eliminar y usar store
     const reviews = [
         {
             id: 1,

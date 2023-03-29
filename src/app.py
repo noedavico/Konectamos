@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
-from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask import Flask, request, jsonify, url_for
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -14,6 +14,7 @@ from api.commands import setup_commands
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 from datetime import timedelta
+
 
 # from models import Person
 
@@ -35,9 +36,15 @@ ACCESS_EXPIRES = timedelta(hours=12)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+
 app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 jwt = JWTManager(app)
+
+# configuracion de ruta para guardar las fotos
+app.config['UPLOAD_FOLDER'] = 'uploads/profile/'
+photos = app.config['UPLOAD_FOLDER']
+
 
 # Allow CORS requests to this API
 CORS(app)
