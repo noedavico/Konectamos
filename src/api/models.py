@@ -113,7 +113,7 @@ class User_info(db.Model):
     plus_tarifa = db.Column(db.Integer, unique=False, nullable=True)
     puntuacion_global = db.Column(db.Integer, unique=False, nullable=True)
     cantidad_votos = db.Column(db.Integer, unique=False, nullable=True)
-    numero_telefono = db.Column(db.Integer, unique=False, nullable=True)
+    numero_telefono = db.Column(db.String(20), unique=False, nullable=True)
     fecha_nacimiento = db.Column(
         db.String(120), default="", unique=False, nullable=True)
     genero = db.Column(db.String(10), default="", unique=False, nullable=True)
@@ -265,6 +265,18 @@ class Categorias(db.Model):
             result = mascota.serialize()
 
         return result
+
+    def categoria(self):
+        if self.peques_id != None:
+            return "peques"
+
+        elif self.mayores_id != None:
+            return "mayores"
+
+        elif self.mascota_id != None:
+            return "mascota"
+        else:
+            return ""
 
 
 class Peques(db.Model):

@@ -93,6 +93,7 @@ def create_user():
     user_query = Users.query.filter_by(email=req_body["email"]).first()
 
     if user_query is None:
+        user = None
         if (req_body.get("password") != None and
                 len(req_body.get("password")) >= 8 and
                 1 == 1):
@@ -109,9 +110,11 @@ def create_user():
             message = "el usuario se a creado con exito"
             status = 200
 
+            access_token = create_access_token(identity=req_body.get("email"))
+            return jsonify(access_token=access_token), 200
+
     response_body = {
         "msg": message
-
     }
 
     return jsonify(response_body), status
@@ -175,42 +178,37 @@ def update_user_info():
         user != None and
         user.es_cuidador == True
     ):
-        user_info_query = User_info.query.filter_by(user_id=user.id)[-1]
+        user_info_query = User_info.query.filter_by(user_id=user.id).first()
 
         # tabla user_info
-        user_info_query = User_info(
-            descripcion=req_body.get(
-                "descripcion", user_info_query.descripcion or None),
-            experiencia=req_body.get(
-                "experiencia", user_info_query.experiencia or None),
-            tarifa=req_body.get("tarifa", user_info_query.tarifa or None),
-            plus_tarifa=req_body.get(
-                "plus_tarifa", user_info_query.plus_tarifa or None),
-            genero=req_body.get("genero", user_info_query.genero),
-            educacion=req_body.get("educacion", user_info_query.educacion),
-            puntuacion_global=req_body.get("puntuacion_global",
-                                           user_info_query.puntuacion_global or None),
-            cantidad_votos=req_body.get("cantidad_votos",
-                                        user_info_query.cantidad_votos or None),
-            numero_telefono=req_body.get("numero_telefono",
-                                         user_info_query.numero_telefono or None),
-            fecha_nacimiento=req_body.get("fecha_nacimiento",
-                                          user_info_query.fecha_nacimiento or None),
-            redes_sociales=req_body.get("redes_sociales",
-                                        user_info_query.redes_sociales or None),
-            tipo_servicios=req_body.get("tipo_servicios",
-                                        user_info_query.tipo_servicios or None),
-            user_id=user.id,
-            idiomas=req_body.get("idiomas", user_info_query.idiomas or None),
-            aptitudes=req_body.get(
-                "aptitudes", user_info_query.aptitudes or None)
-        )
-        db.session.add(user_info_query)
-        db.session.commit()
+        user_info_query.descripcion = req_body.get(
+            "descripcion", user_info_query.descripcion)
+        user_info_query.experiencia = req_body.get(
+            "experiencia", user_info_query.experiencia)
+        user_info_query.tarifa = req_body.get("tarifa", user_info_query.tarifa)
+        user_info_query.plus_tarifa = req_body.get(
+            "plus_tarifa", user_info_query.plus_tarifa)
+        user_info_query.genero = req_body.get("genero", user_info_query.genero)
+        user_info_query.educacion = req_body.get(
+            "educacion", user_info_query.educacion)
+        user_info_query.puntuacion_global = req_body.get(
+            "puntuacion_global", user_info_query.puntuacion_global)
+        user_info_query.cantidad_votos = req_body.get(
+            "cantidad_votos", user_info_query.cantidad_votos)
+        user_info_query.numero_telefono = req_body.get(
+            "numero_telefono", user_info_query.numero_telefono)
+        user_info_query.fecha_nacimiento = req_body.get(
+            "fecha_nacimiento", user_info_query.fecha_nacimiento)
+        user_info_query.redes_sociales = req_body.get(
+            "redes_sociales", user_info_query.redes_sociales)
+        user_info_query.tipo_servicios = req_body.get(
+            "tipo_servicios", user_info_query.tipo_servicios)
+        user_info_query.idiomas = req_body.get(
+            "idiomas", user_info_query.idiomas)
+        user_info_query.aptitudes = req_body.get(
+            "aptitudes", user_info_query.aptitudes)
 
-        user_info_query = User_info.query.filter_by(
-            user_id=user.id).first()
-        user_info_2 = Users.query.filter_by(id=user.id).first()
+        db.session.commit()
 
         response_body = {
             "msg": "ok",
@@ -401,44 +399,40 @@ def set_categoria():
 
     user_cat = Categorias.query.filter_by(
         categorias_user=user_query.id).first()
+
     if not user_cat:
         return jsonify({"msg": "El usuario no tiene una categoria"}), 401
+        categoria_usuario = user_cat.categoria()
 
-        if (user_cat.serialize()["cat"] == "mayores"):
+        if ("mayores" in categoria_usuario):
             mayores_query = Mayores.query.filter_by(
                 categorias=user_cat.id).first()
 
-            mayores = Mayores(
-                servicios=req_body.get("servicios", mayores_query.servicios),
-                formacion=req_body.get("formacion", mayores_query.formacion)
-            )
-            db.session.add(mayores)
-            db.session.commit()
+            mayores_query.servicios = req_body.get(
+                "servicios", mayores_query.servicios)
+            mayores_query.formacion = req_body.get(
+                "formacion", mayores_query.formacion)
 
-        elif (user_cat.serialize()["cat"] == "peques"):
+        elif ("peques" in categoria_usuario):
             peques_query = Peques.query.filter_by(
                 categorias=user_cat.id).first()
 
-            peques = Peques(
-                servicios=req_body.get("servicios", peques_query.servicios),
-                edades=req_body.get("edades", peques_query.edades),
-                formacion=req_body.get("formacion", peques.formacion)
-            )
-            db.session.add(peques)
-            db.session.commit()
+            peques_query.servicios = req_body.get(
+                "servicios", peques_query.servicios)
+            peques_query.formacion = req_body.get(
+                "formacion", peques_query.formacion)
+            peques_query.edades = req_body.get("edades", peques_query.edades)
 
-        elif (user_cat.serialize()["cat"] == "mascotas"):
+        elif ("mascota" in categoria_usuario):
             mascota_query = Mascota.query.filter_by(
                 categorias=user_cat.id).first()
 
-            mascota = Mascota(
-                servicios=req_body.get("servicios", mascota_query.servicios),
-                tipo_animal=req_body.get(
-                    "tipo_animal", mascota_query.tipo_animal),
-                formacion=req_body.get("formacion", mascota_query.formacion)
-            )
-            db.session.add(mascota)
-            db.session.commit()
+            mascota_query.servicios = req_body.get(
+                "servicios", mascota_query.servicios)
+            mascota_query.formacion = req_body.get(
+                "formacion", mascota_query.formacion)
+            mascota_query.tipo_animal = req_body.get(
+                "tipo_animal", mascota_query.tipo_animal)
 
         else:
             return jsonify({"msg": "Los datos no coinciden"}), 400

@@ -57,7 +57,8 @@ export const Crearperfil2 = () => {
 
           <div className="card col-8 mt-3 m-auto">
             <div className="card-header">
-              <h3 className="h6 mb-4">Dirección</h3> </div>
+              <h3 className="h6 mb-4">Dirección</h3>
+            </div>
             <div className="card-body">
 
               <div className="row">
@@ -80,6 +81,8 @@ export const Crearperfil2 = () => {
                       className="form-control"
                       onChange={(e) => setCodigoPostal(e.target.value)}
                       value={codigoPostal}
+                      maxLength="5"
+                      pattern="\d"
                     />
                   </div>
                 </div>

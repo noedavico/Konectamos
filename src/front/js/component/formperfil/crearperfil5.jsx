@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 import { checkboxesCualificaciones, checkServicios, edadNinos } from "./opcionesPerfil5.js";
@@ -56,8 +56,8 @@ export const Crearperfil5 = () => {
 
     const datos = {
       servicios: servicios.join(";"),
-      edades: edadNinos.join(";"),
-      formacion: cualificacion
+      edades: checkEdadNinos.join(";"),
+      formacion: cualificacion.join(";")
     }
 
     if (await actions.actualizaCategoria(datos))
@@ -163,7 +163,7 @@ export const Crearperfil5 = () => {
                   <div className="card-header">
                     <p className="h6 mb-4">
                       ¿Tienes algunas de estas cualificaciones? No es
-                      obligatorio, pero es un plus :)
+                      obligatorio, pero es un plus :{"\)"}
                     </p>
                   </div>
                   <div className="col-lg-6">

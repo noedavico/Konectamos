@@ -42,7 +42,7 @@ export const Crearperfil1 = () => {
       setFotografia(perfil.foto || null)
     }
   }, [perfil])
-  
+
   async function validacion(e) {
     if (!(await actions.validToken()))
       //false
@@ -82,6 +82,7 @@ export const Crearperfil1 = () => {
                           placeholder="Ej: 34 612 345 678"
                           value={numTelefono}
                           maxLength="14"
+                          pattern="[0-9]+"
                         />
                         <small>
                           *Nunca utilizaremos tu número para fines de marketing

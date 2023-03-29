@@ -128,6 +128,12 @@ const getState = ({
                         email: email,
                         password: password,
                     });
+
+                    localStorage.setItem("token", response.data.access_token);
+                    localStorage.setItem("auth", true);
+                    setStore({
+                        auth: true,
+                    });
                     return true;
                 } catch (error) {
                     alert(error);

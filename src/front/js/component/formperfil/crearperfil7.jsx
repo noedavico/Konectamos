@@ -1,5 +1,5 @@
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -69,12 +69,11 @@ export const Crearperfil7 = () => {
       //false
       navigate("/login");
   }
+
   useEffect(() => {
     validacion();
   }, []);
 
-  useEffect(() => {
-  }, [])
   return (
     <div className="container">
       <form onSubmit={handlePerfil}>
