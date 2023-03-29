@@ -9,10 +9,11 @@ export const RegistroBienvenidos = () => {
   const navigate = useNavigate();
 
   async function validacion(e) {
-    let isLogged = await actions.validToken();
-    if (!isLogged) //false
-      navigate("/login")
-
+    setTimeout(async () => {
+      let isLogged = await actions.validToken();
+      if (!isLogged) //false
+        navigate("/login")
+    }, 200)
   }
 
   useEffect(() => {

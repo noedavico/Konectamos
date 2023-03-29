@@ -8,6 +8,7 @@ from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
+from datetime import datetime
 from flask_mail import Message
 from werkzeug.utils import secure_filename
 
@@ -174,33 +175,37 @@ def update_user_info():
         user != None and
         user.es_cuidador == True
     ):
-        info_query = User_info.query.filter_by(user_id=user.id).first()
+        user_info_query = User_info.query.filter_by(user_id=user.id)[-1]
 
         # tabla user_info
-        info_query(
-            descripcion=req_body.get("descripcion", user_info.descripcion),
-            experiencia=req_body.get("experiencia", user_info.experiencia),
-            tarifa=req_body.get("tarifa", user_info.tarifa),
-            plus_tarifa=req_body.get("plus_tarifa", user_info.plus_tarifa),
-            genero=req_body.get("genero", user_info.genero),
-            educacion=req_body.get("educacion", user_info.educacion),
+        user_info_query = User_info(
+            descripcion=req_body.get(
+                "descripcion", user_info_query.descripcion or None),
+            experiencia=req_body.get(
+                "experiencia", user_info_query.experiencia or None),
+            tarifa=req_body.get("tarifa", user_info_query.tarifa or None),
+            plus_tarifa=req_body.get(
+                "plus_tarifa", user_info_query.plus_tarifa or None),
+            genero=req_body.get("genero", user_info_query.genero),
+            educacion=req_body.get("educacion", user_info_query.educacion),
             puntuacion_global=req_body.get("puntuacion_global",
-                                           user_info.puntuacion_global),
+                                           user_info_query.puntuacion_global or None),
             cantidad_votos=req_body.get("cantidad_votos",
-                                        user_info.cantidad_votos),
+                                        user_info_query.cantidad_votos or None),
             numero_telefono=req_body.get("numero_telefono",
-                                         user_info.numero_telefono),
+                                         user_info_query.numero_telefono or None),
             fecha_nacimiento=req_body.get("fecha_nacimiento",
-                                          user_info.fecha_nacimiento),
+                                          user_info_query.fecha_nacimiento or None),
             redes_sociales=req_body.get("redes_sociales",
-                                        user_info.redes_sociales),
+                                        user_info_query.redes_sociales or None),
             tipo_servicios=req_body.get("tipo_servicios",
-                                        user_info.tipo_servicios),
+                                        user_info_query.tipo_servicios or None),
             user_id=user.id,
-            idiomas=req_body.get("idiomas", user_info.idiomas),
-            aptitudes=req_body.get("aptitudes", user_info.aptitudes)
+            idiomas=req_body.get("idiomas", user_info_query.idiomas or None),
+            aptitudes=req_body.get(
+                "aptitudes", user_info_query.aptitudes or None)
         )
-        db.session.add(user_info)
+        db.session.add(user_info_query)
         db.session.commit()
 
         user_info_query = User_info.query.filter_by(
@@ -317,8 +322,10 @@ def add_subcategoria():
     if not user_query:
         return jsonify({"msg": "No se ha encontrado el usuario"}), 404
 
-    user_cat = Categorias.query.filter_by(categorias_user=user_query.id)
-    if not user_cat:
+    user_cat = Categorias.query.filter_by(
+        categorias_user=user_query.id).first()
+
+    if user_cat:
         return jsonify({"msg": "El usuario tiene una categoria"}), 401
 
     if user_query.es_cuidador == True and user_query.is_active == True:
@@ -381,10 +388,71 @@ def add_subcategoria():
     return jsonify({"msg": "El usuario no es profesional o esta inactivo"}), 400
 
 
+@api.route('/subcategoria', methods=['PUT'])
+@jwt_required()
+def set_categoria():
+    req_body = request.json
+    current_user = get_jwt_identity()
+
+    user_query = Users.query.filter_by(email=current_user).first()
+    categoria = None
+    if not user_query:
+        return jsonify({"msg": "No se ha encontrado el usuario"}), 404
+
+    user_cat = Categorias.query.filter_by(
+        categorias_user=user_query.id).first()
+    if not user_cat:
+        return jsonify({"msg": "El usuario no tiene una categoria"}), 401
+
+        if (user_cat.serialize()["cat"] == "mayores"):
+            mayores_query = Mayores.query.filter_by(
+                categorias=user_cat.id).first()
+
+            mayores = Mayores(
+                servicios=req_body.get("servicios", mayores_query.servicios),
+                formacion=req_body.get("formacion", mayores_query.formacion)
+            )
+            db.session.add(mayores)
+            db.session.commit()
+
+        elif (user_cat.serialize()["cat"] == "peques"):
+            peques_query = Peques.query.filter_by(
+                categorias=user_cat.id).first()
+
+            peques = Peques(
+                servicios=req_body.get("servicios", peques_query.servicios),
+                edades=req_body.get("edades", peques_query.edades),
+                formacion=req_body.get("formacion", peques.formacion)
+            )
+            db.session.add(peques)
+            db.session.commit()
+
+        elif (user_cat.serialize()["cat"] == "mascotas"):
+            mascota_query = Mascota.query.filter_by(
+                categorias=user_cat.id).first()
+
+            mascota = Mascota(
+                servicios=req_body.get("servicios", mascota_query.servicios),
+                tipo_animal=req_body.get(
+                    "tipo_animal", mascota_query.tipo_animal),
+                formacion=req_body.get("formacion", mascota_query.formacion)
+            )
+            db.session.add(mascota)
+            db.session.commit()
+
+        else:
+            return jsonify({"msg": "Los datos no coinciden"}), 400
+
+        db.session.commit()
+
+        return jsonify({"msg": "Se ha actualizado la categoria del usuario"}), 200
+
+    return jsonify({"msg": "El usuario no es profesional o esta inactivo"}), 400
+
+
 @api.route('/getcategoria', methods=['GET'])
 @jwt_required()
 def get_categoria():
-    req_body = request.json
     current_user = get_jwt_identity()
 
     user_query = Users.query.filter_by(email=current_user).first()
@@ -394,9 +462,6 @@ def get_categoria():
 
     categoria_query = Categorias.query.filter_by(
         categorias_user=user_query.id).first()
-
-    if not categoria_query:
-        return jsonify({"msg": "El usuario no tiene una categoria asignada"}), 401
 
     if categoria_query != None:
         result_categoria = categoria_query.serialize()

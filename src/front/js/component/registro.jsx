@@ -82,9 +82,9 @@ export const Registro = () => {
                     <div className="form-group col-lg-12 d-flex align-items-center ">
                       <div className="border-bottom w-100 ml-5"></div>
                     </div >
-                    <div class="m-3 form-check ">
-                      <input type="checkbox" class="form-check-input" id="checkConditions" onChange={e => setCheckConditions(e.target.value)} />
-                      <label class="form-check-label" htmlFor="checkConditions">Al registrarte, estás de acuerdo con las condiciones de
+                    <div className="m-3 form-check ">
+                      <input type="checkbox" className="form-check-input" id="checkConditions" onChange={e => setCheckConditions(e.target.value)} />
+                      <label className="form-check-label" htmlFor="checkConditions">Al registrarte, estás de acuerdo con las condiciones de
                         uso.</label>
                     </div>
 

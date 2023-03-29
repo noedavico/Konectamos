@@ -43,7 +43,7 @@ export const Registropag1 = () => {
                 width="130px"
                 className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"
               />
-              <span className=" text-decoration-none text-white" onClick={() => tipoUsuario("familia")}>
+              <span role="button" tabIndex="0" className=" text-decoration-none text-white" onClick={() => tipoUsuario("familia")}>
                 <div className="card-body text-center text-decoration-none">
                   <h4 className="mb-2 mt-5  text-white">FAMILIAS</h4>
                   <p>
@@ -65,7 +65,7 @@ export const Registropag1 = () => {
                 className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"
               />
 
-              <span className=" text-decoration-none text-white" onClick={() => tipoUsuario("cuidador")}>
+              <span role="button" tabIndex="0" className=" text-decoration-none text-white" onClick={() => tipoUsuario("cuidador")}>
                 <div className="card-body text-center  ">
                   <div>
                     <h4 className="mb-2 mt-5  text-white">CUIDADORES</h4>

@@ -23,53 +23,64 @@ const checkServicios = [
   "Salidas y paseo",
 ]
 
-
 export const Crearperfil7 = () => {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
-  const [seleccionadoEspecie, setSeleccionadoEspecie] = useState([]);
-  const [seleccionadoServicios, setSeleccionadoServicios] = useState([]);
-  const [formacion, setFormacion] = useState("")
-
-
+  const [especie, setEspecie] = useState([]);
+  const [servicios, setServicios] = useState([]);
+  const [cualificacion, setFormacion] = useState("")
 
   const handleCheckboxServicios = (event) => {
     const valor = event.target.value;
-    const index = seleccionadoServicios.indexOf(valor);
+    const index = servicios.indexOf(valor);
     if (index === -1) {
-      setSeleccionadoServicios([...seleccionadoServicios, valor]);
+      setServicios([...servicios, valor]);
     } else {
-      setSeleccionadoServicios(seleccionadoServicios.filter((item) => item !== valor));
+      setServicios(servicios.filter((item) => item !== valor));
     }
   };
 
   const handleCheckboxEspecie = (event) => {
     const valor = event.target.value;
-    const index = seleccionadoEspecie.indexOf(valor);
+    const index = especie.indexOf(valor);
     if (index === -1) {
-      setSeleccionadoEspecie([...seleccionadoEspecie, valor]);
+      setEspecie([...especie, valor]);
     } else {
-      setSeleccionadoEspecie(seleccionadoEspecie.filter((item) => item !== valor));
+      setEspecie(especie.filter((item) => item !== valor));
     }
   };
 
   async function handlePerfil(e) {
     e.preventDefault();
-    let isLogged = await actions.perfilmascotas();
-    if (isLogged) { //TO-DO 
-      //true
 
-      navigate("/login");
+    const datos = {
+      servicios: servicios.join(";"),
+      especie: especie.join(";"),
+      formacion: cualificacion
     }
+
+    if (await actions.actualizaCategoria(datos))
+      navigate("/")
   }
 
+  async function validacion(e) {
+    if (!(await actions.validToken()))
+      //false
+      navigate("/login");
+  }
+  useEffect(() => {
+    validacion();
+  }, []);
+
+  useEffect(() => {
+  }, [])
   return (
     <div className="container">
       <form onSubmit={handlePerfil}>
         <div className="d-flex justify-content-between align-items-lg-center py-3 flex-column flex-lg-row">
           <h2 className="h5 mb-3 mb-lg-0">
-            <Link to="/crearperfil4" className="text-muted">
+            <Link to="/crearperfil/4" className="text-muted">
               <i className="bi bi-arrow-left-square me-2"></i>
             </Link>
             <span>Crea tu perfil</span>
@@ -95,7 +106,7 @@ export const Crearperfil7 = () => {
                             type="checkbox"
                             value={item}
                             name={item}
-                            checked={seleccionadoEspecie.indexOf(item) !== -1}
+                            checked={especie.indexOf(item) !== -1}
                             onChange={handleCheckboxEspecie}
                           />
                           {item}
@@ -119,7 +130,7 @@ export const Crearperfil7 = () => {
                           value={item}
                           name={item}
                           id={"servicio0" + i}
-                          checked={seleccionadoServicios.indexOf(item) !== -1}
+                          checked={servicios.indexOf(item) !== -1}
                           onChange={handleCheckboxServicios}
                         />
                         <label className="form-check-label" htmlFor={"servicio0" + i}>
@@ -137,7 +148,7 @@ export const Crearperfil7 = () => {
                           value={item}
                           name={item}
                           id={"servicio1" + i}
-                          checked={seleccionadoServicios.indexOf(item) !== -1}
+                          checked={servicios.indexOf(item) !== -1}
                           onChange={handleCheckboxServicios}
                         />
                         <label className="form-check-label" htmlFor={"servicio1" + i}>
@@ -154,12 +165,20 @@ export const Crearperfil7 = () => {
                       type="text"
                       className="form-control"
                       id="afin"
-                      value={formacion}
+                      value={cualificacion}
                       onChange={(e) => { setFormacion(e.target.value) }}
                     />
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="row justify-content-end">
+            <div className="col-4 align-self-end">
+              <button type="submit" className="btn  btn-primary">
+                <span className="text">Siguiente </span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </button>
             </div>
           </div>
         </div>

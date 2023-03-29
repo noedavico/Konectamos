@@ -54,7 +54,7 @@ export const PerfilDetallado = (props) => {
                       target="_blank"
                       href={`https://twitter.com/${usuario?.info?.twitter}`}
                     >
-                      <i class="fa-brands fa-twitter"></i>
+                      <i className="fa-brands fa-twitter"></i>
                     </a>
                   </div>
                 </div>
@@ -64,7 +64,7 @@ export const PerfilDetallado = (props) => {
                 <div className="">
                   <a target={"_blank"} href={`mailto:${usuario?.datos?.email}`}>
                     <em className="fs-2">
-                      <i class="fa-regular fa-envelope"></i>
+                      <i className="fa-regular fa-envelope"></i>
                     </em>
                     {usuario?.datos?.email}
                   </a>
@@ -72,7 +72,7 @@ export const PerfilDetallado = (props) => {
                 <div className="">
                   <a target={"_blank"} href={`tel:${usuario?.info?.telefono}`}>
                     <em className="fs-2">
-                      <i class="fa-solid fa-mobile-screen-button"></i>
+                      <i className="fa-solid fa-mobile-screen-button"></i>
                     </em>
                     {usuario?.info?.telefono}
                   </a>
