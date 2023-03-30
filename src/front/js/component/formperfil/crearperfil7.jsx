@@ -54,13 +54,13 @@ export const Crearperfil7 = () => {
   async function handlePerfil(e) {
     e.preventDefault();
 
-    const datos = {
+    const datosNuevos = {
       servicios: servicios.join(";"),
-      especie: especie.join(";"),
+      otros: especie.join(";"),
       formacion: cualificacion
     }
 
-    if (await actions.actualizaCategoria(datos))
+    if (await actions.actualizaPerfil(datosNuevos))
       navigate("/")
   }
 

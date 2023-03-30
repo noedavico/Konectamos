@@ -62,13 +62,12 @@ export const Crearperfil6 = () => {
   async function handlePerfil(e) {
     e.preventDefault();
 
-    const datos = {
+    const datosNuevos = {
       servicios: servicios.join(";"),
-      edades: edadNinos.join(";"),
       formacion: cualificacion
     }
 
-    if (await actions.actualizaCategoria(datos))
+    if (await actions.actualizaPerfil(datosNuevos))
       navigate("/")
   }
 

@@ -81,8 +81,8 @@ export const Crearperfil2 = () => {
                       className="form-control"
                       onChange={(e) => setCodigoPostal(e.target.value)}
                       value={codigoPostal}
-                      maxLength="5"
-                      pattern="\d"
+                      maxLength="6"
+                    
                     />
                   </div>
                 </div>

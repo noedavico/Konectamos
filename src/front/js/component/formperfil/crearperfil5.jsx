@@ -51,16 +51,17 @@ export const Crearperfil5 = () => {
 
   //guardar datos
 
+ 
   async function handlePerfil(e) {
     e.preventDefault();
 
-    const datos = {
+    const datosNuevos = {
       servicios: servicios.join(";"),
-      edades: checkEdadNinos.join(";"),
+      otros: checkEdadNinos.join(";"),
       formacion: cualificacion.join(";")
     }
-
-    if (await actions.actualizaCategoria(datos))
+    console.log(datosNuevos);
+    if (await actions.actualizaPerfil(datosNuevos))
       navigate("/")
   }
 
@@ -168,17 +169,6 @@ export const Crearperfil5 = () => {
                   </div>
                   <div className="col-lg-6">
                     <div className="mb-3">
-                      <div className="form-check form-check-inline">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Primeros auxilios (o socorrista)"
-                        />
-                        <label className="form-check-label" htmlFor="inlineCheckbox1">
-                          Primeros auxilios (o socorrista)
-                        </label>
-                      </div>
                       {checkboxesCualificaciones.map((checkbox) => (
                         <div className="form-check form-check-inline" key={checkbox.id}>
                           <input

@@ -7,21 +7,21 @@ export const Todoslosperfiles = (props) => {
   const { store, actions } = useContext(Context);
   
   return (
-    <div className="container card m-3 p-3 ">
-      <div className="row row-flex">
-        <div className="col-2 m-md-auto ">
-          <ImageWithFallback
-            imageUrl={props?.foto}
+    <div className="container cardperfil shadow m-3 p-3 ">
+      <div className="row">
+        <div className="col-12 col-md-6 m-auto p-auto  ">
+          <img
+            src={props?.foto}
             alt={props?.foto_alt}
-            className="img-fluid circle p-2"
+            className="img-fluid img-thumbnail border border-4 p-2"
+            width= "300px"
           />
         </div>
-        <div className="col-lg-9 col-md-8 me-2 p-4">
-          <div className="row">
+        <div className="col-12 col-md-6 m-auto p-auto">
+          <div className="card-body">
             <div>
               <h3> {props.nombre}</h3>
               <p>
-                {" "}
                 Cuidador de{" "}
                 {props.categoria === "peques" ? "niños" : props.categoria}{" "}
               </p>

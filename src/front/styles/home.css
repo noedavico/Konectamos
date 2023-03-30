@@ -11,7 +11,6 @@
     --color-verde-azulado-opacity-50: #388cad88;
 }
 
-
 .btn {
     background-color: var(--color-rojo);
     border-color: var(--color-naranja);
@@ -42,6 +41,11 @@
     background-color: var(--color-verde-azulado);
 }
 
+.fondonaranja {
+    background-color: var(--color-claro-naranja);
+    border-color: var(--color-naranja);
+}
+
 body {
     color: var(--color-azul-oscuro);
 }
@@ -50,5 +54,20 @@ body {
     background-color: var(--color-rojo);
     border-color: var(--color-naranja);
     border-radius: 10%;
+}
 
+.card-header {
+    background-color: var(--color-claro-naranja);
+}
+
+.cardperfil {
+    border-color: var(--color-claro-naranja);
+}
+
+.border-bottom {
+    border-color: var(--color-claro-naranja);
+}
+
+a.nav-link.perfil {
+    color: var(--color-contraste);
 }

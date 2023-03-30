@@ -207,6 +207,12 @@ def update_user_info():
             "idiomas", user_info_query.idiomas)
         user_info_query.aptitudes = req_body.get(
             "aptitudes", user_info_query.aptitudes)
+        user_info_query.formacion = req_body.get(
+            "formacion", user_info_query.formacion)
+        user_info_query.servicios = req_body.get(
+            "servicios", user_info_query.servicios )
+        user_info_query.otros = req_body.get(
+            "otros", user_info_query.otros )
 
         db.session.commit()
 
