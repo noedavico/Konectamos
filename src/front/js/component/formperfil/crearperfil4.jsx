@@ -195,10 +195,14 @@ Preséntate de la manera más detallada posible."
                 </div>
               </div>
             </div>
-            <button type="submit" className="btn btn-primary btn-sm btn-icon-text">
-              <i className=""></i>
-              <span className="text">Siguiente</span>
-            </button>
+            <div className="row justify-content-end">
+            <div className="col-4 align-self-end">
+              <button type="submit" className="btn btn-primary">
+                <span className="text">Siguiente</span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
           </div>
         </form>
       )}

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 import { checkboxesCualificaciones, checkServicios, edadNinos } from "./opcionesPerfil5.js";
@@ -51,16 +51,17 @@ export const Crearperfil5 = () => {
 
   //guardar datos
 
+ 
   async function handlePerfil(e) {
     e.preventDefault();
 
-    const datos = {
+    const datosNuevos = {
       servicios: servicios.join(";"),
-      edades: edadNinos.join(";"),
-      formacion: cualificacion
+      otros: checkEdadNinos.join(";"),
+      formacion: cualificacion.join(";")
     }
-
-    if (await actions.actualizaCategoria(datos))
+    console.log(datosNuevos);
+    if (await actions.actualizaPerfil(datosNuevos))
       navigate("/")
   }
 
@@ -163,22 +164,11 @@ export const Crearperfil5 = () => {
                   <div className="card-header">
                     <p className="h6 mb-4">
                       ¿Tienes algunas de estas cualificaciones? No es
-                      obligatorio, pero es un plus :)
+                      obligatorio, pero es un plus :{"\)"}
                     </p>
                   </div>
                   <div className="col-lg-6">
                     <div className="mb-3">
-                      <div className="form-check form-check-inline">
-                        <input
-                          className="form-check-input"
-                          type="checkbox"
-                          id="inlineCheckbox1"
-                          value="Primeros auxilios (o socorrista)"
-                        />
-                        <label className="form-check-label" htmlFor="inlineCheckbox1">
-                          Primeros auxilios (o socorrista)
-                        </label>
-                      </div>
                       {checkboxesCualificaciones.map((checkbox) => (
                         <div className="form-check form-check-inline" key={checkbox.id}>
                           <input

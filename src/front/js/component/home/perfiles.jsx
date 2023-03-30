@@ -6,11 +6,12 @@ export const PerfilesRandom = (props) => {
 
   return (
     <div className="col me-2">
-      <div className=" card card-cover text-bg-light" style={{ width: "15rem" }}>
-        <ImageWithFallback
-          imageUrl={props?.foto}
+      <div className=" card cardperfil  card-cover text-bg-light" style={{ width: "18rem", height: "30rem" }}>
+        <img
+          src={props?.foto}
           alt={props?.foto_alt}
-          className="card-img-top circle p-2"
+          className="img-fluid img-thumbnail border border-4"  style={{height: "15rem"}}
+          
         />
         <div className="card-body">
 
@@ -27,9 +28,9 @@ export const PerfilesRandom = (props) => {
           </p>
           <p className="card-text">{props.descripcion}</p>
 
-          <div className="container">
-            <div className="row">
-              <div className="col-md-6 col-sm-6 col-xs-6 p-2">
+          <div className="row align-items-center">
+           
+              <div className="col-8 m-auto">
                 <Link
                   className="btn btn-primary"
                   to={"/perfildetallado/" + props.id}
@@ -37,26 +38,7 @@ export const PerfilesRandom = (props) => {
                   Leer mas
                 </Link>
               </div>
-              <div className="col-md-6 col-sm-6 col-xs-6">
-                <div className="rating">
-                  <label htmlFor="stars-rating-5">
-                    <i className="fa fa-star"></i>
-                  </label>
-                  <label htmlFor="stars-rating-4">
-                    <i className="fa fa-star"></i>
-                  </label>
-                  <label htmlFor="stars-rating-3">
-                    <i className="fa fa-star text-primary"></i>
-                  </label>
-                  <label htmlFor="stars-rating-2">
-                    <i className="fa fa-star text-primary"></i>
-                  </label>
-                  <label htmlFor="stars-rating-1">
-                    <i className="fa fa-star text-primary"></i>
-                  </label>
-                </div>
-              </div>
-            </div>
+             
           </div>
         </div>
       </div>

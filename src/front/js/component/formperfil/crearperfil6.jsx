@@ -1,5 +1,5 @@
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -62,13 +62,12 @@ export const Crearperfil6 = () => {
   async function handlePerfil(e) {
     e.preventDefault();
 
-    const datos = {
+    const datosNuevos = {
       servicios: servicios.join(";"),
-      edades: edadNinos.join(";"),
       formacion: cualificacion
     }
 
-    if (await actions.actualizaCategoria(datos))
+    if (await actions.actualizaPerfil(datosNuevos))
       navigate("/")
   }
 
@@ -147,7 +146,7 @@ export const Crearperfil6 = () => {
                 <div className="row ">
                   <div className="card-header">
                     <p className="h6 ">
-                      ¿Tienes algunas de estas cualificaciones? No es obligatorio, pero es un plus :)
+                      ¿Tienes algunas de estas cualificaciones? No es obligatorio, pero es un plus :{"\)"}
                     </p>
                   </div>
                   <div className="col-lg-7 mb-lg-3 mt-3">

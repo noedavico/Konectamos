@@ -113,7 +113,7 @@ class User_info(db.Model):
     plus_tarifa = db.Column(db.Integer, unique=False, nullable=True)
     puntuacion_global = db.Column(db.Integer, unique=False, nullable=True)
     cantidad_votos = db.Column(db.Integer, unique=False, nullable=True)
-    numero_telefono = db.Column(db.Integer, unique=False, nullable=True)
+    numero_telefono = db.Column(db.String(20), unique=False, nullable=True)
     fecha_nacimiento = db.Column(
         db.String(120), default="", unique=False, nullable=True)
     genero = db.Column(db.String(10), default="", unique=False, nullable=True)
@@ -129,6 +129,9 @@ class User_info(db.Model):
         db.Text, default="", unique=False, nullable=True)
     aptitudes = db.Column(
         db.String(255), default="", unique=False, nullable=True)
+    servicios = db.Column(db.String(255), unique=False, nullable=True)
+    otros = db.Column(db.String(120), unique=False, nullable=True)
+    formacion = db.Column(db.String(255), unique=False, nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     user_info_foto = db.relationship('Foto', backref='user_info', lazy=True)
     user_info_direccion = db.relationship(
@@ -164,12 +167,16 @@ class User_info(db.Model):
             "genero": self.genero,
             "educacion": self.educacion,
             "experiencia": self.experiencia,
-            "servicios": self.tipo_servicios,
+            "tiposervicios": self.tipo_servicios,
             "redes": self.redes_sociales,
             "foto": result_foto,
             "direccion": result_direccion,
             "idiomas": self.idiomas,
-            "aptitudes": self.aptitudes
+            "aptitudes": self.aptitudes,
+            "servicios": self.servicios,
+            "fomracion":self.formacion,
+            "otros":self.otros,
+            
         }
 
 
@@ -265,6 +272,18 @@ class Categorias(db.Model):
             result = mascota.serialize()
 
         return result
+
+    def categoria(self):
+        if self.peques_id != None:
+            return "peques"
+
+        elif self.mayores_id != None:
+            return "mayores"
+
+        elif self.mascota_id != None:
+            return "mascota"
+        else:
+            return ""
 
 
 class Peques(db.Model):

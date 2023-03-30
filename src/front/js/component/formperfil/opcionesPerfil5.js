@@ -1,7 +1,7 @@
 const checkServicios = [
   "Ayudar a los niños con los deberes",
   "Cocinar para los niños",
-  "Auyudar con las tareas del hogar",
+  "Ayudar con las tareas del hogar",
   "Acompañamiento y recogida del colegio",
   "Actividades de ocio y tiempo libre",
 ];

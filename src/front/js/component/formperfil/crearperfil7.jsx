@@ -1,5 +1,5 @@
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -54,13 +54,13 @@ export const Crearperfil7 = () => {
   async function handlePerfil(e) {
     e.preventDefault();
 
-    const datos = {
+    const datosNuevos = {
       servicios: servicios.join(";"),
-      especie: especie.join(";"),
+      otros: especie.join(";"),
       formacion: cualificacion
     }
 
-    if (await actions.actualizaCategoria(datos))
+    if (await actions.actualizaPerfil(datosNuevos))
       navigate("/")
   }
 
@@ -69,12 +69,11 @@ export const Crearperfil7 = () => {
       //false
       navigate("/login");
   }
+
   useEffect(() => {
     validacion();
   }, []);
 
-  useEffect(() => {
-  }, [])
   return (
     <div className="container">
       <form onSubmit={handlePerfil}>

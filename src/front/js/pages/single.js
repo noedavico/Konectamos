@@ -7,11 +7,9 @@ import { Context } from "../store/appContext";
 export const Single = () => {
   const { store, actions } = useContext(Context);
   const params = useParams();
-  useEffect (() => {
+  useEffect(() => {
     actions.loadInfoDetallada(params.id);
   }, []);
-
-  console.log(store.infoDetallada);
 
   return (
     <div className="jumbotron">

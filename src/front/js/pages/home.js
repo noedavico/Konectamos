@@ -25,7 +25,7 @@ export const Home = () => {
 			<Banner2 />
 			<div className="conatiner m-auto">
 				<div className=" row flex-nowrap overflow-auto border text-center  m-4">
-					{store?.allusers.length > 0 ? store?.allusers.slice(0, 10).map((item, index) =>
+					{store?.allusers.length > 0 ? store?.allusers.map((item, index) =>
 						<PerfilesRandom key={item.id}
 							id={item.id}
 							nombre={item.nombre_completo}
