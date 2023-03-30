@@ -27,7 +27,7 @@ export const Crearperfil1 = () => {
     };
 
     if (await actions.creacionPerfil(datos))
-      if (fotografia && (await actions.subirFoto(formData)))
+      if (fotografia && formData.has(foto) && (await actions.subirFoto(formData)))
         navigate("/crearperfil/2");
       else navigate("/crearperfil/2");
   }
