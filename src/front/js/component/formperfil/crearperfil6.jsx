@@ -64,7 +64,7 @@ export const Crearperfil6 = () => {
 
     const datosNuevos = {
       servicios: servicios.join(";"),
-      formacion: cualificacion
+      formacion: cualificacion.join(";")
     }
 
     if (await actions.actualizaPerfil(datosNuevos))

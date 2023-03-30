@@ -111,7 +111,7 @@ export const PerfilDetallado = () => {
               </h5>
             </div>
             <div className="card-body justify-content-center p-2  ">
-              {usuario?.info?.aptitudes.split(";").map((item, i) => (
+              {usuario?.info?.aptitudes?.split(";").map((item, i) => (
                 <span
                   key={i}
                   className={`badge rounded-pill ${colores[i % 3]} m-1 p-2`}
@@ -154,7 +154,8 @@ export const PerfilDetallado = () => {
               <p className="text-muted"> {usuario?.info?.educacion}</p>
               <div className="border-bottom w-100 ml-5 my-1"></div>
               <h5>Formacion </h5>
-              {usuario?.info?.fomracion.split(";").map((item, i) => (
+              {console.log(usuario?.info?.fomracion)}
+              {usuario?.info?.fomracion?.split(";").map((item, i) => (
                 <p key={i} className="text-muted">
                   {" "}
                   {item}
@@ -163,7 +164,7 @@ export const PerfilDetallado = () => {
               <div className="border-bottom w-100 ml-5 my-1"></div>
               <h5>Idiomas</h5>
               <p className="text-muted">
-                {usuario?.info?.idiomas.split(";").map((item, i) => (
+                {usuario?.info?.idiomas?.split(";").map((item, i) => (
                   <span key={i}> {item}</span>
                 ))}
               </p>
@@ -180,7 +181,7 @@ export const PerfilDetallado = () => {
                   Servicios{" "}
                 </h5>
                 <div className="card-body p-1 pb-5">
-                  {usuario?.info?.servicios.split(";").map((item, i) => (
+                  {usuario?.info?.servicios?.split(";").map((item, i) => (
                     <p key={i} className="text-muted m-0 pb-2">
                       {" "}
                       {item}
@@ -194,7 +195,7 @@ export const PerfilDetallado = () => {
                   Disponibilidad{" "}
                 </h5>
                 <div className="card-body pb5 ">
-                  {usuario?.info?.tiposervicios.split(";").map((item, i) => (
+                  {usuario?.info?.tiposervicios?.split(";").map((item, i) => (
                     <p key={i} className="text-muted m-0 pb-1">
                       {" "}
                       {item}
