@@ -1,25 +1,38 @@
 import Banner from "../../../img/banner.png";
 import Bannermovil from "../../../img/bannermovil.png";
-
 import React from "react";
+import { Filtrados } from "../filtrados.jsx";
 
 export const BannerPortada = () => {
-  var sectionStyle = {
-    width: "100%",
-    height: "400px",
-    backgroundImage: "url(" + { Banner } + ")",
-  };
-
   return (
     <>
       <div
-        className="row d-block w-100 d-none d-md-block"
-        style={{ sectionStyle }}
+        className="container-fluid d-block w-100 d-none d-md-block position-relative "
+        style={{
+          backgroundImage: `url(${Banner})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          width: "100%",
+          height: "500px",
+        }}
       >
-        {/* <img src={Banner} className=" d-block w-100 ." alt="" /> */}
+        <div className="col-lg-7 col-md-10 position-absolute p-5  top-50 start-0">
+          <Filtrados />
+        </div>
       </div>
-      <div className="row d-md-none d-block w-100">
-        {/* <img src={Bannermovil} className=" d-block w-100 ." alt="" /> */}
+      <div
+        className="container-fluid position-relative d-md-none d-block w-100  "
+        style={{
+          backgroundImage: `url(${Bannermovil})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          width: "100%",
+          height: "400px",
+        }}
+      >
+        <div className="col-12 position-absolute py-4 bottom-0 start-0">
+          <Filtrados />
+        </div>
       </div>
     </>
   );

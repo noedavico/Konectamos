@@ -11,7 +11,6 @@ import { Banner1 } from "../component/home/banner.jsx";
 import { Banner2 } from "../component/home/banner2.jsx";
 import { BannerPortada } from "../component/home/bannerportada.jsx";
 import { PerfilesRandom } from "../component/home/perfiles.jsx";
-import { Filtrados } from "../component/filtrados.jsx";
 
 export const Home = () => {
   const { store, actions } = useContext(Context);
@@ -19,7 +18,6 @@ export const Home = () => {
   return (
     <div className="text-center mt-0">
       <BannerPortada />
-      <Filtrados />
       <Detallados />
       <Banner1 />
       <Destacados />

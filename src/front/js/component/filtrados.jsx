@@ -25,8 +25,8 @@ export const Filtrados = () => {
   }
 
   return (
-    <div class="tb input-group " id="cover">
-      <div class="input-group ">
+    <div className="tb input-group " id="cover">
+      <div className="input-group ">
         <input
           type="text1"
           id="ciudad"
@@ -35,7 +35,7 @@ export const Filtrados = () => {
           onChange={handleCiudadChange}
         />
       </div>
-      <div class="input-group mt-2">
+      <div className="input-group mt-2">
         <select
           id="formsearch"
           className="form-select"
@@ -43,23 +43,22 @@ export const Filtrados = () => {
           onChange={handleCategoriaChange}
         >
           <option value="peques" selected>
-            {" "}
             Niños
           </option>
           <option value="mayores">Mayores</option>
           <option value="mascota">Mascotas</option>
         </select>
       </div>
-      <div class="td" id="s-cover">
+      <div className="td" id="s-cover">
         <button
           type="button"
-          class="btn  btn-lg btn-outline-light"
+          className="btn  btn-lg btn-outline-light"
           onClick={handlePerfil}
         >
           <strong>
             <i
-              class="fa-solid fa-magnifying-glass p-3"
-              style={{ fontSize: "40px" }}
+              className="fa-solid fa-magnifying-glass p-2"
+              style={{ fontSize: "20px" }}
             ></i>
           </strong>
         </button>
