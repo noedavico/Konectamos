@@ -11,33 +11,38 @@ import { Banner1 } from "../component/home/banner.jsx";
 import { Banner2 } from "../component/home/banner2.jsx";
 import { BannerPortada } from "../component/home/bannerportada.jsx";
 import { PerfilesRandom } from "../component/home/perfiles.jsx";
+import { Filtrados } from "../component/filtrados.jsx";
 
 export const Home = () => {
-	const { store, actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
 
-	return (
-		<div className="text-center mt-0">
-
-			<BannerPortada />
-			<Detallados />
-			<Banner1 />
-			<Destacados />
-			<Banner2 />
-			<div className="conatiner m-auto">
-				<div className=" row flex-nowrap overflow-auto border text-center  m-4">
-					{store?.allusers.length > 0 ? store?.allusers.map((item, index) =>
-						<PerfilesRandom key={item.id}
-							id={item.id}
-							nombre={item.nombre_completo}
-							ciudad={item.ciudad}
-							descripcion={item.descripcion}
-							foto={item.foto?.foto_imagen}
-							foto_alt={item.foto?.nombre}
-							categoria={item.categoria}
-						/>) : null}
-				</div>
-			</div>
-			<EresCuidador />
-		</div>
-	);
+  return (
+    <div className="text-center mt-0">
+      <BannerPortada />
+      <Filtrados />
+      <Detallados />
+      <Banner1 />
+      <Destacados />
+      <Banner2 />
+      <div className="conatiner m-auto">
+        <div className=" row flex-nowrap overflow-auto border text-center  m-4">
+          {store?.allusers.length > 0
+            ? store?.allusers.map((item, index) => (
+                <PerfilesRandom
+                  key={item.id}
+                  id={item.id}
+                  nombre={item.nombre_completo}
+                  ciudad={item.ciudad}
+                  descripcion={item.descripcion}
+                  foto={item.foto?.foto_imagen}
+                  foto_alt={item.foto?.nombre}
+                  categoria={item.categoria}
+                />
+              ))
+            : null}
+        </div>
+      </div>
+      <EresCuidador />
+    </div>
+  );
 };
