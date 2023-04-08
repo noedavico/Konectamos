@@ -19,9 +19,8 @@ export const Login = () => {
         setEmail("");
         setPassword("");
         navigate("/registrobienvenidos");
-      }
-      else {
-        setPassword("")
+      } else {
+        setPassword("");
       }
     }
   }

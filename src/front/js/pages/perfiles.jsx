@@ -7,7 +7,7 @@ import { Todoslosperfiles } from "../component/todoslosperfiles.jsx";
 export const Perfiles = () => {
   const { store, actions } = useContext(Context);
   const params = useParams();
- 
+
   const generadorDePerfil = (item) => (
     <Todoslosperfiles
       key={item.id}
@@ -26,7 +26,9 @@ export const Perfiles = () => {
         ? store.cuidadoresPeques.map(generadorDePerfil)
         : params.perfil === "mascota"
         ? store.cuidadoresMascotas.map(generadorDePerfil)
-        : store.cuidadoresMayores.map(generadorDePerfil)}
+        : params.perfil === "mayores"
+        ? store.cuidadoresMayores.map(generadorDePerfil)
+        : store.filtrados.map(generadorDePerfil)}
     </div>
   );
 };
