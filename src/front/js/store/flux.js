@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       auth: localStorage.getItem("auth") || false,
+      message: "",
       allusers: [],
       cuidadoresPeques: [],
       cuidadoresMascotas: [],
@@ -114,8 +115,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
           return true;
         } catch (error) {
-          alert(error);
+          setStore({
+            message: error,
+          });
         }
+     
       },
       // fin
       /**
@@ -145,7 +149,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           });
           return true;
         } catch (error) {
-          alert(error);
+          setStore({
+            message: error,
+          });
         }
       },
       //fin

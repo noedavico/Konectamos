@@ -5,7 +5,7 @@
     --color-claro-naranja: #ff9885;
     --color-azul-oscuro: #133a56;
     --color-claro-azul-oscuro: #1a4966;
-    --color-verde-azulado: #2d7895;
+    --color-verde-azulado: #f4f7ee;
     --color-claro-verde-azulado: #398bab;
     --color-contraste: #fff;
     --color-verde-azulado-opacity-50: #388cad88;
@@ -39,7 +39,9 @@
 
 .fondoclaro {
     background-color: var(--color-verde-azulado);
+    color: #133a56;
 }
+
 
 .fondonaranja {
     background-color: var(--color-claro-naranja);

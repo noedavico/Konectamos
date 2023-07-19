@@ -8,6 +8,8 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { actions } = useContext(Context);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("")
   const navigate = useNavigate();
 
   async function login(e) {
@@ -21,9 +23,14 @@ export const Login = () => {
         navigate("/registrobienvenidos");
       } else {
         setPassword("");
+        setErrorMessage("Usuario o contraseña incorrecta")
+        setShowForgotPassword(true);  ;  
       }
     }
   }
+
+  
+
   return (
     <div className="container mt-2 ">
       <div className="row justify-content-center">
@@ -39,7 +46,7 @@ export const Login = () => {
                 <div className="card-body">
                   <h1 className="text-center mb-4">Inicia sesión</h1>
                   <div className="input-group mb-3">
-                    <span className="input-group-addon me-2">
+                    <span className="input-group-text bg-white py-2 border border-radius-0">
                       <i className="fa fa-user"></i>
                     </span>
                     <input
@@ -51,7 +58,7 @@ export const Login = () => {
                     />
                   </div>
                   <div className="input-group mb-4">
-                    <span className="input-group-addon me-2">
+                    <span className="input-group-text bg-white py-2 border border-radius-0">
                       <i className="fa fa-lock"></i>
                     </span>
                     <input
@@ -66,21 +73,28 @@ export const Login = () => {
                       required
                     />
                   </div>
-                  <div className="d-flex flex-row">
-                    <div className="flex-column mx-2 mb-1">
+                  {errorMessage && (
+                    <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                    </div>
+                  )}
+                    <div className="d-flex justify-content-center">
+                  
                       <button type="submit" className="btn  btn-primary px-3">
                         Ingresar
                       </button>
                     </div>
-
-                    <div className="flex-column1 mx-2">
-                      <Link to="/recuperar_password">
-                        <span>Olvide mi contraseña</span>
-                      </Link>
-                    </div>
-                  </div>
+                    
+                    {showForgotPassword && (
+                      <div className="d-flex">
+                        <Link to="/recuperar_password">
+                          <span>Olvide mi contraseña</span>
+                        </Link>
+                      </div>
+                    )}
                 </div>
               </form>
+
             </div>
             <div className="card text-white py-3 d-md-down-none fondo">
               <div className="card-body text-center">
@@ -96,8 +110,7 @@ export const Login = () => {
                     Encuéntra cuidador en tu zona rápidamente.
                     <br />
                     Soluciona imprevistos con niños, adultos mayores o mascotas.
-                    <br />
-                    Para unas pocas horas o para contratar
+                  
                   </p>
                   <div className="border-bottom w-100 ml-5 mt-4"></div>
                   <h4 className="mt-4">Cuidadores</h4>
