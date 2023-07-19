@@ -9,8 +9,8 @@ import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import { Login } from "./component/login.jsx";
-import { Registro } from "./component/registro.jsx";
+import { Login } from "./pages/login.jsx";
+import { Registro } from "./pages/registro.jsx";
 import { Registropag1 } from "./component/registropag1.jsx";
 import { Registropag2 } from "./component/registropag2.jsx";
 import { RegistroBienvenidos } from "./component/registrobienvenidos.jsx";
@@ -53,10 +53,10 @@ const Layout = () => {
             <Route path="/crearperfil/ninios" element={<Crearperfil5 />} />
             <Route path="/crearperfil/mayores/" element={<Crearperfil6 />} />
             <Route path="/crearperfil/mascotas/" element={<Crearperfil7 />} />
-            <Route element={<Perfiles />} path="/perfiles/:perfil" />
-            <Route element={<Home />} path="/" />
-            <Route element={<Single />} path="/perfildetallado/:id" />
-            <Route element={<h1> Not found! </h1>} />
+            <Route path="/perfiles/:perfil" element={<Perfiles />}  />
+            <Route path="/" element={<Home />}  />
+            <Route path="/perfildetallado/:id" element={<Single />}  />
+            <Route path="/*" element={<h1> Not found! </h1>} />
           </Routes>
           <Footer />
         </ScrollToTop>
