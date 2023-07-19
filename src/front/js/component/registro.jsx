@@ -9,24 +9,38 @@ export const Registro = () => {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [checkConditions, setCheckConditions] = useState(false)
+  const [checkConditions, setCheckConditions] = useState(false);
+  const [showPasswordAlert, setShowPasswordAlert] = useState(false);
 
-  const { actions } = useContext(Context)
+  const { actions } = useContext(Context);
   const navigate = useNavigate();
 
-
   async function handleSingup(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (checkConditions && email && password && nombre && apellido) {
       let isLogged = await actions.singup(email, password, nombre, apellido);
       if (isLogged) {//true
-        setEmail("")
-        setPassword("")
-        setApellido("")
-        setNombre("")
-        navigate("/registrobienvenidos")
+        setEmail("");
+        setPassword("");
+        setApellido("");
+        setNombre("");
+        navigate("/registrobienvenidos");
       }
     }
+  }
+
+  function handlePasswordFocus() {
+    setShowPasswordAlert(true);
+  }
+
+  function handlePasswordBlur() {
+    setShowPasswordAlert(false);
+  }
+
+  function handlePasswordChange(e) {
+    setPassword(e.target.value);
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    setShowPasswordAlert(!passwordRegex.test(e.target.value));
   }
 
   return (
@@ -44,41 +58,53 @@ export const Registro = () => {
                   <div className="row">
                     {/* input nombre */}
                     <div className="input-group col-lg-6 mb-4 pt-1 ">
-                      <div className="input-group-prepend pt-1">
-                        <span className="input-group-text bg-white px-4 border-md border-right-0 me-2">
+                  
+                        <span className="input-group-text bg-white py-2  border border-radius-0 ">
                           <i className="fa fa-user text-muted"></i>
                         </span>
-                      </div>
+                      
                       <input id="firstName" type="text" name="firstname" placeholder="Nombre" className="form-control bg-white border-left-0 border-md" onChange={(e) => setNombre(e.target.value)} value={nombre} required />
                     </div>
                     <div className="input-group col-lg-6 mb-4 pt-1">
-                      <div className="input-group-prepend pt-1">
-                        <span className="input-group-text bg-white px-4 border-md border-right-0 me-2">
+                    <span className="input-group-text bg-white py-2  border border-radius-0 ">
                           <i className="fa fa-user text-muted"></i>
                         </span>
-                      </div>
+                      
                       <input id="lastName" type="text" name="lastname" placeholder="Apellido" className="form-control bg-white border-left-0 border-md" onChange={(e) => setApellido(e.target.value)} value={apellido} required />
                     </div>
                     {/* input email */}
                     <div className="input-group col-lg-12 mb-4">
-                      <div className="input-group-prepend pt-1">
-                        <span className="input-group-text bg-white px-4 border-md border-right-0 me-2">
-                          <i className="fa fa-envelope text-muted"></i>
+                    <span className="input-group-text bg-white py-2  border border-radius-0 ">                          <i className="fa fa-envelope text-muted"></i>
                         </span>
-                      </div>
                       <input id="email" type="email" name="email" placeholder="Email" className="form-control bg-white border-left-0 border-md" onChange={(e) => setEmail(e.target.value)} value={email} required />
                     </div>
                     {/* input password */}
                     <div className="input-group col-lg-6 mb-4">
-                      <div className="input-group-prepend pt-1">
-                        <span className="input-group-text bg-white px-4 border-md border-right-0 me-2">
-                          <i className="fa fa-lock text-muted"></i>
-                        </span>
+                    <span className="input-group-text bg-white py-2 border border-radius-0">
+                      <i className="fa fa-lock text-muted"></i>
+                    </span>
+                    <input
+                      id="password"
+                      type="password"
+                      minLength="8"
+                      name="password"
+                      placeholder="Contraseña"
+                      className="form-control bg-white border-left-0 border-md"
+                      onChange={(e) => setPassword(e.target.value)}
+                      onFocus={handlePasswordFocus}
+                      onBlur={handlePasswordBlur}
+                      value={password}
+                      pattern="^[a-zA-Z0-9!@#$%^&*()_+<>?]{8,}$"
+                      required
+                    />
+                    </div>
+                    {showPasswordAlert && (
+                      <div  class="text-warning pb-2">
+                         <small>  La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un símbolo.</small>
                       </div>
-                      <input id="password" type="password" minLength="8" name="password" placeholder="Contraseña" className="form-control bg-white border-left-0 border-md" onChange={(e) => setPassword(e.target.value)} value={password}
-                        pattern="^[a-zA-Z0-9!@#$%^&*()_+<>?]{8,}$" required />
-                      <p><small>      La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un símbolo.</small></p>
-                    </div >
+                    )}
+                 
+                    
                     <div className="form-group col-lg-12 d-flex align-items-center ">
                       <div className="border-bottom w-100 ml-5"></div>
                     </div >
