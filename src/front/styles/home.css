@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Finger+Paint&family=Kalam:wght@400;700&family=Poppins:wght@300&display=swap');
+body {font-family: 'Finger Paint', cursive;
+    font-family: 'Kalam', cursive;
+    font-family: 'Poppins', sans-serif;
+font-size: 14px;}
+    
 :root {
     --color-rojo: #f96d5bb1;
     --color-claro-rojo: #f98879;
@@ -9,6 +15,7 @@
     --color-claro-verde-azulado: #398bab;
     --color-contraste: #fcfcfc;
     --color-verde-azulado-opacity-50: #388cad88;
+    
 }
 
 .btn {
@@ -24,7 +31,7 @@
 
 .btn:hover {
     background-color: var(--color-azul-oscuro);
-    color: white; /* Cambiar el color del texto al pasar sobre el botón */
+    color: white !important  ;
 }
 
 .btn-primary {
@@ -83,3 +90,28 @@ body {
 a.nav-link.perfil {
     color: var(--color-contraste);
 }
+
+.text{color: #0F363D;
+    text-decoration: none}
+
+.btn-small {
+    text-decoration: none;
+    background-color: rgb(15, 14, 14);
+    border-color: rgb(4, 4, 4);
+    border-radius: 4px; /* Añadir un borde redondeado */
+    padding: 2px 5px; /* Espacio interno para el contenido del botón */
+    color: var(--color-contraste);
+    font-weight: bold; /* Hacer que el texto sea más grueso */
+    cursor: pointer; /* Cambiar el cursor a una mano al pasar sobre el botón */
+    transition: background-color 0.3s, color 0.3s; /* Agregar una transición suave al color de fondo y texto */
+}
+
+.btn-small:hover {
+    background-color: white;
+    color: black!important  ;
+}
+
+.form-check-input:checked {
+    background-color: var(--color-rojo); 
+    border: #0F363D;/* Cambia "red" por el color que desees */
+  }

@@ -93,16 +93,19 @@ export const Crearperfil6 = () => {
           </h2>
         </div>
 
-        <div className="row">
-          <div className="col-8 mt-3 m-auto">
+       <div className="row">
+          <div className="col-lg-8 col-md-10 col-sm-12 m-auto">
             <div className="card mb-4">
-              <div className="card-body">
-                <div className="row">
+             
                   <div className="card-header">
-                    <p className="h6">Selecciona que servicios ofreces:</p>
+                    <h6 className="h6">Detalles sobre el cuidado de mayores</h6>
                   </div>
-                  <div className="col-lg-7 mb-lg-3 mt-3">
-                    {checkServicios.slice(0, 5).map((item, i) => (
+                  <h3 className="h6 ms-2 mt-3">
+                      Selecciona tipo de servicio ofreces.
+                </h3>
+                <div className="row">
+                  <div className="col-lg-6 col-mb-6 col-sm-12 mb-lg-3 mt-3 ms-3">
+                    {checkServicios.slice(0, 6).map((item, i) => (
                       <div className="form-check form-check-inline" key={i}>
                         <input
                           className="form-check-input"
@@ -120,8 +123,8 @@ export const Crearperfil6 = () => {
                     ))}
 
                   </div>
-                  <div className="col-lg-5 mb-3 mt-lg-3">
-                    {checkServicios.slice(5).map((item, i) => (
+                  <div className="col-lg-5  col-mb-6 col-sm-12 mb-3 mt-lg-3 ms-3 ">
+                    {checkServicios.slice(6).map((item, i) => (
                       <div className="form-check form-check-inline" key={i}>
                         <input
                           className="form-check-input"
@@ -137,20 +140,17 @@ export const Crearperfil6 = () => {
                         </label>
                       </div>
                     ))}
-
-                  </div>
                 </div>
+              </div>
+               
 
 
 
                 <div className="row ">
-                  <div className="card-header">
-                    <p className="h6 ">
-                      ¿Tienes algunas de estas cualificaciones? No es obligatorio, pero es un plus :{"\)"}
-                    </p>
-                  </div>
-                  <div className="col-lg-7 mb-lg-3 mt-3">
-
+                    <h6 className="h6 ms-2 ">
+                      ¿Tienes algunas de estas cualificaciones? <small>No es obligatorio, pero es un plus :{"\)"}</small>
+                    </h6>
+                  <div className="col-lg-6 mb-lg-3 mt-3 ms-3">
                     {cualificacion.slice(0, 3).map((item, i) => (
                       <div className="form-check form-check-inline" key={i}>
                         <input
@@ -187,17 +187,18 @@ export const Crearperfil6 = () => {
                     ))}
                   </div>
                 </div>
-              </div>
+              
             </div>
-          </div>
+          
           <div className="row justify-content-end">
-            <div className="col-4 align-self-end">
-              <button type="submit" className="btn  btn-primary">
-                <span className="text">Siguiente </span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-          </div>
+                <div className="col-4 d-flex justify-content-end">
+                  <button type="submit" className="btn btn-primary">
+                    <span className="text me-1">Siguiente</span>
+                    <i className="fa-solid fa-arrow-right text"></i>
+                  </button>
+                  </div>
+                </div>
+        </div>
         </div>
       </form>
     </div>

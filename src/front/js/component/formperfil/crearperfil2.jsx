@@ -52,12 +52,12 @@ export const Crearperfil2 = () => {
             <h2 className="h5 mb-3 mb-lg-0">
               Crea tu perfil
             </h2>
-
           </div>
-
-          <div className="card col-8 mt-3 m-auto">
+          <div className="row">
+          <div className="col-lg-8 col-md-10 col-sm-12 mt-3 m-auto">
+            <div className="card mb-4">
             <div className="card-header">
-              <h3 className="h6 mb-4">Dirección</h3>
+              <h3 className="h6 mt-2 fw-bold">Dirección</h3>
             </div>
             <div className="card-body">
 
@@ -70,6 +70,7 @@ export const Crearperfil2 = () => {
                       className="form-control"
                       onChange={(e) => setCalle(e.target.value)}
                       value={calle}
+                      required
                     />
                   </div>
                 </div>
@@ -82,7 +83,7 @@ export const Crearperfil2 = () => {
                       onChange={(e) => setCodigoPostal(e.target.value)}
                       value={codigoPostal}
                       maxLength="6"
-                    
+                      required
                     />
                   </div>
                 </div>
@@ -96,7 +97,7 @@ export const Crearperfil2 = () => {
                       className="form-control"
                       onChange={(e) => setCiudad(e.target.value)}
                       value={ciudad}
-                      riquered="required"
+                      riquered 
                     />
                   </div>
                 </div>
@@ -108,19 +109,22 @@ export const Crearperfil2 = () => {
                       className="form-control"
                       onChange={(e) => setProvincia(e.target.value)}
                       value={provincia}
+                      required
                     />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row justify-content-end">
-            <div className="col-4 align-self-end">
-              <button type="submit" className="btn btn-primary ">
-                <span className="text">Siguiente</span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </button>
+           <div className="row justify-content-end">
+                <div className="col-4 d-flex justify-content-end">
+                  <button type="submit" className="btn btn-primary">
+                    <span className="text me-1">Siguiente</span>
+                    <i className="fa-solid fa-arrow-right text"></i>
+                  </button>
+                </div>
             </div>
+         </div>
           </div>
         </form>
       )}

@@ -39,29 +39,29 @@ export const Registropag2 = () => {
         </div>
       </div>
 
-      <div className="container mt-4">
-        <div className="row text-center">
+      <div className="container mt-5">
+        <div className="row text-center  d-flex justify-content-center">
           <div
             role="button"
             tabIndex="0"
-            className="col-lg-4 col-12 mb-5 position-relative"
+            className="col-lg-4 col-md-10 col-sm-12 mb-5 position-relative"
             onClick={() => ajusteCategoria("peques")}
           >
             <img
               src={Niños}
-              alt="."
+              alt="niños"
               width="130"
               className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"
             />
             <div
               className=" rounded shadow-sm py-5 px-4 fondoclaro"
-              style={{ height: "250px" }}
+              style={{ minHeight: "240px" }}
             >
               <h5 className="mb-2 mt-5  text-white">Niños</h5>
               <span className="small text-uppercase  text-white">
                 {" "}
                 Acompañamiento y recogida del colegio, ayuda de última hora,
-                días de semana ,fines de semana, noches y mas...{" "}
+            fines de semana, noches y mas...{" "}
               </span>
             </div>
           </div>
@@ -69,7 +69,7 @@ export const Registropag2 = () => {
           <div
             role="button"
             tabIndex="0"
-            className="col-lg-4 col-12 mb-5 mt-5 mt-lg-0 position-relative"
+            className="col-lg-4 col-md-10 col-sm-12  mb-5 mt-5 mt-lg-0 position-relative"
             onClick={() => ajusteCategoria("mayores")}
           >
             <img
@@ -80,7 +80,7 @@ export const Registropag2 = () => {
             />
             <div
               className="rounded shadow-sm py-5 px-4 fondoclaro"
-              style={{ height: "250px" }}
+              style={{ minHeight: "240px" }}
             >
               <h5 className="mb-2 mt-5 text-white">Adultos mayores</h5>
               <span className="small text-uppercase  text-white">
@@ -93,7 +93,7 @@ export const Registropag2 = () => {
           <div
             role="button"
             tabIndex="0"
-            className="col-lg-4 col-12 mb-5 mt-5 mt-lg-0 position-relative"
+            className="col-lg-4 col-md-10 col-sm-12  mb-5 mt-5 mt-lg-0 position-relative"
             onClick={() => ajusteCategoria("mascotas")}
           >
             <img
@@ -104,7 +104,7 @@ export const Registropag2 = () => {
             />
             <div
               className=" rounded shadow-sm py-5 px-4 fondoclaro"
-              style={{ height: "250px" }}
+              style={{ minHeight: "240px" }}
             >
               <h5 className="mb-2  mt-5 text-white">Mascotas</h5>
               <span className="small text-uppercase  text-white">

@@ -1,41 +1,44 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { FaDog, FaUser, FaChild } from "react-icons/fa";
 import ImageWithFallback from "../utils/imagenFallback";
 
 export const PerfilesRandom = (props) => {
+  const descripcionCorta = props.descripcion?.trim().substring(0, 70) + "...";
+  const nombre = props.nombre?.trim().split(" ");
+  const primerNombre = nombre ? nombre[0] : "";
+  const apellido  = nombre ? nombre[nombre.length - 1] : "";
+  const nombreApellido = `${primerNombre} ${apellido}`;
+  console.log(nombreApellido)
   return (
     <div className="col me-2">
-      <div
-        className=" card cardperfil  card-cover text-bg-light"
-        style={{ width: "18rem", height: "30rem" }}
-      >
-        <img
-          src={props?.foto}
-          alt={props?.foto_alt}
-          className="img-fluid img-thumbnail border border-4"
-          style={{ height: "15rem" }}
-        />
-        <div className="card-body">
-          <h3> {props.nombre}</h3>
-          <p>
-            Cuidador de
-            {props.categoria === "peques" ? "niños" : props.categoria}
+      <div className="card   text-bg-light" style={{ width: "16rem", height: "28rem" }}>
+        <img src={props?.foto} alt={props?.foto_alt} className="img-fluid  border-4" style={{ height: "14rem" }} />
+        <div className="card-body" style={{ height: "10rem" }}>
+          <h4 className="text-capitalize">{nombreApellido}</h4>
+          <div className="cuidad-container">
+            <span>Cuidador de {props.categoria === "peques" ? "niños" : props.categoria}</span>
+          </div>
+          <p className="text-capitalize">{props.ciudad}</p>
+          <p className="fw-light">
+            <small>{descripcionCorta ? descripcionCorta : "..."}</small>
           </p>
-
-          <p className="cuidad-container">
-            <span>{props.ciudad}</span>
-          </p>
-          <p className="card-text">{props.descripcion}</p>
-
-          <div className="row align-items-center">
-            <div className="col-8 m-auto">
-              <Link
+        </div>
+        <div className="row align-items-center my-2">
+          <div className="col-8 m-auto">
+            <Link to={"/perfildetallado/" + props.id}>
+              <button
+                type="button"
                 className="btn btn-primary"
-                to={"/perfildetallado/" + props.id}
+                style={{
+                  "--bs-btn-padding-y": ".25rem",
+                  "--bs-btn-padding-x": ".5rem",
+                  "--bs-btn-font-size": ".75rem"
+                }}
               >
-                Leer mas
-              </Link>
-            </div>
+                Leer más
+              </button>
+            </Link>
           </div>
         </div>
       </div>

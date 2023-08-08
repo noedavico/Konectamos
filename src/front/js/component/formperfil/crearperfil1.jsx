@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
+import "../../../styles/home.css";
 
 export const Crearperfil1 = () => {
   const { store, actions } = useContext(Context);
@@ -27,7 +28,7 @@ export const Crearperfil1 = () => {
     };
 
     if (await actions.creacionPerfil(datos))
-      if (fotografia && formData.has(foto) && (await actions.subirFoto(formData)))
+      if (fotografia && formData.has("foto") && (await actions.subirFoto(formData)))
         navigate("/crearperfil/2");
       else navigate("/crearperfil/2");
   }
@@ -51,6 +52,11 @@ export const Crearperfil1 = () => {
     validacion();
   }, []);
 
+  // Calcula la fecha mínima para tener 16 años
+  const today = new Date();
+  today.setFullYear(today.getFullYear() - 16);
+  const minDate = today.toISOString().split("T")[0];
+
   return (
     <div className="container">
       {loading ? (
@@ -67,7 +73,7 @@ export const Crearperfil1 = () => {
             <div className="col-lg-8 m-auto">
               <div className="card mb-4">
                 <div className="card-header">
-                  <h3 className="h6 mb-4">Información Básica</h3>
+                  <h3 className="h6 fw-bold mt-2">Información Básica</h3>
                 </div>
                 <div className="card-body">
                   <div className="row">
@@ -104,11 +110,12 @@ export const Crearperfil1 = () => {
                           className="form-control"
                           onChange={(e) => setFechaNacimiento(e.target.value)}
                           value={fechaNacimiento}
-                          max="2023-03-30"
+                          max={minDate} // Establece la fecha máxima permitida
                           min="1900-01-01"
+                          required
                         />
                         <small>
-                          *Pide permiso a tus padres si tiene menos de 18 años.
+                          *Mayores de 16 años.
                         </small>
                       </div>
                     </div>
@@ -121,10 +128,7 @@ export const Crearperfil1 = () => {
                         onChange={(e) => setGenero(e.target.value)}
                         value={genero}
                       >
-                        <option
-                          defaultValue
-                          placeholder="Selecciona una opcion"
-                        ></option>
+                        <option defaultValue placeholder="Selecciona una opción"></option>
                         <option value="Femenino">Femenino</option>
                         <option value="Masculino">Masculino</option>
                         <option value="No binario">No binario</option>
@@ -145,14 +149,13 @@ export const Crearperfil1 = () => {
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="row justify-content-end">
-              <div className="col-4 align-self-end">
-                <button type="submit" className="btn  btn-primary">
-                  <span className="text">Siguiente</span>
-                  <i className="fa-solid fa-arrow-right"></i>
-                </button>
+              <div className="row justify-content-end">
+                <div className="col-4 d-flex justify-content-end">
+                  <button type="submit" className="btn btn-primary">
+                    <span className="text me-1">Siguiente</span>
+                    <i className="fa-solid fa-arrow-right text"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

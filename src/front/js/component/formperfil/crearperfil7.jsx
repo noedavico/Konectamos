@@ -16,11 +16,12 @@ const checkEspecies = [
 ];
 
 const checkServicios = [
-  "Atención a tiempo completo en casa de la mascota vacaciones y otros",
-  "Atención a tiempo completo en mi domicilio (vacaciones y otros)",
+  "Atención a tiempo completo en casa de la mascota",
+  "Atención a tiempo completo en mi domicilio",
   "Familia de acogida, alojamiento",
   "Visita a domicilio",
   "Salidas y paseo",
+  
 ]
 
 export const Crearperfil7 = () => {
@@ -87,18 +88,22 @@ export const Crearperfil7 = () => {
         </div>
 
         <div className="row">
-          <div className="col-8 mt-3 m-auto">
+          <div className="col-lg-8 col-md-10 col-sm-12 mt-3 m-auto">
             <div className="card mb-4">
-              <div className="card-body">
-                <div className="row ">
-                  <div className="card-header">
+              
+              <div className="card-header">
                     <h6 className="h6 ">
-                      Selecciona animales que cuidarias
+                     Detalles sobre el cuidado de mascotas
                     </h6>
                   </div>
+                  <h3 className="h6 m-2">
+                      Selecciona los animales que cuidarias
+                </h3>
+                <div className="row px-3">
+                  
                   {checkEspecies.map((item, i) => (
-                    <div className="col-lg-3" key={i}>
-                      <div className="form-check  ">
+                    <div className=" col-sm-3 " key={i}>
+                      <div className="form-check">
                         <label>
                           <input
                             className="form-check-input"
@@ -114,13 +119,11 @@ export const Crearperfil7 = () => {
                     </div>
                   ))}
                 </div>
-                <div className="row my-2">
-                  <div className="card-header">
-                    <p className="h6 ">
+                <h3 className="h6 mt-3 ms-2 ">
                       Selecciona los servicios que ofreces
-                    </p>
-                  </div>
-                  <div className="col-lg-7 mb-3">
+                </h3>
+                <div className="row mx-1  ">
+                  <div className="col-lg-7 col-md--6 mb-3 ">
                     {checkServicios.slice(0, 2).map((item, i) => (
                       <div className="form-check form-check-inline" key={i}>
                         <input
@@ -138,7 +141,7 @@ export const Crearperfil7 = () => {
                       </div>
                     ))}
                   </div>
-                  <div className="col-lg-5 mb-3">
+                  <div className="col-lg-5 col-md-6 mb-3 ">
                     {checkServicios.slice(2).map((item, i) => (
                       <div className="form-check form-check-inline" key={i}>
                         <input
@@ -157,9 +160,9 @@ export const Crearperfil7 = () => {
                     ))}
                   </div>
                 </div>
-                <div className="col-lg-12">
+                <div className="col-lg-6 ms-2">
                   <div className="mb-3">
-                    <h6 className="form-label"><label htmlFor="afin">¿Tienes alguna formación afín?</label></h6>
+                    <h6 className="h6 mt-3 ms-1  "><label htmlFor="afin">¿Tienes alguna formación afín?</label></h6>
                     <input
                       type="text"
                       className="form-control"
@@ -170,16 +173,17 @@ export const Crearperfil7 = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="row justify-content-end">
-            <div className="col-4 align-self-end">
-              <button type="submit" className="btn  btn-primary">
-                <span className="text">Siguiente </span>
-                <i className="fa-solid fa-arrow-right"></i>
-              </button>
-            </div>
-          </div>
+            
+         
+            <div className="row justify-content-end">
+                <div className="col-4 d-flex justify-content-end">
+                  <button type="submit" className="btn btn-primary">
+                    <span className="text me-1">Siguiente</span>
+                    <i className="fa-solid fa-arrow-right text"></i>
+                  </button>
+                  </div>
+                </div>
+        </div>
         </div>
       </form>
     </div>

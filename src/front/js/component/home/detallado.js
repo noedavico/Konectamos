@@ -44,7 +44,7 @@ export const Detallados = () => {
             alt={seccion.imgAlt} 
               width="130px" 
               className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow position-absolute"/>
-            <div className=" rounded shadow-sm py-5 px-3 mb-5 fondoclaro" style={{height:"320px"}} >
+            <div className=" rounded shadow-sm py-5 px-3 mb-5 fondoclaro" style={{height:"250px"}} >
                 <h5 className="mb-2  my-4 text-uppercase text-white">{seccion.titulo}</h5>
                 <span className="small  mb-3 text-white ">{seccion.descripcion}</span>
             </div>

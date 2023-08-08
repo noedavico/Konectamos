@@ -32,21 +32,20 @@ export const Registropag1 = () => {
   return (
     <div className="container-fluid mt-5">
       <div className="row justify-content-center">
-        <div className="col-12 col-md-9 col-lg-7">
+        <div className=" col-md-9 col-lg-7">
           <div className="card-group mt-3 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div className="card p-4 fondoclaro mx-2 position-relative mb-5 mb-sm-0">
+            <div 
+             role="button"
+                tabIndex="0"
+                onClick={() => tipoUsuario("familia")}
+                className="text-decoration-none text-white card col-md-6 col-sm-12 p-md-2 p-sm-1 fondoclaro mx-2 position-relative mb-5 mb-sm-0">
               <img
                 src={Familia}
                 alt="Imagen Familia"
                 width="130px"
                 className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"
               />
-              <span
-                role="button"
-                tabIndex="0"
-                className=" text-decoration-none text-white"
-                onClick={() => tipoUsuario("familia")}
-              >
+              
                 <div className="card-body text-center text-decoration-none">
                   <h4 className="mb-2 mt-5  text-white">FAMILIAS</h4>
                   <p>
@@ -57,10 +56,12 @@ export const Registropag1 = () => {
                     Para unas pocas horas o para contratar
                   </p>
                 </div>
-              </span>
             </div>
 
-            <div className="card p-4 fondoclaro mx-2 position-relative mt-5 mt-sm-0">
+            <div role="button"
+                tabIndex="0"
+                onClick={() => tipoUsuario("cuidador")}
+                className=" text-decoration-none text-white card p-4 col-md-6 col-sm-12 p-sm-1 p-md-2 fondoclaro mx-2 position-relative mt-5 mt-sm-0">
               <img
                 src={Chica}
                 alt="Imagen Cuidador/a"
@@ -68,12 +69,7 @@ export const Registropag1 = () => {
                 className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3 img-thumbnail shadow-sm position-absolute"
               />
 
-              <span
-                role="button"
-                tabIndex="0"
-                className=" text-decoration-none text-white"
-                onClick={() => tipoUsuario("cuidador")}
-              >
+              
                 <div className="card-body text-center  ">
                   <div>
                     <h4 className="mb-2 mt-5  text-white">CUIDADORES</h4>
@@ -83,7 +79,7 @@ export const Registropag1 = () => {
                     </p>
                   </div>
                 </div>
-              </span>
+             
             </div>
           </div>
         </div>

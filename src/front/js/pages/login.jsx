@@ -34,17 +34,17 @@ export const Login = () => {
   return (
     <div className="container mt-2 ">
       <div className="row justify-content-center">
-        <div className="col-xl-8 col-md-10 col-sm-12">
-          <div className="card-group mb-0 shadow p-3 mb-5 bg-body-tertiary rounded">
-            <div className="card p-2 ">
+        <div className="col-xl-8 col-lg-10 col-md-12 ">
+          <div className="row justify-content-center text-center">
+          <div className="card pb-1 d-md-down-none col-md-6 col-sm-12">
               <img
                 src={Logo}
                 className="img-fluid m-auto "
-                style={{ height: "200px" }}
+                style={{ height: "180px" }}
               />
               <form onSubmit={login}>
-                <div className="card-body">
-                  <h1 className="text-center mb-4">Inicia sesión</h1>
+                <div className="card-body mb-4">
+                  <h2 className="text-center mb-4">Inicia sesión</h2>
                   <div className="input-group mb-3">
                     <span className="input-group-text bg-white py-2 border border-radius-0">
                       <i className="fa fa-user"></i>
@@ -78,7 +78,9 @@ export const Login = () => {
                       {errorMessage}
                     </div>
                   )}
-                    <div className="d-flex justify-content-center">
+                  </div>
+                  <div>
+                    <div className="d-flex justify-content-center" style={{ position: "absolute", bottom: "1rem", left: "50%", transform: "translateX(-50%)" }}>
                   
                       <button type="submit" className="btn  btn-primary px-3">
                         Ingresar
@@ -96,16 +98,15 @@ export const Login = () => {
               </form>
 
             </div>
-            <div className="card text-white py-3 d-md-down-none fondo">
-              <div className="card-body text-center">
-                <div>
+            <div className="card text-white py-3 d-md-down-none fondo col-md-6 col-sm-12">
+              <div className="card-body text-center mb-3" >
                   <div>
-                    <h3 className="text-center display-6 ">
+                    <h3 className="text-center ">
                       <strong> Inscríbete ahora</strong>
                     </h3>
                   </div>
 
-                  <h4 className="mt-4">Familias</h4>
+                  <h5 className="mt-4">Familias</h5>
                   <p>
                     Encuéntra cuidador en tu zona rápidamente.
                     <br />
@@ -113,11 +114,12 @@ export const Login = () => {
                   
                   </p>
                   <div className="border-bottom w-100 ml-5 mt-4"></div>
-                  <h4 className="mt-4">Cuidadores</h4>
+                  <h5 className="mt-4">Cuidadores</h5>
                   <p>
                     Publica tu perfil, cuentan tu experiencia y habilidades y
                     acércate un paso más a encontrar a que familia ayudar.
                   </p>
+                  <div style={{ position: "absolute", bottom: "1rem", left: "50%", transform: "translateX(-50%)" }}>
                   <Link to="/registro">
                     <button
                       type="button"
