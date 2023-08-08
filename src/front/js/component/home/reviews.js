@@ -98,7 +98,7 @@ export const Reviews = () => {
                     </div>
                     <p className="col card-text">{review.review}</p>
                     <Link to={review.link} className="text-decoration-none">
-                      <div className="d-flex justify-content-center fs-4">
+                      <div className="d-flex justify-content-center fs-5">
                         <div>
                           {[...Array(review.rating)].map((_, i) => (
                             <i key={i} className="fas fa-star text-warning"></i>
