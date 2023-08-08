@@ -12,8 +12,8 @@ export const PerfilesRandom = (props) => {
   console.log(nombreApellido)
   return (
     <div className="col me-2">
-      <div className="card   text-bg-light" style={{ width: "16rem", height: "28rem" }}>
-        <img src={props?.foto} alt={props?.foto_alt} className="img-fluid  border-4" style={{ height: "14rem" }} />
+      <div className="card  shadow text-bg-light" style={{ width: "16rem", height: "28rem" ,  border: "none"}}>
+        <img src={props.foto ? props.foto : "../../../img/usuarios/sinfoto.png"} alt={props?.foto_alt} className="img-fluid  border-4" style={{ height: "14rem" }} />
         <div className="card-body" style={{ height: "10rem" }}>
           <h4 className="text-capitalize">{nombreApellido}</h4>
           <div className="cuidad-container">
@@ -26,18 +26,16 @@ export const PerfilesRandom = (props) => {
         </div>
         <div className="row align-items-center my-2">
           <div className="col-8 m-auto">
-            <Link to={"/perfildetallado/" + props.id}>
-              <button
-                type="button"
-                className="btn btn-primary"
+            <Link to={"/perfildetallado/" + props.id}
+                className="link-perfil"
                 style={{
                   "--bs-btn-padding-y": ".25rem",
                   "--bs-btn-padding-x": ".5rem",
                   "--bs-btn-font-size": ".75rem"
                 }}
               >
-                Leer más
-              </button>
+                Ver perfil
+             
             </Link>
           </div>
         </div>

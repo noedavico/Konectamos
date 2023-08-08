@@ -113,5 +113,11 @@ a.nav-link.perfil {
 
 .form-check-input:checked {
     background-color: var(--color-rojo); 
-    border: #0F363D;/* Cambia "red" por el color que desees */
+    border: #0F363D; 
   }
+
+.link-perfil{ color:var(--color-rojo);
+    text-decoration: none;}
+
+.link-perfil:hover{ color:var(--color-azul-oscur) ;
+    text-decoration: none}
