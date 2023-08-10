@@ -36,7 +36,7 @@ export const Detallados = () => {
 
 
   
-<div className="container pt-4 mt-5">
+<div className="container ">
     <section className="row text-center mt-5">{secciones.map((seccion, index) => (
       <div key={index} className="col-lg-4 col-md-4 col-sm-12 mb-5 position-relative" >
         <Link className=" text-decoration-none text-white" to={"/perfiles/" + seccion.categoria}>

@@ -11,8 +11,8 @@ export const PerfilesRandom = (props) => {
   const nombreApellido = `${primerNombre} ${apellido}`;
   console.log(nombreApellido)
   return (
-    <div className="col me-2">
-      <div className="card  shadow text-bg-light" style={{ width: "16rem", height: "28rem" ,  border: "none"}}>
+    <div className="col me-2 my-5">
+      <div className="card shadow text-bg-light" style={{ width: "16rem", height: "28rem" ,  border: "none"}}>
         <img src={props.foto ? props.foto : "../../../img/usuarios/sinfoto.png"} alt={props?.foto_alt} className="img-fluid  border-4" style={{ height: "14rem" }} />
         <div className="card-body" style={{ height: "10rem" }}>
           <h4 className="text-capitalize">{nombreApellido}</h4>

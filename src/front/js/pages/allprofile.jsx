@@ -21,7 +21,7 @@ export const Perfiles = () => {
     />
   );
   return (
-    <div className="container border rounder shadow">
+    <div className="container border rounder shadow bg-white cardperfil">
       {params.perfil === "peques"
         ? store.cuidadoresPeques.map(generadorDePerfil)
         : params.perfil === "mascota"

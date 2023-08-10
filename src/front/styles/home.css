@@ -1,14 +1,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Finger+Paint&family=Kalam:wght@400;700&family=Poppins:wght@300&display=swap');
-body {font-family: 'Finger Paint', cursive;
-    font-family: 'Kalam', cursive;
-    font-family: 'Poppins', sans-serif;
+body { font-family: 'Poppins', sans-serif;
 font-size: 14px;}
-    
+
+body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: url("https://i.ibb.co/4THNbxB/istockphoto-688508612-1024x1024-transformed-1.jpg ");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+body:before {
+    content: '';
+    background: linear-gradient(to bottom, rgba(4, 4, 4, 0.963), rgba(4, 4, 4, 0));
+    width: 100%;
+    height: 119vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+/* https://i.ibb.co/4THNbxB/istockphoto-688508612-1024x1024-transformed-1.jpg */
+/* "https://i.ibb.co/L025fHs/istockphoto-1143229190-1024x1024-1.jpg" */
+.plain-button {
+    border: none;
+    margin-left: 15px;
+    background: none;
+    padding: 0;
+    font-size: 16px;
+    color:var(--color-claro-rojo);
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s, font-weight 0.3s;
+    text-decoration: none;
+  }
+  
+  .plain-button:hover {
+    border-color: white;
+    text-decoration: none;
+    color: #0F363D;
+}
+  
+  
+  .plain-button:active {
+    font-weight: bold;
+    text-decoration: none;
+}
+  
+
 :root {
-    --color-rojo: #f96d5bb1;
+    --color-rojo: #f96d5b;
     --color-claro-rojo: #f98879;
     --color-naranja: #F2AD9B;
-    --color-claro-naranja: #ff9885;
+    --color-claro-naranja: #ff9785;
     --color-azul-oscuro: #0F363D;
     --color-claro-azul-oscuro: #7B8F74;
     --color-verde-azulado: #97A198;
@@ -17,8 +63,19 @@ font-size: 14px;}
     --color-verde-azulado-opacity-50: #388cad88;
     
 }
+.navbar{position: relative;
+    z-index: 1;
+}
 
-.btn {
+.cardperfil{
+    position: relative;
+    z-index: 2; /* Asegura que el contenido esté en un nivel superior que el fondo */
+  }
+.content-container {
+    position: relative;
+    z-index: 1; /* Asegura que el contenido esté en un nivel superior que el fondo */
+  }
+.btns {
     background-color: var(--color-rojo);
     border-color: var(--color-naranja);
     border-radius: 4px; /* Añadir un borde redondeado */
@@ -29,7 +86,7 @@ font-size: 14px;}
     transition: background-color 0.3s, color 0.3s; /* Agregar una transición suave al color de fondo y texto */
 }
 
-.btn:hover {
+.btns:hover {
     background-color: var(--color-azul-oscuro);
     color: white !important  ;
 }
@@ -62,18 +119,13 @@ font-size: 14px;}
 
 .fondonaranja {
     background-color: var(--color-claro-naranja);
-    border-color: var(--color-naranja);
 }
 
 body {
     color: var(--color-azul-oscuro);
 }
 
-#boton {
-    background-color: var(--color-rojo);
-    border-color: var(--color-naranja);
-    border-radius: 10%;
-}
+.fondox{background-color: var(--color-claro-naranja);}
 
 .card-header {
     background-color: var(--color-claro-naranja);
@@ -81,6 +133,7 @@ body {
 
 .cardperfil {
     border-color: var(--color-claro-naranja);
+ 
 }
 
 .border-bottom {
@@ -121,3 +174,6 @@ a.nav-link.perfil {
 
 .link-perfil:hover{ color:var(--color-azul-oscur) ;
     text-decoration: none}
+
+.h2-reviews{ color:#F2AD9B;
+    text-shadow: 3x 3px 6px #97A198;}

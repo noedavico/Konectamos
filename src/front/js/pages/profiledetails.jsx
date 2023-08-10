@@ -12,7 +12,7 @@ export const Single = () => {
   }, []);
 
   return (
-    <div className="jumbotron">
+    <div className="jumbotron cardperfil ">
       <PerfilDetallado />
     </div>
   );

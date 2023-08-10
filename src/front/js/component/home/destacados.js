@@ -31,7 +31,7 @@ export const Destacados = () => {
 
     return (
       
-            <div className="container pt-4 mt-5 ">
+            <div className="container pt-1 mt-5 ">
     <div className="row text-center mt-5">{secciones.map((seccion, index) => (
        <div key={index} className="col-lg-4 col-md-4 col-sm-6 mb-5 position-relative px-2" >
         <img src={seccion.src}

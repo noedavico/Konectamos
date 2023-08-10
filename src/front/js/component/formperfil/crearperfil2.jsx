@@ -25,13 +25,13 @@ export const Crearperfil2 = () => {
 
   useEffect(() => {
     if (direccion && direccion) {
-      setLoading(false)
-      setCalle(direccion.domicilio || "")
-      setCiudad(direccion.ciudad || "")
-      setProvincia(direccion.provincia || "")
-      setCodigoPostal(direccion.codigo_postal || "")
+      setLoading(false);
+      setCalle(direccion.domicilio ? direccion.domicilio.toLowerCase() : "");
+      setCiudad(direccion.ciudad ? direccion.ciudad.toLowerCase() : "");
+      setProvincia(direccion.provincia ? direccion.provincia.toLowerCase() : "");
+      setCodigoPostal(direccion.codigo_postal ? direccion.codigo_postal.toLowerCase() : "");
     }
-  }, [direccion])
+}, [direccion]);
 
 
   async function validacion(e) {
