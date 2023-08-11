@@ -123,13 +123,21 @@ export const Crearperfil3 = () => {
                             {arrayIdiomas?.length > 0
                               ? arrayIdiomas.map((item, index) => (
                                 <span
+<<<<<<< HEAD
                                   className="badge text-capitalize bg-secondary py-2 m-2 "
+=======
+                                  className="badge bg-success text-light m-2 "
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
                                   key={index}
                                 >
                                   <span style={{ width: "95%" }}>
                                     {item}
                                   </span>
+<<<<<<< HEAD
                                   <a href="#" className="btn-small btn-sm ms-2 text-none" onClick={() => handleDelete(item)}>x</a>
+=======
+                                  <a href="#" className="btn btn-primary btn-sm ms-2" onClick={() => handleDelete(item)}>X</a>
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
                                 </span>
                               ))
                               : null}
@@ -321,6 +329,7 @@ export const Crearperfil3 = () => {
                 </div>
               </article>
             </section>
+<<<<<<< HEAD
             <div className="row justify-content-end">
                 <div className="col-4 d-flex justify-content-end">
                   <button type="submit" className="btn btn-primary">
@@ -338,5 +347,19 @@ export const Crearperfil3 = () => {
       )}
     </div >
     
+=======
+          </div>
+          <div className="row justify-content-end">
+            <div className="col-4 align-self-end">
+              <button type="submit" className="btn btn-primary">
+                <span className="text">Siguiente</span>
+                <i className="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </form >
+      )}
+    </div >
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
   );
 };

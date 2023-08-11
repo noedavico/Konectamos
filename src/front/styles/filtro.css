@@ -1,0 +1,47 @@
+* {
+  outline: none;
+}
+
+.tb {
+  display: table;
+  width: 100%;
+}
+
+.td {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#cover {
+  padding: 20px;
+  background-color: #ff7575;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px #ff7c7c, 0 0 0 20px #ffffffeb;
+  transform: scale(0.8);
+}
+
+input[type="text1"] {
+  width: 100%;
+  font-size: 20px;
+  border-radius: 10px;
+  height: 40px;
+  color: #e16868;
+}
+
+#formsearch {
+  width: 100%;
+  font-size: 20px;
+  border-radius: 10px;
+  height: 40px;
+  color: #e16868;
+}
+
+input[type="text1"]::placeholder {
+  color: #e16868;
+  padding: 2px;
+}
+
+#s-cover {
+  width: 1px;
+  padding-left: 30px;
+}

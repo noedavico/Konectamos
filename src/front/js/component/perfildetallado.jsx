@@ -1,53 +1,30 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext.js";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/home.css";
-import ImageWithFallback from "./utils/imagenFallback.js";
+import ImageWithFallback from "./imagenFallback.js";
 import Chica from "./../../img/chica.png";
 
 export const PerfilDetallado = () => {
   const { store } = useContext(Context);
   const usuario = store.infoDetallada;
   const colores = ["bg-success", "bg-danger", "bg-warning"];
-  const containerRef = useRef(null);
-  let startX = 0;
-  let scrollLeft = 0;
 
-  const handleMouseDown = (event) => {
-    startX = event.pageX - containerRef.current.offsetLeft;
-    scrollLeft = containerRef.current.scrollLeft;
-    containerRef.current.style.cursor = "grabbing";
-  };
-
-  const handleMouseMove = (event) => {
-    const x = event.pageX - containerRef.current.offsetLeft;
-    const walk = (x - startX) * 3; // Ajusta la velocidad del desplazamiento
-
-    containerRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const handleMouseUp = () => {
-    containerRef.current.style.cursor = "grab";
-  };
-
-  const handleMouseLeave = () => {
-    containerRef.current.style.cursor = "grab";
-  };
   return (
-    <div className="container fluid"  >
+    <div className="container fluid" id="about">
       <div className="row flex-row">
         <div className="col-md-4 position-relative top-50 start-10 mt-5">
-          <div className="card text-center" style={{"minHeight":"18rem"}}>
+          <div className="card user-card fondonaranja ">
+            <div className="rounded shadow-sm py-5 px-4 fondonaranja"></div>
+            <div className="card-block text-center">
               <div className="user-image">
                 <img
-                  src={usuario?.info?.foto?.foto_imagen ? usuario?.info?.foto?.foto_imagen : Chica} 
+                  src={usuario?.info?.foto?.foto_imagen}
                   alt={usuario?.info?.foto?.nombre}
                   width="200px"
-                  className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3  p-3  position-absolute"
+                  className="img-fluid top-0 start-50 translate-middle rounded-circle mb-3  p-3 fondonaranja shadow-sm position-absolute"
                 />
               </div>
-              <div className="d-flex  fondox justify-content-center align-items-end " style={{"minHeight":"20rem"}}>
-                <div className="">
               <h3 className="m-t-25 m-b-10 mt-3">
                 {usuario?.datos?.nombre} {usuario?.datos?.apellido}{" "}
               </h3>
@@ -57,8 +34,7 @@ export const PerfilDetallado = () => {
                 {usuario?.info?.fecha_nacimiento}{" "}
               </p>
 
-              <div className=" m-t-10 p-20">
-              
+              <div className="fondonaranja counter-block m-t-10 p-20">
                 <div className="row justify-content-center fs-2">
                   {usuario?.info?.telefono ? (
                     <div className="col-auto">
@@ -125,8 +101,7 @@ export const PerfilDetallado = () => {
                   ""
                 )}
               </div>
-              </div>
-          </div>
+            </div>
           </div>
           <div className="card cardperfil rounded shadow-sm my-4">
             <div className=" card-header aling-item-center">
@@ -199,16 +174,8 @@ export const PerfilDetallado = () => {
             </div>
           </div>
           <div className="conatiner">
-          <section
-          ref={containerRef}
-          className="row flex-nowrap overflow-hidden text-center  gap-1 m"
-          style={{ overflowX: "auto", cursor: "grab" }}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseLeave}
-        >
-            <div className="card cardperfil col-lg-4 col-md-8 col-sm-12  text-center bg-light ">
+            <section className="row flex-nowrap overflow-auto border text-center m-1 ">
+              <div className="card cardperfil col-lg-4 col-md-8 col-sm-12 m-auto p-auto  text-center bg-light ">
                 <h5 className="fondonaranja row p-3 text-center">
                   {" "}
                   Servicios{" "}

@@ -1,11 +1,14 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Finger+Paint&family=Kalam:wght@400;700&family=Poppins:wght@300&display=swap');
 body {font-family: 'Finger Paint', cursive;
     font-family: 'Kalam', cursive;
     font-family: 'Poppins', sans-serif;}
     
+=======
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
 .line-clamp {
     display: -webkit-box;
     -webkit-line-clamp: 3;
