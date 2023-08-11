@@ -9,15 +9,33 @@ export const Registro = () => {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+<<<<<<< HEAD
+  const [showPasswordAlert, setShowPasswordAlert] = useState(false);
+  const [showConditionsAlert, setShowConditionsAlert] = useState(false);
+  const [checkConditions, setCheckConditions] = useState(false);
+=======
   const [checkConditions, setCheckConditions] = useState(false);
   const [showPasswordAlert, setShowPasswordAlert] = useState(false);
 
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
   const { actions } = useContext(Context);
   const navigate = useNavigate();
 
   async function handleSingup(e) {
+<<<<<<< HEAD
+    e.preventDefault(); 
+    console.log('Se llamó a handleSingup'); 
+    if (!checkConditions) {
+      setShowConditionsAlert(true); // Activar la alerta si el checkbox no está marcado
+      return; // Detener la ejecución si no se aceptan las condiciones
+    }
+
+    if (email && password && nombre && apellido) {
+      console.log('dentro handleSingup'); 
+=======
     e.preventDefault();
     if (checkConditions && email && password && nombre && apellido) {
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
       let isLogged = await actions.singup(email, password, nombre, apellido);
       if (isLogged) {//true
         setEmail("");
@@ -39,10 +57,21 @@ export const Registro = () => {
 
   function handlePasswordChange(e) {
     setPassword(e.target.value);
+<<<<<<< HEAD
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
+    setShowPasswordAlert(!passwordRegex.test(e.target.value));
+  }
+  
+  function handleCheckConditionsChange(e) {
+    setCheckConditions(e.target.checked);
+    setShowConditionsAlert(false);  
+  }
+=======
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     setShowPasswordAlert(!passwordRegex.test(e.target.value));
   }
 
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
   return (
 
     <div className="container mt-3 ">
@@ -94,7 +123,11 @@ export const Registro = () => {
                       onFocus={handlePasswordFocus}
                       onBlur={handlePasswordBlur}
                       value={password}
+<<<<<<< HEAD
+                      pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$"
+=======
                       pattern="^[a-zA-Z0-9!@#$%^&*()_+<>?]{8,}$"
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
                       required
                     />
                     </div>
@@ -108,11 +141,32 @@ export const Registro = () => {
                     <div className="form-group col-lg-12 d-flex align-items-center ">
                       <div className="border-bottom w-100 ml-5"></div>
                     </div >
+<<<<<<< HEAD
+                    <div className="m-3 form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="checkConditions"
+                    checked={checkConditions}
+                    onChange={handleCheckConditionsChange}  
+                  />
+                  <label className="form-check-label" htmlFor="checkConditions">
+                    Al registrarte, estás de acuerdo con las condiciones de uso.
+                  </label>
+                </div>
+
+                {showConditionsAlert && (
+                  <div className="text-warning pb-2">
+                    <small>Debes aceptar las condiciones para continuar.</small>
+                  </div>
+                )}
+=======
                     <div className="m-3 form-check ">
                       <input type="checkbox" className="form-check-input" id="checkConditions" onChange={e => setCheckConditions(e.target.value)} />
                       <label className="form-check-label" htmlFor="checkConditions">Al registrarte, estás de acuerdo con las condiciones de
                         uso.</label>
                     </div>
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
 
                     <div className="container-fluid h-100">
                       <div className="row w-100">

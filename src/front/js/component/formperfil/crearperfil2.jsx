@@ -22,7 +22,7 @@ export const Crearperfil2 = () => {
 
       navigate("/crearperfil/3")
   }
-
+go
   useEffect(() => {
     if (direccion && direccion) {
       setLoading(false)

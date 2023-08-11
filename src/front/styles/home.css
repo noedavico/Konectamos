@@ -32,7 +32,6 @@
     --bs-btn-disabled-bg: var(--color-rojo) !important;
     --bs-btn-disabled-border-color: var(--color-rojo) !important;
 }
-
 .fondo {
     background-color: var(--color-azul-oscuro);
 }

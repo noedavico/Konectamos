@@ -78,8 +78,14 @@ const getState = ({ getStore, getActions, setStore }) => {
       getMessage: async () => {
         try {
           // fetching data from the backend
+<<<<<<< HEAD
+         
+          const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+          
+=======
 
           const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
           const data = await resp.json();
           setStore({
             message: data.message,
@@ -130,8 +136,15 @@ const getState = ({ getStore, getActions, setStore }) => {
        * @param {string} apellido
        * @returns
        */
+<<<<<<< HEAD
+      
       singup: async (email, password, nombre, apellido) => {
         try {
+          console.log(process.env.BACKEND_URL)
+=======
+      singup: async (email, password, nombre, apellido) => {
+        try {
+>>>>>>> bec942461dc5d0c3aed32226d9f1e749a6c3e2f8
           let response = await axios.post(
             process.env.BACKEND_URL + "/api/user",
             {

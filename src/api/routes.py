@@ -18,7 +18,7 @@ import cloudinary
 
 import random
 import string
-import app
+import api.app as app
 import os
 
 cloudinary.config(cloud_name=os.getenv('CLOUD_NAME'),
